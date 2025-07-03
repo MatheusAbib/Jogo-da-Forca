@@ -40,26 +40,26 @@
     }
 
     /* Efeito de fogo pixelizado */
-    .fire-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      z-index: -2;
-      overflow: hidden;
-    }
+ .fire-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 110%;
+  height: 110%;
+  background: #000;
+  z-index: -2;
+  overflow: hidden;
+}
 
-    .fire-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 105%;
-      height: 100%;
-      image-rendering: pixelated;
-      opacity: 0.9;
-    }
+.fire-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Alterado de 105% para 100% */
+  height: 100%;
+  image-rendering: pixelated;
+  opacity: 0.9;
+}
 
     .pixel-fire-overlay {
       position: absolute;
@@ -166,15 +166,9 @@
 
     h1 {
       font-family: 'Rubik Mono One', sans-serif;
-      color: #ff4500;
       font-size: 2rem;
       font-weight: 700;
-      text-shadow: 
-        0 0 10px #ff2a00,
-        0 0 20px #ff8c00,
-        0 0 30px #ffcc00,
-        0 0 40px #ff2a00,
-        5px 5px 0 #000;
+ 
       letter-spacing: 3px;
       position: relative;
       z-index: 1;
@@ -455,31 +449,82 @@
       }
     }
 
+    @media (max-width: 480px) {
+
+  
+  .hangman-figure {
+    top: 80px;
+    left: 145px;
+  }
+  
+  .head {
+    width: 50px;
+    height: 50px;
+    left: -45px;
+  }
+  
+  .body {
+    width: 50px;
+    height: 100px;
+    left: -45px;
+  }
+  
+  .arm {
+    width: 50px;
+    height: 20px;
+  }
+  
+  .arm.left {
+    left: -90px;
+  }
+  
+  .leg {
+    width: 20px;
+    height: 70px;
+    top: 140px;
+  }
+  
+  .leg.left {
+    left: -50px;
+  }
+  
+  .rope {
+    left: 125px;
+    height: 40px;
+  }
+  
+  .top-beam {
+    width: 130px;
+  }
+}
+
     .gallows {
       position: absolute;
       width: 100%;
       height: 100%;
     }
 
-    .pole {
-      position: absolute;
-      background-color: #3a1e0a;
-      bottom: 40px;
-      left: 20px;
-      border-radius: 5px;
-      box-shadow: 
-        5px 5px 10px rgba(0, 0, 0, 0.5),
-        inset 3px 3px 10px rgba(255, 255, 255, 0.1);
-      background-image: 
-        linear-gradient(
-          to right,
-          #5e3a21 0%,
-          #8b4513 50%,
-          #5e3a21 100%
-        );
-      z-index: 1;
-      transform: translateZ(10px);
-    }
+.pole {
+  position: absolute;
+  width: 20px; /* Adicionado de volta */
+  height: 330px; /* Adicionado de volta */
+  background-color: #3a1e0a;
+  bottom: 40px; /* Alterado de bottom: 40px para garantir que fique no chão */
+  left: 20px;
+  border-radius: 5px;
+  box-shadow: 
+    5px 5px 10px rgba(0, 0, 0, 0.5),
+    inset 3px 3px 10px rgba(255, 255, 255, 0.1);
+  background-image: 
+    linear-gradient(
+      to right,
+      #5e3a21 0%,
+      #8b4513 50%,
+      #5e3a21 100%
+    );
+  z-index: 1;
+  transform: translateZ(10px);
+}
 
     @media (min-width: 480px) {
       .pole {
@@ -1665,7 +1710,7 @@
 
     .hint-container {
       flex: 1;
-      padding: 15px;
+      padding: 12px;
       margin-left: 0;
       border-radius: 15px;
       border: 2px solid var(--warning-color);
