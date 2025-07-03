@@ -2456,28 +2456,28 @@ wordListB64 = "W3sid29yZCI6ImFiaXNzYWwiLCJkZXNjcmlwdGlvbiI6IlJlbGF0aXZvIGEgZ3Jhb
   }
 
   function handleGuess(letter, btn) {
-    playSound("click");
-    btn.disabled = true;
+  playSound("click");
+  btn.disabled = true;
 
-    if (selectedWord.includes(letter)) {
-      playSound("correct");
-      btn.classList.add("correct");
-      
-      const rect = btn.getBoundingClientRect();
-      createParticles(
-        rect.left + rect.width / 2,
-        rect.top + rect.height / 2,
-        "#00ff7f",
-        20
-      );
+  if (selectedWord.includes(letter)) {
+    playSound("correct");
+    btn.classList.add("correct");
+    
+    const rect = btn.getBoundingClientRect();
+    createParticles(
+      rect.left + rect.width / 2,
+      rect.top + rect.height / 2,
+      "#00ff7f",
+      20
+    );
 
-      for (let i = 0; i < selectedWord.length; i++) {
-        if (selectedWord[i] === letter) {
-          displayedWord[i] = letter;
-        }
+    for (let i = 0; i < selectedWord.length; i++) {
+      if (selectedWord[i] === letter) {
+        displayedWord[i] = letter;
       }
-      wordDisplay.textContent = displayedWord.join(" ");
-    } else {
+    }
+    updateWordDisplay(); // Alterado para usar a nova função
+  } else {
       playSound("wrong");
       wrongGuesses++;
       wrongDisplay.textContent = wrongGuesses;
@@ -2856,6 +2856,39 @@ function checkWordLength() {
     }
   }
 }
-  window.addEventListener('resize', checkWordLength); </script>
+  window.addEventListener('resize', checkWordLength); 
+  
+  function updateWordDisplay() {
+  // Garante que o conteúdo seja atualizado
+  wordDisplay.textContent = displayedWord.join(" ");
+  
+  // Força uma nova renderização
+  void wordDisplay.offsetWidth;
+  
+  // Verifica se precisa de scroll
+  checkWordLength();
+}
+
+// Função para verificar e ajustar o layout
+function checkLayout() {
+  const isMobile = window.innerWidth <= 768;
+  const wordContainer = document.querySelector('.word-container');
+  
+  if (isMobile) {
+    wordContainer.classList.add('mobile-view');
+  } else {
+    wordContainer.classList.remove('mobile-view');
+  }
+  
+  checkWordLength();
+}
+
+// Adiciona listener para redimensionamento
+window.addEventListener('resize', checkLayout);
+
+// Inicializa o layout quando o jogo começa
+initGame();
+checkLayout();
+  </script>
 </body>
 </html>
