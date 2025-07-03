@@ -295,11 +295,6 @@ wordListB64 = "W3sid29yZCI6ImFiaXNzYWwiLCJkZXNjcmlwdGlvbiI6IlJlbGF0aXZvIGEgZ3Jhb
         }
       }
     }
-
-     function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
     
     function renderFire() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -348,9 +343,6 @@ wordListB64 = "W3sid29yZCI6ImFiaXNzYWwiLCJkZXNjcmlwdGlvbiI6IlJlbGF0aXZvIGEgZ3Jhb
     }
     
     animate();
-     resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-  
   }
 
   // Create fire sparks
