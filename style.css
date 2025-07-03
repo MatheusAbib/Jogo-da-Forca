@@ -164,9 +164,20 @@
       }
     }
 
+    @media (max-width: 767px) {
+  .fire-background,
+  .fire-canvas,
+  .pixel-fire-overlay {
+    display: none !important;
+  }
+  
+  body {
+    background-color: #120a01; /* Cor de fundo alternativa quando o fogo for removido */
+  }
+}
+
     h1 {
       font-family: 'Rubik Mono One', sans-serif;
-      color: #ff4500;
       font-size: 2rem;
       font-weight: 700;
       text-shadow: 
