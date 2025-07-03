@@ -1477,6 +1477,17 @@
         font-size: 1.2rem;
       }
     }
+@media (max-width: 767px) {
+  .fire-background,
+  .fire-canvas,
+  .pixel-fire-overlay {
+    display: none !important;
+  }
+  
+  body {
+    background-color: #120a01; /* Cor de fundo alternativa quando o fogo for removido */
+  }
+}
 
     @media (min-width: 1000px) {
       .keyboard button {
