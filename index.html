@@ -31,10 +31,6 @@
   box-sizing: border-box;
 }
 
-html::-webkit-scrollbar {
-  display: none; /* Chrome, Safari e Opera */
-}
-
 body {
   font-family: 'Press Start 2P', cursive;
   background-color: #000;
@@ -775,7 +771,6 @@ h1 {
   overflow-x: auto;
   white-space: normal;
   max-width: 100%;
-  -webkit-overflow-scrolling: touch
 }
 
 
@@ -794,17 +789,10 @@ h1 {
   position: relative;
   z-index: 2;
   text-rendering: optimizeLegibility;
-  -webkit-text-size-adjust: 100%;
   transform: translateZ(0);  white-space: normal;
   padding: 10px 0;
   scrollbar-width: none; /* Esconde a barra de rolagem no Firefox */
   word-wrap: break-word;
-   -webkit-text-stroke: 0.5px white; /* Melhora a legibilidade */
-  -webkit-font-smoothing: antialiased;
-}
-
-.word-display::-webkit-scrollbar {
-  display: none; /* Esconde a barra de rolagem no Chrome/Safari */
 }
 
 .word-underline {
@@ -1723,7 +1711,6 @@ h1 {
   .word-display {
     font-size: 2rem;
     letter-spacing: 5px;
-    -webkit-text-stroke: 0.5px white;
     text-shadow: 
       0 0 5px white,
       0 0 10px var(--primary-color);
@@ -1734,7 +1721,6 @@ h1 {
   
   .word-container {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     white-space: normal;
   }
 }
