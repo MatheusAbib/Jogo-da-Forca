@@ -245,7 +245,7 @@ wordListB64 = "W3sid29yZCI6ImFiaXNzYWwiLCJkZXNjcmlwdGlvbiI6IlJlbGF0aXZvIGEgZ3Jhb
     sound.volume = 0.3;
   });
   
-  // console.log(btoa(JSON.stringify(wordList)));
+  console.log(btoa(JSON.stringify(wordList)));
 
   wordList = JSON.parse(atob(wordListB64))
 
