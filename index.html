@@ -793,11 +793,14 @@ h1 {
   font-family: 'Bungee Spice', 'Arial Black', sans-serif;
   position: relative;
   z-index: 2;
-  transform: skew(-5deg);
-  white-space: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  transform: translateZ(0);  white-space: normal;
   padding: 10px 0;
   scrollbar-width: none; /* Esconde a barra de rolagem no Firefox */
   word-wrap: break-word;
+   -webkit-text-stroke: 0.5px white; /* Melhora a legibilidade */
+  -webkit-font-smoothing: antialiased;
 }
 
 .word-display::-webkit-scrollbar {
@@ -1706,8 +1709,7 @@ h1 {
     letter-spacing: 6px !important;
     min-height: 60px !important;
     padding: 5px 10px !important;
-    justify-content: flex-start !important;
-    white-space: nowrap !important;
+   
   }
   
   .word-underline {
@@ -2233,6 +2235,9 @@ const wordList = [
     selectedWord = normalizeWord(word);
     displayedWord = Array(selectedWord.length).fill("_");
     wrongGuesses = 0;
+
+    console.log("Selected word:", selectedWord); // Adicione esta linha
+    console.log("Displayed word:", displayedWord); //
 
     wordDisplay.textContent = displayedWord.join(" ");
     wrongDisplay.textContent = wrongGuesses;
