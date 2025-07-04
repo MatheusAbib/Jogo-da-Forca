@@ -783,7 +783,6 @@ h1 {
   align-items: center;
   text-transform: uppercase;
  
-    font-family: 'Bungee', cursive;
   position: relative;
   z-index: 2;
   text-rendering: optimizeLegibility;
@@ -2570,22 +2569,17 @@ function applyIOSFixes() {
     if (window.innerWidth <= 480) {
       if (wordLength > 10) {
         wordDisplay.style.fontSize = '1.2rem';
-        wordDisplay.style.letterSpacing = '6px';
       } else {
         wordDisplay.style.fontSize = '1.4rem';
-        wordDisplay.style.letterSpacing = '6px';
       }
     } else if (window.innerWidth <= 768) {
       if (wordLength > 15) {
         wordDisplay.style.fontSize = '1.5rem';
-        wordDisplay.style.letterSpacing = '6px';
       } else {
         wordDisplay.style.fontSize = '2rem';
-        wordDisplay.style.letterSpacing = '6px';
       }
     } else {
       wordDisplay.style.fontSize = '2rem';
-      wordDisplay.style.letterSpacing = '6px';
     }
   }
 
