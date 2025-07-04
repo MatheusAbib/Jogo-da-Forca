@@ -10,1742 +10,1705 @@
 <body>
   <style>
     :root {
-  --primary-color: #ff2a00;
-  --secondary-color: #ff8c00;
-  --accent-color: #ff4500;
-  --dark-color: #120a01;
-  --light-color: #fff5e6;
-  --success-color: #00ff7f;
-  --error-color: #ff0033;
-  --warning-color: #ffcc00;
-  --blood-color: #ff0033;
-  --blood-dark: #cc0022;
-  --fire-color-1: #ff2a00;
-  --fire-color-2: #ff8c00;
-  --fire-color-3: #ffcc00;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Press Start 2P', cursive;
-  color: white;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  overflow-x: hidden;
-  perspective: 1000px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE e Edge */
-  padding: 10px;
-}
-
-/* Efeito de fogo pixelizado */
-.fire-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  z-index: -2;
-  overflow: hidden;
-}
-
-.fire-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 105%;
-  height: 100%;
-  image-rendering: pixelated;
-  opacity: 0.9;
-}
-
-.pixel-fire-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(ellipse at center, rgba(255,60,0,0.2) 0%, rgba(0,0,0,0) 70%),
-    repeating-linear-gradient(
-      0deg,
-      rgba(255, 100, 0, 0.1),
-      rgba(255, 100, 0, 0.1) 1px,
-      transparent 1px,
-      transparent 4px
-    );
-  z-index: -1;
-  animation: fire-flicker 2s infinite alternate;
-}
-
-@keyframes fire-flicker {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  25% { opacity: 0.9; transform: scale(1.01); }
-  50% { opacity: 1; transform: scale(1.02); }
-  75% { opacity: 0.95; transform: scale(0.99); }
-}
-
-.game-container {
-  width: 100%;
-  max-width: 1135px;
-  background-color: rgba(10, 5, 0, 0.9);
-  border-radius: 20px;
-  box-shadow: 
-    0 0 50px rgba(255, 50, 0, 0.8),
-    0 0 100px rgba(255, 100, 0, 0.5),
-    0 0 200px rgba(255, 150, 0, 0.3);
-  overflow: visible;
-  padding: 15px;
-  margin: 10px 0;
-  position: relative;
-  border: 4px solid var(--accent-color);
-  backdrop-filter: blur(2px);
-  z-index: 10;
-  transform-style: preserve-3d;
-  animation: container-glowing 3s infinite alternate;
-}
-
-.particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.particle {
-  position: absolute;
-  background-color: rgba(255, 100, 0, 0.7);
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(1px);
-}
-
-.spark {
-  position: absolute;
-  width: 3px;
-  height: 15px;
-  background: linear-gradient(to top, rgba(255,200,0,1), rgba(255,80,0,0));
-  border-radius: 50% 50% 20% 20%;
-  pointer-events: none;
-  animation: spark-fall linear;
-  box-shadow: 0 0 5px #ff4500;
-}
-
-@keyframes spark-fall {
-  to { transform: translateY(100vh); }
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  margin-bottom: -20px;
-}
-
-h1 {
-  font-family: 'Rubik Mono One', sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  text-shadow: 
-    0 0 10px #ff2a00,
-    0 0 20px #ff8c00,
-    0 0 30px #ffcc00,
-    0 0 40px #ff2a00,
-    5px 5px 0 #000;
-  letter-spacing: 3px;
-  position: relative;
-  z-index: 1;
-  animation: title-flicker 2s infinite alternate;
-  margin: 10px 0;
-  transform: skew(-10deg);
-  text-align: center;
-}
-
-@keyframes title-flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    text-shadow:
-      0 0 10px #ff2a00,
-      0 0 20px #ff8c00,
-      0 0 30px #ffcc00,
-      0 0 40px #ff2a00,
-      5px 5px 0 #000;
-  }
-  20%, 24%, 55% {
-    text-shadow:
-      0 0 5px #ff2a00,
-      0 0 10px #ff8c00,
-      0 0 15px #ffcc00,
-      0 0 20px #ff2a00,
-      5px 5px 0 #000;
-  }
-}
-
-.score-display {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.score-box {
-  background-color: var(--dark-color);
-  color: white;
-  padding: 5px 15px;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.3),
-    inset 0 0 15px rgba(255, 100, 0, 0.5);
-  border: 3px solid var(--primary-color);
-  position: relative;
-  overflow: hidden;
-  transform: skew(-10deg);
-  margin-right: 2px;
-}
-
-.score-box::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    transparent,
-    transparent,
-    transparent,
-    var(--primary-color),
-    transparent
-  );
-  transform: rotate(30deg);
-  animation: shine 2s infinite;
-}
-
-@keyframes shine {
-  0% { left: -50%; }
-  100% { left: 150%; }
-}
-
-.score-label {
-  font-weight: 600;
-  margin-right: 8px;
-  text-transform: uppercase;
-  font-size: 0.6rem;
-  color: var(--light-color);
-}
-
-.score-value {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: white;
-  min-width: 25px;
-  text-align: center;
-  text-shadow: 0 0 10px var(--primary-color);
-}
-
-.score-max {
-  opacity: 0.8;
-  font-size: 1rem;
-  margin-left: 5px;
-  color: var(--light-color);
-}
-
-.lives {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.heart {
-  position: relative;
-  width: 12px;
-  height: 12px;
-  margin-top: 10%;
-  background-color: var(--primary-color);
-  transform: rotate(-45deg);
-  box-shadow: 0 0 10px rgba(255, 71, 87, 0.7);
-  animation: heartbeat 1.5s infinite;
-  margin-right: 5px;
-}
-
-.heart::before,
-.heart::after {
-  content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background-color: var(--primary-color);
-  border-radius: 50%;
-}
-
-.heart::before {
-  top: -7px;
-  left: 0;
-}
-
-.heart::after {
-  left: 7px;
-  top: 0;
-}
-
-@keyframes heartbeat {
-  0% {
-    transform: scale(1) rotate(-45deg);
-  }
-  25% {
-    transform: scale(1.1) rotate(-45deg);
-  }
-  50% {
-    transform: scale(1.2) rotate(-45deg);
-  }
-  75% {
-    transform: scale(1.1) rotate(-45deg);
-  }
-  100% {
-    transform: scale(1) rotate(-45deg);
-  }
-}
-
-.game-area {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-  position: relative;
-}
-
-.hangman-container {
-  width: 280px;
-  height: 400px;
-  position: relative;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 20px rgba(255, 50, 0, 0.7));
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  margin-bottom: 20px;
-}
-
-.gallows {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.pole {
-  position: absolute;
-  width: 20px;
-  height: 330px;
-  background-color: #3a1e0a;
-  bottom: 30px;
-  left: 20px;
-  border-radius: 5px;
-  box-shadow: 
-    5px 5px 10px rgba(0, 0, 0, 0.5),
-    inset 3px 3px 10px rgba(255, 255, 255, 0.1);
-  background-image: 
-    linear-gradient(
-      to right,
-      #5e3a21 0%,
-      #8b4513 50%,
-      #5e3a21 100%
-    );
-  z-index: 1;
-  transform: translateZ(10px);
-}
-
-.top-beam {
-  position: absolute;
-  width: 150px;
-  height: 20px;
-  background-color: #5e3a21;
-  top: 50px;
-  left: 20px;
-  border-radius: 5px;
-  box-shadow: 
-    5px 5px 10px rgba(0, 0, 0, 0.5),
-    inset 3px 3px 10px rgba(255, 255, 255, 0.1);
-  background-image: 
-    linear-gradient(
-      to bottom,
-      #5e3a21 0%,
-      #8b4513 50%,
-      #5e3a21 100%
-    );
-  z-index: 1;
-  transform: translateZ(10px);
-}
-
-.rope {
-  position: absolute;
-  width: 6px;
-  height: 50px;
-  background-color: #654321;
-  top: 50px;
-  left: 145px;
-  border-radius: 3px;
-  box-shadow: 
-    2px 2px 5px rgba(0, 0, 0, 0.3),
-    inset 2px 2px 5px rgba(255, 255, 255, 0.1);
-  background-image: 
-    linear-gradient(
-      to right,
-      #654321 0%,
-      #8b5a2b 50%,
-      #654321 100%
-    );
-  z-index: 2;
-  transform: translateZ(15px);
-  animation: rope-swing 3s infinite ease-in-out;
-}
-
-@keyframes rope-swing {
-  0%, 100% { transform: translateZ(15px) rotate(-2deg); }
-  50% { transform: translateZ(15px) rotate(2deg); }
-}
-
-.wood-texture {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M0,50 Q25,40 50,50 T100,50" stroke="rgba(0,0,0,0.3)" fill="none" stroke-width="2"/></svg>');
-  opacity: 0.5;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.hangman-figure {
-  position: absolute;
-  top: 100px;
-  left: 175px;
-  transform-origin: top center;
-  transition: all 0.3s ease;
-  z-index: 10;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-}
-
-.hangman-figure:hover {
-  animation: wobble 0.8s infinite alternate;
-  filter: drop-shadow(0 0 10px rgba(255, 100, 0, 0.7));
-}
-
-@keyframes wobble {
-  0% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(5deg);
-  }
-}
-
-/* Cabeça mais detalhada */
-.head {
-  width: 60px;
-  height: 60px;
-  background-color: #ffdbac;
-  border-radius: 50% 50% 45% 45%;
-  position: relative;
-  left: -55px;
-  border: 4px solid #2a1a0f;
-  box-shadow: 
-    inset -15px -15px 30px rgba(0, 0, 0, 0.4),
-    0 5px 15px rgba(0, 0, 0, 0.7);
-  background-image: 
-    radial-gradient(
-      circle at 30% 30%,
-      #ffdbac 0%,
-      #e8c9a7 50%,
-      #d9b89b 100%
-    );
-  z-index: 5;
-  overflow: hidden;
-  transform: translateZ(20px);
-}
-
-@keyframes head-bob {
-  0%, 100% { transform: translateZ(20px) translateY(0); }
-  50% { transform: translateZ(20px) translateY(-5px); }
-}
-
-.face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.eye {
-  width: 14px;
-  height: 14px;
-  background-color: var(--dark-color);
-  border-radius: 50%;
-  position: absolute;
-  top: 15px;
-  transition: all 0.3s ease;
-  box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.2);
-}
-
-.eye.left {
-  left: 12px;
-}
-
-.eye.right {
-  right: 12px;
-}
-
-.eye.x-eye::before, .eye.x-eye::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 4px;
-  background-color: var(--dark-color);
-  top: 50%;
-  left: 50%;
-}
-
-.eye.x-eye::before {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.eye.x-eye::after {
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-.mouth {
-  width: 40px;
-  height: 15px;
-  border-bottom: 4px solid var(--dark-color);
-  border-radius: 0 0 50% 50%;
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: all 0.3s ease;
-}
-
-.mouth.dead {
-  border-bottom: none;
-  border-top: 4px solid var(--dark-color);
-  border-radius: 50% 50% 0 0;
-  height: 12px;
-}
-
-.blood {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 30% 40%, rgba(200,0,0,0.8) 0%, transparent 70%),
-    radial-gradient(circle at 70% 40%, rgba(180,0,0,0.7) 0%, transparent 70%),
-    linear-gradient(to bottom, rgba(150,0,0,0.6) 0%, transparent 30%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: 6;
-}
-
-.blood.visible {
-  opacity: 1;
-}
-
-@keyframes blood-drip {
-  0%, 100% { height: 20px; }
-  50% { height: 40px; }
-}
-
-/* Corpo mais detalhado */
-.body {
-  width: 60px;
-  height: 120px;
-  background-color: #4682b4;
-  position: absolute;
-  left: -55px;
-  border-radius: 25px 25px 15px 15px;
-  border: 4px solid #2a1a0f;
-  box-shadow: 
-    inset -15px -15px 30px rgba(0, 0, 0, 0.4),
-    0 5px 15px rgba(0, 0, 0, 0.7);
-  background-image: 
-    linear-gradient(
-      to bottom,
-      #4682b4 0%,
-      #5f9ea0 50%,
-      #4682b4 100%
-    );
-  z-index: 4;
-  overflow: hidden;
-}
-
-.shirt-pattern {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    linear-gradient(
-      45deg,
-      rgba(255,255,255,0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255,255,255,0.2) 50%,
-      rgba(255,255,255,0.2) 75%,
-      transparent 75%,
-      transparent
-    );
-  background-size: 20px 20px;
-  opacity: 0.5;
-}
-
-.blood-pool {
-  position: absolute;
-  width: 90px;
-  height: 0;
-  background: radial-gradient(ellipse at center, 
-    rgba(150,0,0,0.8) 0%, 
-    rgba(100,0,0,0.6) 50%, 
-    transparent 100%);
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  transition: height 0.5s ease 0.5s;
-  z-index: 4;
-  filter: drop-shadow(0 0 10px rgba(150,0,0,0.7));
-}
-
-/* Braços mais detalhados */
-.arm {
-  width: 60px;
-  height: 25px;
-  background-color: #ffdbac;
-  position: absolute;
-  border: 4px solid #2a1a0f;
-  border-radius: 15px;
-  box-shadow: 
-    inset -10px -10px 20px rgba(0, 0, 0, 0.4),
-    0 5px 15px rgba(0, 0, 0, 0.7);
-  background-image: 
-    linear-gradient(
-      to right,
-      #ffdbac 0%,
-      #e8c9a7 50%,
-      #ffdbac 100%
-    );
-  z-index: 3;
-}
-
-.arm.left {
-  left: -110px;
-  transform: rotate(30deg) translateZ(10px);
-  transform-origin: right center;
-  animation: arm-swing-left 3s infinite ease-in-out;
-}
-
-@keyframes arm-swing-left {
-  0%, 100% { transform: rotate(30deg) translateZ(10px); }
-  50% { transform: rotate(45deg) translateZ(10px); }
-}
-
-.arm.right {
-  left: 0px;
-  transform: rotate(-30deg) translateZ(10px);
-  transform-origin: left center;
-  animation: arm-swing-right 3s infinite ease-in-out;
-}
-
-@keyframes arm-swing-right {
-  0%, 100% { transform: rotate(-30deg) translateZ(10px); }
-  50% { transform: rotate(-45deg) translateZ(10px); }
-}
-
-.sleeve {
-  position: absolute;
-  width: 30px;
-  height: 100%;
-  background-color: #5f9ea0;
-  border-radius: 12px;
-}
-
-.arm.left .sleeve {
-  right: 0;
-  border-radius: 0 12px 12px 0;
-}
-
-.arm.right .sleeve {
-  left: 0;
-  border-radius: 12px 0 0 12px;
-}
-
-.arm-drip {
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%) rotate(90deg);
-}
-
-/* Pernas mais detalhadas */
-.leg {
-  width: 25px;
-  height: 90px;
-  background-color: #1e90ff;
-  position: absolute;
-  border: 4px solid #2a1a0f;
-  border-radius: 0 0 15px 15px;
-  top: 170px;
-  box-shadow: 
-    inset -10px -10px 20px rgba(0, 0, 0, 0.4),
-    0 5px 15px rgba(0, 0, 0, 0.7);
-  z-index: 2;
-}
-
-@keyframes leg-kick {
-  0%, 100% { transform: translateZ(5px) rotate(0); }
-  50% { transform: translateZ(5px) rotate(5deg); }
-}
-
-.leg.left {
-  left: -60px;
-  transform: rotate(5deg) translateZ(5px);
-}
-
-.leg.right {
-  left: -20px;
-  transform: rotate(-5deg) translateZ(5px);
-}
-
-.leg-drip {
-  top: 90px;
-  left: 50%;
-  transform: translateX(-50%) rotate(90deg);
-}
-
-.pants-pattern {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    linear-gradient(
-      45deg,
-      rgba(0,0,0,0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(0,0,0,0.2) 50%,
-      rgba(0,0,0,0.2) 75%,
-      transparent 75%,
-      transparent
-    );
-  background-size: 12px 12px;
-}
-
-.game-ui {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-}
-
-.word-container {
-  all: initial; /* Reset completo */
-  position: relative;
-  padding: 15px;
-  background-color: rgba(20, 10, 0, 0.8);
-  border-radius: 15px;
-  box-shadow: 
-    inset 0 0 15px rgba(0, 0, 0, 0.7),
-    0 8px 20px rgba(0, 0, 0, 0.5);
-  border: 3px solid var(--accent-color);
-  overflow-x: auto;
-  white-space: nowrap;
-  max-width: 100%;
-  -webkit-overflow-scrolling: touch;
-  display: block !important;
-  font-family: inherit !important;
-}
-
-
-
-.word-display {
-  font-size: 1.5rem;
-  letter-spacing: 8px;
-  color: white;
-  min-height: 70px;
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
-  text-transform: uppercase;
- 
-  font-family: 'Bungee Spice', 'Arial Black', sans-serif;
-  position: relative;
-  z-index: 2;
-  text-rendering: optimizeLegibility;
-  transform: translateZ(0);  white-space: normal;
-  padding: 10px 0;
-  scrollbar-width: none; /* Esconde a barra de rolagem no Firefox */
-  word-wrap: break-word;
-}
-
-.word-underline {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  width: 100%;
-  height: 6px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--primary-color),
-    var(--secondary-color),
-    var(--primary-color),
-    transparent
-  );
-  border-radius: 5px;
-  opacity: 0.7;
-  animation: underline-pulse 2s infinite, underline-move 10s infinite linear;
-}
-
-@keyframes underline-pulse {
-  0%, 100% { opacity: 0.3; height: 5px; }
-  50% { opacity: 0.9; height: 8px; }
-}
-
-@keyframes underline-move {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-
-.message {
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 8px;
-  border-radius: 12px;
-  text-align: center;
-  opacity: 0;
-  transition: all 0.5s ease;
-  position: relative;
-  overflow: hidden;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transform-style: preserve-3d;
-  transform: translateZ(10px);
-}
-
-.message::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255,255,255,0.3),
-    transparent
-  );
-  transform: translateX(-100%);
-}
-
-.message.show {
-  opacity: 1;
-  transform: translateZ(10px) scale(1.05);
-}
-
-.message.show::before {
-  animation: shine-over 1.5s infinite;
-}
-
-@keyframes shine-over {
-  100% { transform: translateX(100%); }
-}
-
-.message.success {
-  color: var(--success-color);
-  background-color: rgba(0, 20, 0, 0.8);
-  border: 2px solid var(--success-color);
-  text-shadow: 0 0 10px var(--success-color);
-  box-shadow: 0 0 20px rgba(0, 255, 127, 0.5);
-}
-
-.message.error {
-  color: var(--error-color);
-  background-color: rgba(20, 0, 0, 0.8);
-  border: 2px solid var(--error-color);
-  text-shadow: 0 0 10px var(--error-color);
-  box-shadow: 0 0 20px rgba(255, 0, 51, 0.5);
-  animation: error-pulse 0.5s infinite alternate;
-}
-
-@keyframes error-pulse {
-  0% { transform: translateZ(10px) scale(1); }
-  100% { transform: translateZ(10px) scale(1.05); }
-}
-
-.keyboard {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px;
-  background-color: rgba(20, 10, 0, 0.8);
-  border-radius: 15px;
-  box-shadow: 
-    inset 0 0 15px rgba(0, 0, 0, 0.7),
-    0 8px 20px rgba(0, 0, 0, 0.5);
-  border: 3px solid var(--accent-color);
-  transform-style: preserve-3d;
-  transform: translateZ(10px);
-}
-
-.keyboard button {
-  width: 35px;
-  height: 35px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  background-color: var(--dark-color);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  box-shadow: 
-    0 5px 10px rgba(0, 0, 0, 0.5),
-    inset 0 0 8px rgba(255, 255, 255, 0.1);
-  text-transform: uppercase;
-  position: relative;
-  overflow: hidden;
-  transform-style: preserve-3d;
-  transform: translateZ(10px);
-  font-family: 'Press Start 2P', cursive;
-}
-
-.keyboard button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255,255,255,0.3),
-    transparent
-  );
-  transform: translateX(-100%);
-}
-
-.keyboard button:hover:not(:disabled)::before {
-  animation: shine-over 1s;
-}
-
-.keyboard button:hover:not(:disabled) {
-  background-color: var(--primary-color);
-  transform: translateY(-5px) scale(1.1) translateZ(15px);
-  box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.6),
-    inset 0 0 12px rgba(255, 255, 255, 0.3);
-  z-index: 2;
-}
-
-.keyboard button:active:not(:disabled) {
-  transform: translateY(2px) translateZ(10px);
-  box-shadow: 
-    0 3px 8px rgba(0, 0, 0, 0.4),
-    inset 0 0 12px rgba(0, 0, 0, 0.3);
-}
-
-.keyboard button:disabled {
-  background-color: #3a3a3a;
-  color: #666;
-  cursor: default;
-  transform: translateZ(5px);
-  box-shadow: 
-    inset 0 0 12px rgba(0, 0, 0, 0.7);
-}
-
-.keyboard button.correct {
-  background-color: var(--success-color);
-  color: black;
-  box-shadow: 
-    0 0 15px var(--success-color),
-    inset 0 0 12px rgba(255, 255, 255, 0.5);
-  transform: translateZ(15px);
-}
-
-.keyboard button.wrong {
-  background-color: var(--error-color);
-  color: white;
-  box-shadow: 
-    0 0 15px var(--error-color),
-    inset 0 0 12px rgba(255, 255, 255, 0.5);
-  transform: translateZ(5px);
-  animation: shake 0.5s;
-}
-
-.restart-btn {
-  margin: 10px auto 0;
-  padding: 10px 20px;
-  font-weight: 700;
-  background: linear-gradient(
-    to right,
-    var(--accent-color),
-    var(--primary-color),
-    var(--accent-color)
-  );
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 
-    0 8px 20px rgba(255, 69, 0, 0.7),
-    0 0 12px rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-  overflow: hidden;
-  display: none;
-  transform-style: preserve-3d;
-  transform: translateZ(10px);
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.7rem;
-}
-
-.restart-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255,255,255,0.4),
-    transparent
-  );
-  transform: translateX(-100%);
-}
-
-.restart-btn:hover::before {
-  animation: shine-over 1s;
-}
-
-.restart-btn:hover {
-  transform: translateY(-3px) scale(1.1) translateZ(15px);
-  box-shadow: 
-    0 12px 30px rgba(255, 69, 0, 0.9),
-    0 0 20px rgba(255, 255, 255, 0.9);
-}
-
-.restart-btn:active {
-  transform: translateY(1px) translateZ(10px);
-}
-
-.btn-icon {
-  font-size: 1.5rem;
-  animation: spin 1.5s infinite linear;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.game-footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 25px;
-  padding-top: 25px;
-  border-top: 3px solid rgba(255, 100, 0, 0.5);
-  gap: 20px;
-}
-
-.hint-container {
-  flex: 1;
-  padding: 15px;
-  margin-left: 0;
-  border-radius: 15px;
-  border: 2px solid var(--warning-color);
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.7);
-  transform-style: preserve-3d;
-  transform: translateZ(10px);
-  width: 100%;
-}
-
-.hint-label {
-  font-size: 0.7rem;
-  color: var(--warning-color);
-  margin-bottom: 8px;
-  font-weight: 600;
-  text-shadow: 0 0 8px var(--warning-color);
-  text-transform: uppercase;
-}
-
-.hint {
-  font-size: 0.6rem;
-  color: var(--light-color);
-  line-height: 1.5;
-}
-
-#hintText {
-  color: var(--warning-color);
-  font-weight: 600;
-  text-shadow: 0 0 5px var(--warning-color);
-}
-
-/* Hangman parts visibility based on wrong guesses */
-.hangman-figure .head { display: none; }
-.hangman-figure .body { display: none; }
-.hangman-figure .arm.left { display: none; }
-.hangman-figure .arm.right { display: none; }
-.hangman-figure .leg.left { display: none; }
-.hangman-figure .leg.right { display: none; }
-
-.hangman-figure.show-1 .head { display: block; }
-.hangman-figure.show-2 .body { display: block; }
-.hangman-figure.show-3 .arm.left { display: block; }
-.hangman-figure.show-4 .arm.right { display: block; }
-.hangman-figure.show-5 .leg.left { display: block; }
-.hangman-figure.show-6 .leg.right { display: block; }
-
-/* Death effects */
-.dead-eyes .eye {
-  background-color: transparent;
-}
-
-.dead-eyes .eye.x-eye::before,
-.dead-eyes .eye.x-eye::after {
-  background-color: var(--dark-color);
-}
-
-.bleeding .blood {
-  opacity: 1;
-}
-
-.bleeding .blood-pool {
-  height: 20px;
-}
-
-/* Animations for hangman parts */
-.head {
-  transition: transform 0.3s ease;
-}
-.hangman-figure:hover .head {
-  animation: headTilt 2s infinite alternate;
-}
-@keyframes headTilt {
-  0%, 100% {
-    transform: rotate(0deg) translateZ(20px);
-  }
-  25% {
-    transform: rotate(10deg) translateZ(20px);
-  }
-  75% {
-    transform: rotate(-10deg) translateZ(20px);
-  }
-}
-
-/* Animations */
-@keyframes shake {
-  0%, 100% { transform: translateX(0) translateZ(10px); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-10px) translateZ(10px); }
-  20%, 40%, 60%, 80% { transform: translateX(10px) translateZ(10px); }
-}
-
-@keyframes dead {
-  0% { transform: rotate(0) translateZ(10px); }
-  100% { transform: rotate(90deg) translateZ(10px); }
-}
-
-/* Media queries agrupadas */
-@media (min-width: 480px) {
-  h1 {
-    font-size: 2.5rem;
-  }
-  
-  .score-label {
-    font-size: 0.7rem;
-  }
-  
-  .hangman-container {
-    width: 320px;
-    height: 450px;
-  }
-  
-  .pole {
-    width: 25px;
-    height: 400px;
-  }
-  
-  .top-beam {
-    width: 180px;
-    height: 25px;
-    top: 60px;
-  }
-  
-  .rope {
-    width: 8px;
-    height: 60px;
-    left: 175px;
-    top: 60px;
-  }
-  
-  .hangman-figure {
-    top: 120px;
-    left: 205px;
-  }
-  
-  .head {
-    width: 70px;
-    height: 70px;
-    left: -65px;
-  }
-  
-  .body {
-    width: 70px;
-    height: 140px;
-    left: -65px;
-  }
-  
-  .arm {
-    width: 70px;
-    height: 28px;
-  }
-  
-  .leg {
-    width: 28px;
-    height: 100px;
-    top: 190px;
-  }
-  
-  .leg.left {
-    left: -70px;
-  }
-  
-  .leg.right {
-    left: -25px;
-  }
-  
-  .word-display {
-    font-size: 2rem;
-    letter-spacing: 10px;
-    min-height: 80px;
-  }
-  
-  .message {
-    font-size: 1rem;
-    padding: 10px;
-  }
-  
-  .hint {
-    font-size: 0.7rem;
-  }
-  
-  .keyboard button {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-    border-radius: 15px;
-  }
-  
-  .restart-btn {
-    padding: 12px 25px;
-    font-size: 0.8rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .game-container {
-    padding: 20px;
-    margin: 20px 0;
-  }
-  
-  .header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0;
-  }
-  
-  h1 {
-    font-size: 3rem;
-    margin: 20px;
-    text-align: left;
-  }
-  
-  .score-display {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-end;
-    margin-bottom: 0;
-  }
-  
-  .score-box {
-    padding: 6px 20px;
-  }
-  
-  .score-value {
-    font-size: 1.5rem;
-    min-width: 30px;
-  }
-  
-  .score-max {
-    font-size: 1.3rem;
-  }
-  
-  .lives {
-    gap: 15px;
-  }
-  
-  .heart {
-    width: 15px;
-    height: 15px;
-    margin-right: 10px;
-  }
-  
-  .heart::before,
-  .heart::after {
-    width: 15px;
-    height: 15px;
-  }
-  
-  .heart::before {
-    top: -9.5px;
-  }
-  
-  .heart::after {
-    left: 8.5px;
-  }
-  
-  .game-ui {
-    gap: 10px;
-  }
-  
-  .word-container {
-    padding: 15px;
-    border-radius: 20px;
-  }
-  
-  .word-display {
-    font-size: 2.5rem;
-    letter-spacing: 12px;
-    min-height: 90px;
-  }
-  
-  .word-underline {
-    bottom: 15px;
-    height: 8px;
-  }
-  
-  .message {
-    font-size: 1.2rem;
-    padding: 11px;
-    border-radius: 15px;
-    letter-spacing: 3px;
-  }
-  
-  .message.success {
-    border: 3px solid var(--success-color);
-    box-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
-  }
-  
-  .message.error {
-    border: 3px solid var(--error-color);
-    box-shadow: 0 0 30px rgba(255, 0, 51, 0.5);
-  }
-  
-  .keyboard {
-    gap: 12px;
-    padding: 25px;
-    border-radius: 20px;
-  }
-  
-  .keyboard button {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
-  }
-  
-  .keyboard button:hover:not(:disabled) {
-    transform: translateY(-8px) scale(1.1) translateZ(15px);
-    box-shadow: 
-      0 15px 25px rgba(0, 0, 0, 0.6),
-      inset 0 0 15px rgba(255, 255, 255, 0.3);
-  }
-  
-  .keyboard button.correct {
-    box-shadow: 
-      0 0 25px var(--success-color),
-      inset 0 0 15px rgba(255, 255, 255, 0.5);
-  }
-  
-  .keyboard button.wrong {
-    box-shadow: 
-      0 0 25px var(--error-color),
-      inset 0 0 15px rgba(255, 255, 255, 0.5);
-  }
-  
-  .restart-btn {
-    padding: 15px 30px;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    box-shadow: 
-      0 10px 25px rgba(255, 69, 0, 0.7),
-      0 0 15px rgba(255, 255, 255, 0.7);
-  }
-  
-  .restart-btn:hover {
-    transform: translateY(-5px) scale(1.1) translateZ(15px);
-    box-shadow: 
-      0 15px 35px rgba(255, 69, 0, 0.9),
-      0 0 25px rgba(255, 255, 255, 0.9);
-  }
-  
-  .game-footer {
-    flex-direction: row;
-    margin-top: 30px;
-    padding-top: 25px;
-    gap: 0;
-  }
-  
-  .hint-container {
-    padding: 20px;
-    margin-left: 15px;
-    border: 3px solid var(--warning-color);
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
-  }
-  
-  .hint-label {
-    font-size: 0.8rem;
-    margin-bottom: 10px;
-    text-shadow: 0 0 10px var(--warning-color);
-  }
-  
-  .hint {
-    font-size: 0.7rem;
-    line-height: 1.6;
-  }
-  
-  .btn-icon {
-    font-size: 2rem;
-  }
-}
-
-@media (min-width: 1000px) {
-  .game-area {
-    flex-direction: row;
-    gap: 40px;
-  }
-  
-  .hangman-container {
-    width: 320px;
-    height: 540px;
-    margin-bottom: 0;
-  }
-  
-  .pole {
-    height: 430px;
-  }
-  
-  .top-beam {
-    width: 200px;
-    top: 70px;
-  }
-  
-  .rope {
-    left: 195px;
-    top: 70px;
-  }
-  
-  .hangman-figure {
-    top: 130px;
-    left: 235px;
-  }
-  
-  .head {
-    width: 80px;
-    height: 80px;
-    left: -75px;
-    border: 5px solid #2a1a0f;
-  }
-  
-  .body {
-    width: 80px;
-    height: 150px;
-    left: -75px;
-    border: 5px solid #2a1a0f;
-    border-radius: 30px 30px 20px 20px;
-  }
-  
-  .arm {
-    width: 80px;
-    height: 30px;
-    border: 5px solid #2a1a0f;
-    border-radius: 20px;
-  }
-  
-  .arm.left {
-    left: -145px;
-  }
-  
-  .sleeve {
-    width: 35px;
-    border-radius: 15px;
-  }
-  
-  .arm.left .sleeve {
-    border-radius: 0 15px 15px 0;
-  }
-  
-  .arm.right .sleeve {
-    border-radius: 15px 0 0 15px;
-  }
-  
-  .arm-drip {
-    top: 30px;
-  }
-  
-  .leg {
-    width: 33px;
-    height: 120px;
-    top: 222px;
-    border: 5px solid #2a1a0f;
-    border-radius: 0 0 20px 20px;
-  }
-  
-  .leg.left {
-    left: -78px;
-  }
-  
-  .leg-drip {
-    top: 120px;
-  }
-  
-  .pants-pattern {
-    background-size: 15px 15px;
-  }
-  
-  .word-display {
-    font-size: 2.5rem;
-    letter-spacing: 14px;
-  }
-  
-  .blood-pool {
-    width: 120px;
-    bottom: -30px;
-  }
-  
-  .bleeding .blood-pool {
-    height: 30px;
-  }
-  
-  .keyboard {
-    gap: 15px;
-    padding: 30px;
-  }
-  
-  .keyboard button {
-    width: 55px;
-    height: 55px;
-    font-size: 1rem;
-    border-radius: 20px;
-  }
-  
-  .game-footer {
-    margin-top: 40px;
-  }
-  
-  .eye {
-    width: 18px;
-    height: 18px;
-    top: 20px;
-  }
-  
-  .eye.left {
-    left: 15px;
-  }
-  
-  .eye.right {
-    right: 15px;
-  }
-  
-  .eye.x-eye::before, .eye.x-eye::after {
-    width: 25px;
-    height: 5px;
-  }
-  
-  .mouth {
-    width: 50px;
-    height: 20px;
-    border-bottom: 5px solid var(--dark-color);
-    bottom: 20px;
-  }
-  
-  .mouth.dead {
-    border-top: 5px solid var(--dark-color);
-    height: 15px;
-  }
-  
-  .shirt-pattern {
-    background-size: 25px 25px;
-  }
-}
-
-@media (min-width: 769px) {
-  .word-display.long-word {
-    position: relative;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: calc(9ch * 1.5); /* Aproximadamente 9 letras com espaçamento */
-    padding-right: 20px; /* Espaço para o ellipsis */
-  }
-  
-  .word-display.long-word::after {
-    content: "...";
-    position: absolute;
-    right: 5px;
-    bottom: 10px;
-  }
-  
-  .word-container.scrollable .word-display.long-word {
-    max-width: none;
-    text-overflow: clip;
-  }
-  
-  .word-container.scrollable .word-display.long-word::after {
-    display: none;
-  }
-}
-
-@media (max-width: 360px) {
-  .keyboard button {
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
-    border-radius: 10px;
-  }
-  
-  .word-display {
-    font-size: 1.2rem;
-    letter-spacing: 5px;
-  }
-  
-  h1 {
-    font-size: 1.8rem;
-  }
-  
-  .message {
-    font-size: 0.7rem;
-  }
-  
-  .hint {
-    font-size: 0.6rem;
-  }
-  
-  .hangman-container {
-    width: 240px;
-    height: 350px;
-  }
-  
-  .pole {
-    height: 280px;
-  }
-  
-  .top-beam {
-    width: 130px;
-  }
-  
-  .rope {
-    left: 125px;
-  }
-  
-  .hangman-figure {
-    left: 155px;
-  }
-}
-
-@media (max-width: 768px) {
-  .fire-background,
-  .fire-canvas,
-  .pixel-fire-overlay {
-    display: none !important;
-  }
-  
-
-  .word-display {
-    font-size: 1.8rem !important;
-    letter-spacing: 6px !important;
-    min-height: 60px !important;
-    padding: 5px 10px !important;
-   
-  }
-  
-  .word-underline {
-    height: 4px !important;
-    bottom: 5px !important;
-  }
-}
-
-@supports (-webkit-touch-callout: none) {
-  .word-display {
-    all: initial;
-    font-family: 'Bungee Spice', 'Arial Black', sans-serif !important;
-    font-size: 2rem;
-    color: white !important;
-    letter-spacing: 8px;
-    display: inline-block;
-    text-transform: uppercase;
-    -webkit-text-stroke: 0.5px white;
-    text-shadow: 
-      0 0 5px white,
-      0 0 10px var(--primary-color);
-    padding: 10px 0;
-    white-space: nowrap;
-    opacity: 1 !important;
-    visibility: visible !important;
-    z-index: 100;
-    position: relative;
-  }
-  
-  .word-underline {
-    all: initial;
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      var(--primary-color),
-      var(--secondary-color),
-      var(--primary-color),
-      transparent
-    );
-    border-radius: 5px;
-    opacity: 0.7;
-    animation: underline-pulse 2s infinite, underline-move 10s infinite linear;
-    z-index: 99;
-  }
-}
+      --primary-color: #ff2a00;
+      --secondary-color: #ff8c00;
+      --accent-color: #ff4500;
+      --dark-color: #120a01;
+      --light-color: #fff5e6;
+      --success-color: #00ff7f;
+      --error-color: #ff0033;
+      --warning-color: #ffcc00;
+      --blood-color: #ff0033;
+      --blood-dark: #cc0022;
+      --fire-color-1: #ff2a00;
+      --fire-color-2: #ff8c00;
+      --fire-color-3: #ffcc00;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-x: hidden;
+      perspective: 1000px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 10px;
+      background: #000;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    .fire-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .fire-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 105%;
+      height: 100%;
+      image-rendering: pixelated;
+      opacity: 0.9;
+    }
+
+    .pixel-fire-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse at center, rgba(255,60,0,0.2) 0%, rgba(0,0,0,0) 70%),
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 100, 0, 0.1),
+          rgba(255, 100, 0, 0.1) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      z-index: -1;
+      animation: fire-flicker 2s infinite alternate;
+    }
+
+    @keyframes fire-flicker {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      25% { opacity: 0.9; transform: scale(1.01); }
+      50% { opacity: 1; transform: scale(1.02); }
+      75% { opacity: 0.95; transform: scale(0.99); }
+    }
+
+    .game-container {
+      width: 100%;
+      max-width: 1135px;
+      background-color: rgba(10, 5, 0, 0.9);
+      border-radius: 20px;
+      box-shadow: 
+        0 0 50px rgba(255, 50, 0, 0.8),
+        0 0 100px rgba(255, 100, 0, 0.5),
+        0 0 200px rgba(255, 150, 0, 0.3);
+      overflow: visible;
+      padding: 15px;
+      margin: 10px 0;
+      position: relative;
+      border: 4px solid var(--accent-color);
+      backdrop-filter: blur(2px);
+      z-index: 10;
+      transform-style: preserve-3d;
+      animation: container-glowing 3s infinite alternate;
+    }
+
+    @keyframes container-glowing {
+      0% { box-shadow: 0 0 50px rgba(255, 50, 0, 0.8); }
+      50% { box-shadow: 0 0 70px rgba(255, 100, 0, 0.8); }
+      100% { box-shadow: 0 0 50px rgba(255, 50, 0, 0.8); }
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background-color: rgba(255, 100, 0, 0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(1px);
+    }
+
+    .spark {
+      position: absolute;
+      width: 3px;
+      height: 15px;
+      background: linear-gradient(to top, rgba(255,200,0,1), rgba(255,80,0,0));
+      border-radius: 50% 50% 20% 20%;
+      pointer-events: none;
+      animation: spark-fall linear;
+      box-shadow: 0 0 5px #ff4500;
+    }
+
+    @keyframes spark-fall {
+      to { transform: translateY(100vh); }
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin-bottom: -20px;
+    }
+
+    h1 {
+      font-family: 'Rubik Mono One', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 
+        0 0 10px #ff2a00,
+        0 0 20px #ff8c00,
+        0 0 30px #ffcc00,
+        0 0 40px #ff2a00,
+        5px 5px 0 #000;
+      letter-spacing: 3px;
+      position: relative;
+      z-index: 1;
+      animation: title-flicker 2s infinite alternate;
+      margin: 10px 0;
+      transform: skew(-10deg);
+      text-align: center;
+    }
+
+    @keyframes title-flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow:
+          0 0 10px #ff2a00,
+          0 0 20px #ff8c00,
+          0 0 30px #ffcc00,
+          0 0 40px #ff2a00,
+          5px 5px 0 #000;
+      }
+      20%, 24%, 55% {
+        text-shadow:
+          0 0 5px #ff2a00,
+          0 0 10px #ff8c00,
+          0 0 15px #ffcc00,
+          0 0 20px #ff2a00,
+          5px 5px 0 #000;
+      }
+    }
+
+    .score-display {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .score-box {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 0 15px rgba(255, 100, 0, 0.5);
+      border: 3px solid var(--primary-color);
+      position: relative;
+      overflow: hidden;
+      transform: skew(-10deg);
+      margin-right: 2px;
+    }
+
+    .score-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        transparent,
+        transparent,
+        transparent,
+        var(--primary-color),
+        transparent
+      );
+      transform: rotate(30deg);
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -50%; }
+      100% { left: 150%; }
+    }
+
+    .score-label {
+      font-weight: 600;
+      margin-right: 8px;
+      text-transform: uppercase;
+      font-size: 0.6rem;
+      color: var(--light-color);
+    }
+
+    .score-value {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      min-width: 25px;
+      text-align: center;
+      text-shadow: 0 0 10px var(--primary-color);
+    }
+
+    .score-max {
+      opacity: 0.8;
+      font-size: 1rem;
+      margin-left: 5px;
+      color: var(--light-color);
+    }
+
+    .lives {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .heart {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      margin-top: 10%;
+      background-color: var(--primary-color);
+      transform: rotate(-45deg);
+      box-shadow: 0 0 10px rgba(255, 71, 87, 0.7);
+      animation: heartbeat 1.5s infinite;
+      margin-right: 5px;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -7px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 7px;
+      top: 0;
+    }
+
+    @keyframes heartbeat {
+      0% {
+        transform: scale(1) rotate(-45deg);
+      }
+      25% {
+        transform: scale(1.1) rotate(-45deg);
+      }
+      50% {
+        transform: scale(1.2) rotate(-45deg);
+      }
+      75% {
+        transform: scale(1.1) rotate(-45deg);
+      }
+      100% {
+        transform: scale(1) rotate(-45deg);
+      }
+    }
+
+    .game-area {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      position: relative;
+    }
+
+    .hangman-container {
+      width: 280px;
+      height: 400px;
+      position: relative;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 20px rgba(255, 50, 0, 0.7));
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      margin-bottom: 20px;
+    }
+
+    .gallows {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .pole {
+      position: absolute;
+      width: 20px;
+      height: 330px;
+      background-color: #3a1e0a;
+      bottom: 30px;
+      left: 20px;
+      border-radius: 5px;
+      box-shadow: 
+        5px 5px 10px rgba(0, 0, 0, 0.5),
+        inset 3px 3px 10px rgba(255, 255, 255, 0.1);
+      background-image: 
+        linear-gradient(
+          to right,
+          #5e3a21 0%,
+          #8b4513 50%,
+          #5e3a21 100%
+        );
+      z-index: 1;
+      transform: translateZ(10px);
+    }
+
+    .top-beam {
+      position: absolute;
+      width: 150px;
+      height: 20px;
+      background-color: #5e3a21;
+      top: 50px;
+      left: 20px;
+      border-radius: 5px;
+      box-shadow: 
+        5px 5px 10px rgba(0, 0, 0, 0.5),
+        inset 3px 3px 10px rgba(255, 255, 255, 0.1);
+      background-image: 
+        linear-gradient(
+          to bottom,
+          #5e3a21 0%,
+          #8b4513 50%,
+          #5e3a21 100%
+        );
+      z-index: 1;
+      transform: translateZ(10px);
+    }
+
+    .rope {
+      position: absolute;
+      width: 6px;
+      height: 50px;
+      background-color: #654321;
+      top: 50px;
+      left: 145px;
+      border-radius: 3px;
+      box-shadow: 
+        2px 2px 5px rgba(0, 0, 0, 0.3),
+        inset 2px 2px 5px rgba(255, 255, 255, 0.1);
+      background-image: 
+        linear-gradient(
+          to right,
+          #654321 0%,
+          #8b5a2b 50%,
+          #654321 100%
+        );
+      z-index: 2;
+      transform: translateZ(15px);
+      animation: rope-swing 3s infinite ease-in-out;
+    }
+
+    @keyframes rope-swing {
+      0%, 100% { transform: translateZ(15px) rotate(-2deg); }
+      50% { transform: translateZ(15px) rotate(2deg); }
+    }
+
+    .wood-texture {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M0,50 Q25,40 50,50 T100,50" stroke="rgba(0,0,0,0.3)" fill="none" stroke-width="2"/></svg>');
+      opacity: 0.5;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .hangman-figure {
+      position: absolute;
+      top: 100px;
+      left: 175px;
+      transform-origin: top center;
+      transition: all 0.3s ease;
+      z-index: 10;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .hangman-figure:hover {
+      animation: wobble 0.8s infinite alternate;
+      filter: drop-shadow(0 0 10px rgba(255, 100, 0, 0.7));
+    }
+
+    @keyframes wobble {
+      0% {
+        transform: rotate(-5deg);
+      }
+      100% {
+        transform: rotate(5deg);
+      }
+    }
+
+    /* Cabeça mais detalhada */
+    .head {
+      width: 60px;
+      height: 60px;
+      background-color: #ffdbac;
+      border-radius: 50% 50% 45% 45%;
+      position: relative;
+      left: -55px;
+      border: 4px solid #2a1a0f;
+      box-shadow: 
+        inset -15px -15px 30px rgba(0, 0, 0, 0.4),
+        0 5px 15px rgba(0, 0, 0, 0.7);
+      background-image: 
+        radial-gradient(
+          circle at 30% 30%,
+          #ffdbac 0%,
+          #e8c9a7 50%,
+          #d9b89b 100%
+        );
+      z-index: 5;
+      overflow: hidden;
+      transform: translateZ(20px);
+    }
+
+    @keyframes head-bob {
+      0%, 100% { transform: translateZ(20px) translateY(0); }
+      50% { transform: translateZ(20px) translateY(-5px); }
+    }
+
+    .face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .eye {
+      width: 14px;
+      height: 14px;
+      background-color: var(--dark-color);
+      border-radius: 50%;
+      position: absolute;
+      top: 15px;
+      transition: all 0.3s ease;
+      box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.2);
+    }
+
+    .eye.left {
+      left: 12px;
+    }
+
+    .eye.right {
+      right: 12px;
+    }
+
+    .eye.x-eye::before, .eye.x-eye::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 4px;
+      background-color: var(--dark-color);
+      top: 50%;
+      left: 50%;
+    }
+
+    .eye.x-eye::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .eye.x-eye::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .mouth {
+      width: 40px;
+      height: 15px;
+      border-bottom: 4px solid var(--dark-color);
+      border-radius: 0 0 50% 50%;
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.3s ease;
+    }
+
+    .mouth.dead {
+      border-bottom: none;
+      border-top: 4px solid var(--dark-color);
+      border-radius: 50% 50% 0 0;
+      height: 12px;
+    }
+
+    .blood {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(200,0,0,0.8) 0%, transparent 70%),
+        radial-gradient(circle at 70% 40%, rgba(180,0,0,0.7) 0%, transparent 70%),
+        linear-gradient(to bottom, rgba(150,0,0,0.6) 0%, transparent 30%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 6;
+    }
+
+    .blood.visible {
+      opacity: 1;
+    }
+
+    @keyframes blood-drip {
+      0%, 100% { height: 20px; }
+      50% { height: 40px; }
+    }
+
+    /* Corpo mais detalhado */
+    .body {
+      width: 60px;
+      height: 120px;
+      background-color: #4682b4;
+      position: absolute;
+      left: -55px;
+      border-radius: 25px 25px 15px 15px;
+      border: 4px solid #2a1a0f;
+      box-shadow: 
+        inset -15px -15px 30px rgba(0, 0, 0, 0.4),
+        0 5px 15px rgba(0, 0, 0, 0.7);
+      background-image: 
+        linear-gradient(
+          to bottom,
+          #4682b4 0%,
+          #5f9ea0 50%,
+          #4682b4 100%
+        );
+      z-index: 4;
+      overflow: hidden;
+    }
+
+    .shirt-pattern {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(
+          45deg,
+          rgba(255,255,255,0.2) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(255,255,255,0.2) 50%,
+          rgba(255,255,255,0.2) 75%,
+          transparent 75%,
+          transparent
+        );
+      background-size: 20px 20px;
+      opacity: 0.5;
+    }
+
+    .blood-pool {
+      position: absolute;
+      width: 90px;
+      height: 0;
+      background: radial-gradient(ellipse at center, 
+        rgba(150,0,0,0.8) 0%, 
+        rgba(100,0,0,0.6) 50%, 
+        transparent 100%);
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      transition: height 0.5s ease 0.5s;
+      z-index: 4;
+      filter: drop-shadow(0 0 10px rgba(150,0,0,0.7));
+    }
+
+    /* Braços mais detalhados */
+    .arm {
+      width: 60px;
+      height: 25px;
+      background-color: #ffdbac;
+      position: absolute;
+      border: 4px solid #2a1a0f;
+      border-radius: 15px;
+      box-shadow: 
+        inset -10px -10px 20px rgba(0, 0, 0, 0.4),
+        0 5px 15px rgba(0, 0, 0, 0.7);
+      background-image: 
+        linear-gradient(
+          to right,
+          #ffdbac 0%,
+          #e8c9a7 50%,
+          #ffdbac 100%
+        );
+      z-index: 3;
+    }
+
+    .arm.left {
+      left: -110px;
+      transform: rotate(30deg) translateZ(10px);
+      transform-origin: right center;
+      animation: arm-swing-left 3s infinite ease-in-out;
+    }
+
+    @keyframes arm-swing-left {
+      0%, 100% { transform: rotate(30deg) translateZ(10px); }
+      50% { transform: rotate(45deg) translateZ(10px); }
+    }
+
+    .arm.right {
+      left: 0px;
+      transform: rotate(-30deg) translateZ(10px);
+      transform-origin: left center;
+      animation: arm-swing-right 3s infinite ease-in-out;
+    }
+
+    @keyframes arm-swing-right {
+      0%, 100% { transform: rotate(-30deg) translateZ(10px); }
+      50% { transform: rotate(-45deg) translateZ(10px); }
+    }
+
+    .sleeve {
+      position: absolute;
+      width: 30px;
+      height: 100%;
+      background-color: #5f9ea0;
+      border-radius: 12px;
+    }
+
+    .arm.left .sleeve {
+      right: 0;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .arm.right .sleeve {
+      left: 0;
+      border-radius: 12px 0 0 12px;
+    }
+
+    .arm-drip {
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%) rotate(90deg);
+    }
+
+    /* Pernas mais detalhadas */
+    .leg {
+      width: 25px;
+      height: 90px;
+      background-color: #1e90ff;
+      position: absolute;
+      border: 4px solid #2a1a0f;
+      border-radius: 0 0 15px 15px;
+      top: 170px;
+      box-shadow: 
+        inset -10px -10px 20px rgba(0, 0, 0, 0.4),
+        0 5px 15px rgba(0, 0, 0, 0.7);
+      z-index: 2;
+    }
+
+    @keyframes leg-kick {
+      0%, 100% { transform: translateZ(5px) rotate(0); }
+      50% { transform: translateZ(5px) rotate(5deg); }
+    }
+
+    .leg.left {
+      left: -60px;
+      transform: rotate(5deg) translateZ(5px);
+    }
+
+    .leg.right {
+      left: -20px;
+      transform: rotate(-5deg) translateZ(5px);
+    }
+
+    .leg-drip {
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%) rotate(90deg);
+    }
+
+    .pants-pattern {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(
+          45deg,
+          rgba(0,0,0,0.2) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(0,0,0,0.2) 50%,
+          rgba(0,0,0,0.2) 75%,
+          transparent 75%,
+          transparent
+        );
+      background-size: 12px 12px;
+    }
+
+    .game-ui {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .word-container {
+      position: relative;
+      padding: 15px;
+      background-color: rgba(20, 10, 0, 0.8);
+      border-radius: 15px;
+      box-shadow: 
+        inset 0 0 15px rgba(0, 0, 0, 0.7),
+        0 8px 20px rgba(0, 0, 0, 0.5);
+      border: 3px solid var(--accent-color);
+      transform-style: preserve-3d;
+      transform: translateZ(10px);
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .word-display {
+      font-size: 1.5rem;
+      letter-spacing: 8px;
+      color: white;
+      min-height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-transform: uppercase;
+      font-family: 'Bungee Spice', 'Arial Black', sans-serif;
+      position: relative;
+      z-index: 2;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      padding: 10px 0;
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+
+    .word-underline {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        var(--primary-color),
+        var(--secondary-color),
+        var(--primary-color),
+        transparent
+      );
+      border-radius: 5px;
+      opacity: 0.7;
+      animation: underline-pulse 2s infinite, underline-move 10s infinite linear;
+    }
+
+    @keyframes underline-pulse {
+      0%, 100% { opacity: 0.3; height: 5px; }
+      50% { opacity: 0.9; height: 8px; }
+    }
+
+    @keyframes underline-move {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .message {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px;
+      border-radius: 12px;
+      text-align: center;
+      opacity: 0;
+      transition: all 0.5s ease;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transform-style: preserve-3d;
+      transform: translateZ(10px);
+    }
+
+    .message::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255,255,255,0.3),
+        transparent
+      );
+      transform: translateX(-100%);
+    }
+
+    .message.show {
+      opacity: 1;
+      transform: translateZ(10px) scale(1.05);
+    }
+
+    .message.show::before {
+      animation: shine-over 1.5s infinite;
+    }
+
+    @keyframes shine-over {
+      100% { transform: translateX(100%); }
+    }
+
+    .message.success {
+      color: var(--success-color);
+      background-color: rgba(0, 20, 0, 0.8);
+      border: 2px solid var(--success-color);
+      text-shadow: 0 0 10px var(--success-color);
+      box-shadow: 0 0 20px rgba(0, 255, 127, 0.5);
+    }
+
+    .message.error {
+      color: var(--error-color);
+      background-color: rgba(20, 0, 0, 0.8);
+      border: 2px solid var(--error-color);
+      text-shadow: 0 0 10px var(--error-color);
+      box-shadow: 0 0 20px rgba(255, 0, 51, 0.5);
+      animation: error-pulse 0.5s infinite alternate;
+    }
+
+    @keyframes error-pulse {
+      0%, 100% { transform: translateZ(10px) scale(1); }
+      100% { transform: translateZ(10px) scale(1.05); }
+    }
+
+    .keyboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px;
+      background-color: rgba(20, 10, 0, 0.8);
+      border-radius: 15px;
+      box-shadow: 
+        inset 0 0 15px rgba(0, 0, 0, 0.7),
+        0 8px 20px rgba(0, 0, 0, 0.5);
+      border: 3px solid var(--accent-color);
+      transform-style: preserve-3d;
+      transform: translateZ(10px);
+    }
+
+    .keyboard button {
+      width: 35px;
+      height: 35px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      background-color: var(--dark-color);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 5px 10px rgba(0, 0, 0, 0.5),
+        inset 0 0 8px rgba(255, 255, 255, 0.1);
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transform: translateZ(10px);
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .keyboard button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255,255,255,0.3),
+        transparent
+      );
+      transform: translateX(-100%);
+    }
+
+    .keyboard button:hover:not(:disabled)::before {
+      animation: shine-over 1s;
+    }
+
+    .keyboard button:hover:not(:disabled) {
+      background-color: var(--primary-color);
+      transform: translateY(-5px) scale(1.1) translateZ(15px);
+      box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.6),
+        inset 0 0 12px rgba(255, 255, 255, 0.3);
+      z-index: 2;
+    }
+
+    .keyboard button:active:not(:disabled) {
+      transform: translateY(2px) translateZ(10px);
+      box-shadow: 
+        0 3px 8px rgba(0, 0, 0, 0.4),
+        inset 0 0 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .keyboard button:disabled {
+      background-color: #3a3a3a;
+      color: #666;
+      cursor: default;
+      transform: translateZ(5px);
+      box-shadow: 
+        inset 0 0 12px rgba(0, 0, 0, 0.7);
+    }
+
+    .keyboard button.correct {
+      background-color: var(--success-color);
+      color: black;
+      box-shadow: 
+        0 0 15px var(--success-color),
+        inset 0 0 12px rgba(255, 255, 255, 0.5);
+      transform: translateZ(15px);
+    }
+
+    .keyboard button.wrong {
+      background-color: var(--error-color);
+      color: white;
+      box-shadow: 
+        0 0 15px var(--error-color),
+        inset 0 0 12px rgba(255, 255, 255, 0.5);
+      transform: translateZ(5px);
+      animation: shake 0.5s;
+    }
+
+    .restart-btn {
+      margin: 10px auto 0;
+      padding: 10px 20px;
+      font-weight: 700;
+      background: linear-gradient(
+        to right,
+        var(--accent-color),
+        var(--primary-color),
+        var(--accent-color)
+      );
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 8px 20px rgba(255, 69, 0, 0.7),
+        0 0 12px rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      display: none;
+      transform-style: preserve-3d;
+      transform: translateZ(10px);
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+    }
+
+    .restart-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+      );
+      transform: translateX(-100%);
+    }
+
+    .restart-btn:hover::before {
+      animation: shine-over 1s;
+    }
+
+    .restart-btn:hover {
+      transform: translateY(-3px) scale(1.1) translateZ(15px);
+      box-shadow: 
+        0 12px 30px rgba(255, 69, 0, 0.9),
+        0 0 20px rgba(255, 255, 255, 0.9);
+    }
+
+    .restart-btn:active {
+      transform: translateY(1px) translateZ(10px);
+    }
+
+    .btn-icon {
+      font-size: 1.5rem;
+      animation: spin 1.5s infinite linear;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .game-footer {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 3px solid rgba(255, 100, 0, 0.5);
+      gap: 20px;
+    }
+
+    .hint-container {
+      flex: 1;
+      padding: 15px;
+      margin-left: 0;
+      border-radius: 15px;
+      border: 2px solid var(--warning-color);
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.7);
+      transform-style: preserve-3d;
+      transform: translateZ(10px);
+      width: 100%;
+    }
+
+    .hint-label {
+      font-size: 0.7rem;
+      color: var(--warning-color);
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-shadow: 0 0 8px var(--warning-color);
+      text-transform: uppercase;
+    }
+
+    .hint {
+      font-size: 0.6rem;
+      color: var(--light-color);
+      line-height: 1.5;
+    }
+
+    #hintText {
+      color: var(--warning-color);
+      font-weight: 600;
+      text-shadow: 0 0 5px var(--warning-color);
+    }
+
+    /* Hangman parts visibility based on wrong guesses */
+    .hangman-figure .head { display: none; }
+    .hangman-figure .body { display: none; }
+    .hangman-figure .arm.left { display: none; }
+    .hangman-figure .arm.right { display: none; }
+    .hangman-figure .leg.left { display: none; }
+    .hangman-figure .leg.right { display: none; }
+
+    .hangman-figure.show-1 .head { display: block; }
+    .hangman-figure.show-2 .body { display: block; }
+    .hangman-figure.show-3 .arm.left { display: block; }
+    .hangman-figure.show-4 .arm.right { display: block; }
+    .hangman-figure.show-5 .leg.left { display: block; }
+    .hangman-figure.show-6 .leg.right { display: block; }
+
+    /* Death effects */
+    .dead-eyes .eye {
+      background-color: transparent;
+    }
+
+    .dead-eyes .eye.x-eye::before,
+    .dead-eyes .eye.x-eye::after {
+      background-color: var(--dark-color);
+    }
+
+    .bleeding .blood {
+      opacity: 1;
+    }
+
+    .bleeding .blood-pool {
+      height: 20px;
+    }
+
+    /* Animations for hangman parts */
+    .head {
+      transition: transform 0.3s ease;
+    }
+    .hangman-figure:hover .head {
+      animation: headTilt 2s infinite alternate;
+    }
+    @keyframes headTilt {
+      0%, 100% {
+        transform: rotate(0deg) translateZ(20px);
+      }
+      25% {
+        transform: rotate(10deg) translateZ(20px);
+      }
+      75% {
+        transform: rotate(-10deg) translateZ(20px);
+      }
+    }
+
+    /* Animations */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) translateZ(10px); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-10px) translateZ(10px); }
+      20%, 40%, 60%, 80% { transform: translateX(10px) translateZ(10px); }
+    }
+
+    @keyframes dead {
+      0% { transform: rotate(0) translateZ(10px); }
+      100% { transform: rotate(90deg) translateZ(10px); }
+    }
+
+    /* Media queries agrupadas */
+    @media (min-width: 480px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .score-label {
+        font-size: 0.7rem;
+      }
+      
+      .hangman-container {
+        width: 320px;
+        height: 450px;
+      }
+      
+      .pole {
+        width: 25px;
+        height: 400px;
+      }
+      
+      .top-beam {
+        width: 180px;
+        height: 25px;
+        top: 60px;
+      }
+      
+      .rope {
+        width: 8px;
+        height: 60px;
+        left: 175px;
+        top: 60px;
+      }
+      
+      .hangman-figure {
+        top: 120px;
+        left: 205px;
+      }
+      
+      .head {
+        width: 70px;
+        height: 70px;
+        left: -65px;
+      }
+      
+      .body {
+        width: 70px;
+        height: 140px;
+        left: -65px;
+      }
+      
+      .arm {
+        width: 70px;
+        height: 28px;
+      }
+      
+      .leg {
+        width: 28px;
+        height: 100px;
+        top: 190px;
+      }
+      
+      .leg.left {
+        left: -70px;
+      }
+      
+      .leg.right {
+        left: -25px;
+      }
+      
+      .word-display {
+        font-size: 2rem;
+        letter-spacing: 10px;
+        min-height: 80px;
+      }
+      
+      .message {
+        font-size: 1rem;
+        padding: 10px;
+      }
+      
+      .hint {
+        font-size: 0.7rem;
+      }
+      
+      .keyboard button {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        border-radius: 15px;
+      }
+      
+      .restart-btn {
+        padding: 12px 25px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .game-container {
+        padding: 20px;
+        margin: 20px 0;
+      }
+      
+      .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0;
+      }
+      
+      h1 {
+        font-size: 3rem;
+        margin: 20px;
+        text-align: left;
+      }
+      
+      .score-display {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-end;
+        margin-bottom: 0;
+      }
+      
+      .score-box {
+        padding: 6px 20px;
+      }
+      
+      .score-value {
+        font-size: 1.5rem;
+        min-width: 30px;
+      }
+      
+      .score-max {
+        font-size: 1.3rem;
+      }
+      
+      .lives {
+        gap: 15px;
+      }
+      
+      .heart {
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+      }
+      
+      .heart::before,
+      .heart::after {
+        width: 15px;
+        height: 15px;
+      }
+      
+      .heart::before {
+        top: -9.5px;
+      }
+      
+      .heart::after {
+        left: 8.5px;
+      }
+      
+      .game-ui {
+        gap: 10px;
+      }
+      
+      .word-container {
+        padding: 15px;
+        border-radius: 20px;
+      }
+      
+      .word-display {
+        font-size: 2.5rem;
+        letter-spacing: 12px;
+        min-height: 90px;
+      }
+      
+      .word-underline {
+        bottom: 15px;
+        height: 8px;
+      }
+      
+      .message {
+        font-size: 1.2rem;
+        padding: 11px;
+        border-radius: 15px;
+        letter-spacing: 3px;
+      }
+      
+      .message.success {
+        border: 3px solid var(--success-color);
+        box-shadow: 0 0 30px rgba(0, 255, 127, 0.5);
+      }
+      
+      .message.error {
+        border: 3px solid var(--error-color);
+        box-shadow: 0 0 30px rgba(255, 0, 51, 0.5);
+      }
+      
+      .keyboard {
+        gap: 12px;
+        padding: 25px;
+        border-radius: 20px;
+      }
+      
+      .keyboard button {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+      
+      .keyboard button:hover:not(:disabled) {
+        transform: translateY(-8px) scale(1.1) translateZ(15px);
+        box-shadow: 
+          0 15px 25px rgba(0, 0, 0, 0.6),
+          inset 0 0 15px rgba(255, 255, 255, 0.3);
+      }
+      
+      .keyboard button.correct {
+        box-shadow: 
+          0 0 25px var(--success-color),
+          inset 0 0 15px rgba(255, 255, 255, 0.5);
+      }
+      
+      .keyboard button.wrong {
+        box-shadow: 
+          0 0 25px var(--error-color),
+          inset 0 0 15px rgba(255, 255, 255, 0.5);
+      }
+      
+      .restart-btn {
+        padding: 15px 30px;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        box-shadow: 
+          0 10px 25px rgba(255, 69, 0, 0.7),
+          0 0 15px rgba(255, 255, 255, 0.7);
+      }
+      
+      .restart-btn:hover {
+        transform: translateY(-5px) scale(1.1) translateZ(15px);
+        box-shadow: 
+          0 15px 35px rgba(255, 69, 0, 0.9),
+          0 0 25px rgba(255, 255, 255, 0.9);
+      }
+      
+      .game-footer {
+        flex-direction: row;
+        margin-top: 30px;
+        padding-top: 25px;
+        gap: 0;
+      }
+      
+      .hint-container {
+        padding: 20px;
+        margin-left: 15px;
+        border: 3px solid var(--warning-color);
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
+      }
+      
+      .hint-label {
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+        text-shadow: 0 0 10px var(--warning-color);
+      }
+      
+      .hint {
+        font-size: 0.7rem;
+        line-height: 1.6;
+      }
+      
+      .btn-icon {
+        font-size: 2rem;
+      }
+    }
+
+    @media (min-width: 1000px) {
+      .game-area {
+        flex-direction: row;
+        gap: 40px;
+      }
+      
+      .hangman-container {
+        width: 320px;
+        height: 540px;
+        margin-bottom: 0;
+      }
+      
+      .pole {
+        height: 430px;
+      }
+      
+      .top-beam {
+        width: 200px;
+        top: 70px;
+      }
+      
+      .rope {
+        left: 195px;
+        top: 70px;
+      }
+      
+      .hangman-figure {
+        top: 130px;
+        left: 235px;
+      }
+      
+      .head {
+        width: 80px;
+        height: 80px;
+        left: -75px;
+        border: 5px solid #2a1a0f;
+      }
+      
+      .body {
+        width: 80px;
+        height: 150px;
+        left: -75px;
+        border: 5px solid #2a1a0f;
+        border-radius: 30px 30px 20px 20px;
+      }
+      
+      .arm {
+        width: 80px;
+        height: 30px;
+        border: 5px solid #2a1a0f;
+        border-radius: 20px;
+      }
+      
+      .arm.left {
+        left: -145px;
+      }
+      
+      .sleeve {
+        width: 35px;
+        border-radius: 15px;
+      }
+      
+      .arm.left .sleeve {
+        border-radius: 0 15px 15px 0;
+      }
+      
+      .arm.right .sleeve {
+        border-radius: 15px 0 0 15px;
+      }
+      
+      .arm-drip {
+        top: 30px;
+      }
+      
+      .leg {
+        width: 33px;
+        height: 120px;
+        top: 222px;
+        border: 5px solid #2a1a0f;
+        border-radius: 0 0 20px 20px;
+      }
+      
+      .leg.left {
+        left: -78px;
+      }
+      
+      .leg-drip {
+        top: 120px;
+      }
+      
+      .pants-pattern {
+        background-size: 15px 15px;
+      }
+      
+      .word-display {
+        font-size: 2.5rem;
+        letter-spacing: 14px;
+      }
+      
+      .blood-pool {
+        width: 120px;
+        bottom: -30px;
+      }
+      
+      .bleeding .blood-pool {
+        height: 30px;
+      }
+      
+      .keyboard {
+        gap: 15px;
+        padding: 30px;
+      }
+      
+      .keyboard button {
+        width: 55px;
+        height: 55px;
+        font-size: 1rem;
+        border-radius: 20px;
+      }
+      
+      .game-footer {
+        margin-top: 40px;
+      }
+      
+      .eye {
+        width: 18px;
+        height: 18px;
+        top: 20px;
+      }
+      
+      .eye.left {
+        left: 15px;
+      }
+      
+      .eye.right {
+        right: 15px;
+      }
+      
+      .eye.x-eye::before, .eye.x-eye::after {
+        width: 25px;
+        height: 5px;
+      }
+      
+      .mouth {
+        width: 50px;
+        height: 20px;
+        border-bottom: 5px solid var(--dark-color);
+        bottom: 20px;
+      }
+      
+      .mouth.dead {
+        border-top: 5px solid var(--dark-color);
+        height: 15px;
+      }
+      
+      .shirt-pattern {
+        background-size: 25px 25px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .keyboard button {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+        border-radius: 10px;
+      }
+      
+      .word-display {
+        font-size: 1.2rem;
+        letter-spacing: 5px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .message {
+        font-size: 0.7rem;
+      }
+      
+      .hint {
+        font-size: 0.6rem;
+      }
+      
+      .hangman-container {
+        width: 240px;
+        height: 350px;
+      }
+      
+      .pole {
+        height: 280px;
+      }
+      
+      .top-beam {
+        width: 130px;
+      }
+      
+      .rope {
+        left: 125px;
+      }
+      
+      .hangman-figure {
+        left: 155px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .fire-background,
+      .fire-canvas,
+      .pixel-fire-overlay {
+        display: none !important;
+      }
+      
+      .word-display {
+        font-size: 1.8rem !important;
+        letter-spacing: 6px !important;
+        min-height: 60px !important;
+        padding: 5px 10px !important;
+      }
+      
+      .word-underline {
+        height: 4px !important;
+        bottom: 5px !important;
+      }
+    }
+
+    @supports (-webkit-touch-callout: none) {
+      /* CSS específico para Safari no iOS */
+      .word-display {
+        font-size: 2rem;
+        letter-spacing: 5px;
+        text-shadow: 
+          0 0 5px white,
+          0 0 10px var(--primary-color);
+        display: flex;
+        flex-wrap: wrap;
+        white-space: normal;
+        -webkit-text-fill-color: white;
+      }
+      
+      .word-container {
+        overflow-x: auto;
+        white-space: normal;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .game-container {
+        transform: none !important;
+      }
+      
+      .keyboard button {
+        -webkit-tap-highlight-color: transparent;
+      }
+    }
   </style>
 
   <div class="fire-background">
@@ -1842,896 +1805,774 @@ h1 {
     </div>
   </div>
 
-  
   <script>
-     let selectedWord = "";
-  let displayedWord = [];
-  let wrongGuesses = 0;
-  const maxGuesses = 6;
-  let soundEnabled = true;
-  let animationFrameId;
+    let selectedWord = "";
+    let displayedWord = [];
+    let wrongGuesses = 0;
+    const maxGuesses = 6;
+    let soundEnabled = true;
+    let animationFrameId;
 
-  const wordDisplay = document.getElementById("wordDisplay");
-  const keyboard = document.getElementById("keyboard");
-  const wrongDisplay = document.getElementById("wrongGuesses");
-  const message = document.getElementById("message");
-  const restartBtn = document.getElementById("restartBtn");
-  const hangmanFigure = document.querySelector(".hangman-figure");
-  const hintText = document.getElementById("hintText");
-  const soundBtn = document.getElementById("soundBtn");
-  const hearts = document.querySelectorAll(".heart");
-  const particlesContainer = document.querySelector(".particles");
-  const fireCanvas = document.getElementById("fireCanvas");
-  const fireBackground = document.querySelector(".fire-background");
+    const wordDisplay = document.getElementById("wordDisplay");
+    const keyboard = document.getElementById("keyboard");
+    const wrongDisplay = document.getElementById("wrongGuesses");
+    const message = document.getElementById("message");
+    const restartBtn = document.getElementById("restartBtn");
+    const hangmanFigure = document.querySelector(".hangman-figure");
+    const hintText = document.getElementById("hintText");
+    const particlesContainer = document.querySelector(".particles");
+    const fireCanvas = document.getElementById("fireCanvas");
+    const fireBackground = document.querySelector(".fire-background");
 
-  // Sound effects
-const sounds = {
-  correct: new Audio('./correct-156911.mp3'),
-  wrong: new Audio('./error-002-337159.mp3'),
-  win: new Audio('./you-win-sequence-3-183950.mp3'),
-  lose: new Audio('./Beyoncé - Haunted extended ending (slowed) [LAD6yWu-nNQ].mp3'),
-  click: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3'),
-  fire: new Audio('./fire-sound-334130.mp3')
-};
+    // Sound effects
+    const sounds = {
+      correct: new Audio('./correct-156911.mp3'),
+      wrong: new Audio('./error-002-337159.mp3'),
+      win: new Audio('./you-win-sequence-3-183950.mp3'),
+      lose: new Audio('./Beyoncé - Haunted extended ending (slowed) [LAD6yWu-nNQ].mp3'),
+      click: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3'),
+      fire: new Audio('./fire-sound-334130.mp3')
+    };
 
-const wordList = [
-  // Palavras originais revisadas (50)
-  { word: "abissal", description: "Relativo a grandes profundidades, especialmente oceânicas" },
-  { word: "acalanto", description: "Canção para embalar bebês; ato de acalentar" },
-  { word: "altivez", description: "Qualidade de quem é altivo, orgulhoso de maneira nobre" },
-  { word: "alusivo", description: "Que faz alusão, que se refere indiretamente a algo" },
-  { word: "apogeu", description: "Ponto mais alto de desenvolvimento ou sucesso" },
-  { word: "ardiloso", description: "Astuto, esperto, que age com dissimulação" },
-  { word: "ascensão", description: "Ato de subir ou elevar-se; progresso importante" },
-  { word: "assombro", description: "Espanto, admiração extrema; pode significar também fantasma" },
-  { word: "astúcia", description: "Habilidade para resolver situações com inteligência prática" },
-  { word: "baluarte", description: "Estrutura defensiva; figuradamente, proteção sólida" },
-  { word: "boêmio", description: "Que leva vida despreocupada, especialmente artística" },
-  { word: "bucólico", description: "Relativo à vida campestre idealizada, pastoral" },
-  { word: "candente", description: "Brilhante, ardente; assunto muito atual e importante" },
-  { word: "cauterizar", description: "Queimar tecido para fins médicos; figuradamente, marcar profundamente" },
-  { word: "celeuma", description: "Barulho, confusão; debate acalorado" },
-  { word: "cinzel", description: "Ferramenta para esculpir; figuradamente, trabalhar com precisão" },
-  { word: "colosso", description: "Estátua gigantesca; pessoa ou coisa de grande importância" },
-  { word: "contundente", description: "Que produz forte impacto, seja físico ou argumentativo" },
-  { word: "convés", description: "Piso superior de navio; palco de grandes eventos náuticos" },
-  { word: "corolário", description: "Conclusão lógica que decorre naturalmente de algo" },
-  { word: "decrépito", description: "Muito velho e enfraquecido; em avançado estado de deterioração" },
-  { word: "desígnio", description: "Plano ou propósito secreto; intenção oculta" },
-  { word: "destemido", description: "Que não tem medo, corajoso, intrépido" },
-  { word: "devaneio", description: "Pensamento distraído; sonho acordado" },
-  { word: "efêmero", description: "De curta duração, passageiro" },
-  { word: "emaranhado", description: "Em estado confuso; situação complexa e difícil" },
-  { word: "epítome", description: "Representação perfeita ou resumo essencial de algo" },
-  { word: "equívoco", description: "Maldade, erro de interpretação; situação ambígua" },
-  { word: "escárnio", description: "Zombaria ofensiva, deboche maldoso" },
-  { word: "esdrúxulo", description: "Estranho, excêntrico, fora do comum" },
-  { word: "estigma", description: "Marca de vergonha; cicatriz física ou emocional" },
-  { word: "estupefato", description: "Atordoado, extremamente surpreso" },
-  { word: "exortação", description: "Discurso para encorajar ou advertir veementemente" },
-  { word: "exuberante", description: "Cheio de vida, energia e abundância" },
-  { word: "fidedigno", description: "Confiável, digno de fé, verídico" },
-  { word: "flibusteiro", description: "Pirata do Caribe; pessoa aventureira e audaciosa" },
-  { word: "fulgurante", description: "Que brilha intensamente; rápido e impressionante" },
-  { word: "grandiloquente", description: "Que fala de modo pomposo ou exagerado" },
-  { word: "hégira", description: "Fuga de Maomé marcando o início do calendário islâmico" },
-  { word: "hermético", description: "Completamente fechado; difícil de entender" },
-  { word: "idílico", description: "Perfeitamente sereno e pacífico, como um idílio" },
-  { word: "impávido", description: "Que não demonstra medo, corajoso" },
-  { word: "inexorável", description: "Implacável, que não cede a pedidos" },
-  { word: "insólito", description: "Incomum, estranho, fora do ordinário" },
-  { word: "intrépido", description: "Audacioso, corajoso, destemido" },
-  { word: "jubiloso", description: "Cheio de júbilo, extremamente alegre" },
-  { word: "lúdico", description: "Relativo ao jogo; atividade prazerosa e recreativa" },
-  { word: "magnânimo", description: "Generoso, que perdoa ofensas com nobreza" },
-  { word: "mellifluo", description: "Doce como mel; voz ou música suave e agradável" },
+    const wordList = [
+      // Palavras originais revisadas (50)
+      { word: "abissal", description: "Relativo a grandes profundidades, especialmente oceânicas" },
+      { word: "acalanto", description: "Canção para embalar bebês; ato de acalentar" },
+      { word: "altivez", description: "Qualidade de quem é altivo, orgulhoso de maneira nobre" },
+      { word: "alusivo", description: "Que faz alusão, que se refere indiretamente a algo" },
+      { word: "apogeu", description: "Ponto mais alto de desenvolvimento ou sucesso" },
+      { word: "ardiloso", description: "Astuto, esperto, que age com dissimulação" },
+      { word: "ascensão", description: "Ato de subir ou elevar-se; progresso importante" },
+      { word: "assombro", description: "Espanto, admiração extrema; pode significar também fantasma" },
+      { word: "astúcia", description: "Habilidade para resolver situações com inteligência prática" },
+      { word: "baluarte", description: "Estrutura defensiva; figuradamente, proteção sólida" },
+      { word: "boêmio", description: "Que leva vida despreocupada, especialmente artística" },
+      { word: "bucólico", description: "Relativo à vida campestre idealizada, pastoral" },
+      { word: "candente", description: "Brilhante, ardente; assunto muito atual e importante" },
+      { word: "cauterizar", description: "Queimar tecido para fins médicos; figuradamente, marcar profundamente" },
+      { word: "celeuma", description: "Barulho, confusão; debate acalorado" },
+      { word: "cinzel", description: "Ferramenta para esculpir; figuradamente, trabalhar com precisão" },
+      { word: "colosso", description: "Estátua gigantesca; pessoa ou coisa de grande importância" },
+      { word: "contundente", description: "Que produz forte impacto, seja físico ou argumentativo" },
+      { word: "convés", description: "Piso superior de navio; palco de grandes eventos náuticos" },
+      { word: "corolário", description: "Conclusão lógica que decorre naturalmente de algo" },
+      { word: "decrépito", description: "Muito velho e enfraquecido; em avançado estado de deterioração" },
+      { word: "desígnio", description: "Plano ou propósito secreto; intenção oculta" },
+      { word: "destemido", description: "Que não tem medo, corajoso, intrépido" },
+      { word: "devaneio", description: "Pensamento distraído; sonho acordado" },
+      { word: "efêmero", description: "De curta duração, passageiro" },
+      { word: "emaranhado", description: "Em estado confuso; situação complexa e difícil" },
+      { word: "epítome", description: "Representação perfeita ou resumo essencial de algo" },
+      { word: "equívoco", description: "Maldade, erro de interpretação; situação ambígua" },
+      { word: "escárnio", description: "Zombaria ofensiva, deboche maldoso" },
+      { word: "esdrúxulo", description: "Estranho, excêntrico, fora do comum" },
+      { word: "estigma", description: "Marca de vergonha; cicatriz física ou emocional" },
+      { word: "estupefato", description: "Atordoado, extremamente surpreso" },
+      { word: "exortação", description: "Discurso para encorajar ou advertir veementemente" },
+      { word: "exuberante", description: "Cheio de vida, energia e abundância" },
+      { word: "fidedigno", description: "Confiável, digno de fé, verídico" },
+      { word: "flibusteiro", description: "Pirata do Caribe; pessoa aventureira e audaciosa" },
+      { word: "fulgurante", description: "Que brilha intensamente; rápido e impressionante" },
+      { word: "grandiloquente", description: "Que fala de modo pomposo ou exagerado" },
+      { word: "hégira", description: "Fuga de Maomé marcando o início do calendário islâmico" },
+      { word: "hermético", description: "Completamente fechado; difícil de entender" },
+      { word: "idílico", description: "Perfeitamente sereno e pacífico, como um idílio" },
+      { word: "impávido", description: "Que não demonstra medo, corajoso" },
+      { word: "inexorável", description: "Implacável, que não cede a pedidos" },
+      { word: "insólito", description: "Incomum, estranho, fora do ordinário" },
+      { word: "intrépido", description: "Audacioso, corajoso, destemido" },
+      { word: "jubiloso", description: "Cheio de júbilo, extremamente alegre" },
+      { word: "lúdico", description: "Relativo ao jogo; atividade prazerosa e recreativa" },
+      { word: "magnânimo", description: "Generoso, que perdoa ofensas com nobreza" },
+      { word: "mellifluo", description: "Doce como mel; voz ou música suave e agradável" },
 
-  // Países (30)
-  { word: "brasil", description: "Maior país da América do Sul, conhecido pelo Carnaval e futebol" },
-  { word: "canadá", description: "País norte-americano com vastas florestas e invernos rigorosos" },
-  { word: "japão", description: "Nação insular asiática conhecida por tecnologia e tradições milenares" },
-  { word: "itália", description: "País europeu com formato de bota, berço do Império Romano" },
-  { word: "méxico", description: "País da América do Norte com rica herança asteca e maia" },
-  { word: "argentina", description: "País sul-americano famoso pelo tango e excelente carne" },
-  { word: "alemanha", description: "País europeu líder em indústria e conhecido pela Oktoberfest" },
-  { word: "austrália", description: "Continente-ilha no hemisfério sul com fauna única como cangurus" },
-  { word: "egito", description: "País africano com pirâmides e história faraônica milenar" },
-  { word: "índia", description: "País asiático populoso com diversidade cultural e espiritual" },
-  { word: "rússia", description: "Maior país do mundo em extensão territorial" },
-  { word: "frança", description: "País europeu famoso pela Torre Eiffel e gastronomia refinada" },
-  { word: "espanha", description: "País ibérico conhecido pelo flamenco e arquitetura de Gaudí" },
-  { word: "china", description: "País mais populoso do mundo com grande crescimento econômico" },
-  { word: "holanda", description: "País europeu baixo conhecido por moinhos de vento e tulipas" },
-  { word: "suiça", description: "País alpino europeu famoso por relógios e chocolates" },
-  { word: "suecia", description: "País nórdico conhecido pelo Prêmio Nobel e design moderno" },
-  { word: "noruega", description: "País escandinavo com fiordes espetaculares e altíssimo IDH" },
-  { word: "grecia", description: "Berço da democracia e filosofia ocidental na Antiguidade" },
-  { word: "turquia", description: "País euroasiático com rica história otomana e bizantina" },
-  { word: "portugal", description: "País ibérico que colonizou o Brasil no século XVI" },
-  { word: "cuba", description: "Maior ilha do Caribe, conhecida por charutos e revolução" },
-  { word: "colombia", description: "País sul-americano com café de qualidade e cultura vibrante" },
-  { word: "peru", description: "País andino com sítio arqueológico de Machu Picchu" },
-  { word: "venezuela", description: "País sul-americano com as maiores reservas de petróleo" },
-  { word: "chile", description: "País longo e estreito entre Andes e Pacífico na América do Sul" },
-  { word: "bolivia", description: "País andino sem litoral com grande população indígena" },
-  { word: "paraguai", description: "País sul-americano conhecido por Ciudad del Este e futebol" },
-  { word: "uruguai", description: "Pequeno país sul-americano com altos índices de desenvolvimento" },
-  { word: "equador", description: "País cortado pela linha do Equador com biodiversidade única" },
+      // Países (30)
+      { word: "brasil", description: "Maior país da América do Sul, conhecido pelo Carnaval e futebol" },
+      { word: "canadá", description: "País norte-americano com vastas florestas e invernos rigorosos" },
+      { word: "japão", description: "Nação insular asiática conhecida por tecnologia e tradições milenares" },
+      { word: "itália", description: "País europeu com formato de bota, berço do Império Romano" },
+      { word: "méxico", description: "País da América do Norte com rica herança asteca e maia" },
+      { word: "argentina", description: "País sul-americano famoso pelo tango e excelente carne" },
+      { word: "alemanha", description: "País europeu líder em indústria e conhecido pela Oktoberfest" },
+      { word: "austrália", description: "Continente-ilha no hemisfério sul com fauna única como cangurus" },
+      { word: "egito", description: "País africano com pirâmides e história faraônica milenar" },
+      { word: "índia", description: "País asiático populoso com diversidade cultural e espiritual" },
+      { word: "rússia", description: "Maior país do mundo em extensão territorial" },
+      { word: "frança", description: "País europeu famoso pela Torre Eiffel e gastronomia refinada" },
+      { word: "espanha", description: "País ibérico conhecido pelo flamenco e arquitetura de Gaudí" },
+      { word: "china", description: "País mais populoso do mundo com grande crescimento econômico" },
+      { word: "holanda", description: "País europeu baixo conhecido por moinhos de vento e tulipas" },
+      { word: "suiça", description: "País alpino europeu famoso por relógios e chocolates" },
+      { word: "suecia", description: "País nórdico conhecido pelo Prêmio Nobel e design moderno" },
+      { word: "noruega", description: "País escandinavo com fiordes espetaculares e altíssimo IDH" },
+      { word: "grecia", description: "Berço da democracia e filosofia ocidental na Antiguidade" },
+      { word: "turquia", description: "País euroasiático com rica história otomana e bizantina" },
+      { word: "portugal", description: "País ibérico que colonizou o Brasil no século XVI" },
+      { word: "cuba", description: "Maior ilha do Caribe, conhecida por charutos e revolução" },
+      { word: "colombia", description: "País sul-americano com café de qualidade e cultura vibrante" },
+      { word: "peru", description: "País andino com sítio arqueológico de Machu Picchu" },
+      { word: "venezuela", description: "País sul-americano com as maiores reservas de petróleo" },
+      { word: "chile", description: "País longo e estreito entre Andes e Pacífico na América do Sul" },
+      { word: "bolivia", description: "País andino sem litoral com grande população indígena" },
+      { word: "paraguai", description: "País sul-americano conhecido por Ciudad del Este e futebol" },
+      { word: "uruguai", description: "Pequeno país sul-americano com altos índices de desenvolvimento" },
+      { word: "equador", description: "País cortado pela linha do Equador com biodiversidade única" },
 
-  // Pessoas famosas (30)
-  { word: "einstein", description: "Físico alemão criador da teoria da relatividade" },
-  { word: "darwin", description: "Naturalista inglês que formulou a teoria da evolução" },
-  { word: "mozart", description: "Compositor austríaco prodígio do período clássico" },
-  { word: "beethoven", description: "Gênio musical alemão que compôs mesmo surdo" },
-  { word: "picasso", description: "Artista espanhol pioneiro do cubismo na pintura" },
-  { word: "vangogh", description: "Pintor holandês pós-impressionista de 'Noite Estrelada'" },
-  { word: "shakespeare", description: "Maior dramaturgo inglês, autor de 'Hamlet' e 'Romeu e Julieta'" },
-  { word: "pelé", description: "Considerado por muitos o maior jogador de futebol de todos os tempos" },
-  { word: "marilyn", description: "Ícone hollywoodiano dos anos 50, símbolo sexual eterno" },
-  { word: "madonna", description: "Rainha do pop que revolucionou a música nos anos 80 e 90" },
-  { word: "elvis", description: "Rei do rock, ícone cultural dos anos 50 e 60" },
-  { word: "freddie", description: "Vocalista lendário da banda Queen, autor de 'Bohemian Rhapsody'" },
-  { word: "jobs", description: "Visionário co-fundador da Apple e pioneiro da computação pessoal" },
-  { word: "gandhi", description: "Líder pacifista que libertou a Índia do colonialismo britânico" },
-  { word: "lutherking", description: "Líder dos direitos civis nos EUA com discurso 'I Have a Dream'" },
-  { word: "mandela", description: "Símbolo global de luta contra o apartheid na África do Sul" },
-  { word: "disney", description: "Pioneiro da animação e criador do império do entretenimento" },
-  { word: "tolkien", description: "Escritor britânico criador do universo de 'O Senhor dos Anéis'" },
-  { word: "rowling", description: "Autora da série Harry Potter que revolucionou a literatura juvenil" },
-  { word: "nietzsche", description: "Filósofo alemão que declarou 'Deus está morto'" },
-  { word: "mariecurie", description: "Cientista pioneira no estudo da radioatividade, Nobel em Física e Química" },
-  { word: "tesla", description: "Inventor visionário de sistemas elétricos de corrente alternada" },
-  { word: "edison", description: "Inventor prolífico com mais de 1.000 patentes, incluindo a lâmpada" },
-  { word: "dawnero", description: "Gênio renascentista italiano autor da Mona Lisa e inventor visionário" },
-  { word: "freud", description: "Pai da psicanálise que revolucionou o estudo da mente humana" },
-  { word: "chaplin", description: "Cineasta britânico criador do personagem Carlitos no cinema mudo" },
-  { word: "kubrick", description: "Diretor de cinema perfeccionista de '2001' e 'Laranja Mecânica'" },
-  { word: "bowie", description: "Artista musical camaleônico que reinventou seu estilo diversas vezes" },
+      // Pessoas famosas (30)
+      { word: "einstein", description: "Físico alemão criador da teoria da relatividade" },
+      { word: "darwin", description: "Naturalista inglês que formulou a teoria da evolução" },
+      { word: "mozart", description: "Compositor austríaco prodígio do período clássico" },
+      { word: "beethoven", description: "Gênio musical alemão que compôs mesmo surdo" },
+      { word: "picasso", description: "Artista espanhol pioneiro do cubismo na pintura" },
+      { word: "vangogh", description: "Pintor holandês pós-impressionista de 'Noite Estrelada'" },
+      { word: "shakespeare", description: "Maior dramaturgo inglês, autor de 'Hamlet' e 'Romeu e Julieta'" },
+      { word: "pelé", description: "Considerado por muitos o maior jogador de futebol de todos os tempos" },
+      { word: "marilyn", description: "Ícone hollywoodiano dos anos 50, símbolo sexual eterno" },
+      { word: "madonna", description: "Rainha do pop que revolucionou a música nos anos 80 e 90" },
+      { word: "elvis", description: "Rei do rock, ícone cultural dos anos 50 e 60" },
+      { word: "freddie", description: "Vocalista lendário da banda Queen, autor de 'Bohemian Rhapsody'" },
+      { word: "jobs", description: "Visionário co-fundador da Apple e pioneiro da computação pessoal" },
+      { word: "gandhi", description: "Líder pacifista que libertou a Índia do colonialismo britânico" },
+      { word: "lutherking", description: "Líder dos direitos civis nos EUA com discurso 'I Have a Dream'" },
+      { word: "mandela", description: "Símbolo global de luta contra o apartheid na África do Sul" },
+      { word: "disney", description: "Pioneiro da animação e criador do império do entretenimento" },
+      { word: "tolkien", description: "Escritor britânico criador do universo de 'O Senhor dos Anéis'" },
+      { word: "rowling", description: "Autora da série Harry Potter que revolucionou a literatura juvenil" },
+      { word: "nietzsche", description: "Filósofo alemão que declarou 'Deus está morto'" },
+      { word: "mariecurie", description: "Cientista pioneira no estudo da radioatividade, Nobel em Física e Química" },
+      { word: "tesla", description: "Inventor visionário de sistemas elétricos de corrente alternada" },
+      { word: "edison", description: "Inventor prolífico com mais de 1.000 patentes, incluindo a lâmpada" },
+      { word: "dawnero", description: "Gênio renascentista italiano autor da Mona Lisa e inventor visionário" },
+      { word: "freud", description: "Pai da psicanálise que revolucionou o estudo da mente humana" },
+      { word: "chaplin", description: "Cineasta britânico criador do personagem Carlitos no cinema mudo" },
+      { word: "kubrick", description: "Diretor de cinema perfeccionista de '2001' e 'Laranja Mecânica'" },
+      { word: "bowie", description: "Artista musical camaleônico que reinventou seu estilo diversas vezes" },
 
-  // Lugares famosos (30)
-  { word: "paris", description: "Cidade Luz, capital da França com Torre Eiffel e Louvre" },
-  { word: "roma", description: "Cidade Eterna, capital da Itália com Coliseu e Fontana di Trevi" },
-  { word: "novaiorque", description: "Maior cidade dos EUA com Estátua da Liberdade e Times Square" },
-  { word: "londres", description: "Capital do Reino Unido com Big Ben e Palácio de Buckingham" },
-  { word: "toquio", description: "Capital do Japão, metrópole futurista com tradições antigas" },
-  { word: "sidney", description: "Maior cidade da Austrália com icônico Opera House" },
-  { word: "machupicchu", description: "Cidade perdida dos Incas nos Andes peruanos" },
-  { word: "grandecanion", description: "Desfiladeiro imenso esculpido pelo Rio Colorado nos EUA" },
-  { word: "piramides", description: "Estruturas monumentais do Antigo Egito como tumbas faraônicas" },
-  { word: "petra", description: "Cidade rosa esculpida em rocha na Jordânia, patrimônio mundial" },
-  { word: "murdochina", description: "Grande muralha construída para proteger a China antiga" },
-  { word: "alpes", description: "Cadeia montanhosa europeia com picos cobertos de neve" },
-  { word: "amazonia", description: "Maior floresta tropical do mundo, pulmão do planeta" },
-  { word: "sahara", description: "Maior deserto quente do mundo cobrindo o norte da África" },
-  { word: "niagara", description: "Famosas cataratas entre EUA e Canadá" },
-  { word: "everest", description: "Pico mais alto do mundo na cordilheira do Himalaia" },
-  { word: "disney", description: "Parques temáticos famosos criados por Walt Disney" },
-  { word: "hollywood", description: "Distrito de Los Angeles sede da indústria cinematográfica americana" },
-  { word: "vegas", description: "Cidade do jogo e entretenimento no deserto de Nevada" },
-  { word: "dubai", description: "Cidade dos Emirados Árabes com arranha-céus futuristas" },
-  { word: "venezia", description: "Cidade italiana construída sobre canais, famosa pelos passeios de gôndola" },
-  { word: "barcelona", description: "Cidade espanhola com arquitetura modernista de Gaudí" },
-  { word: "kyoto", description: "Antiga capital do Japão com templos tradicionais e jardins zen" },
-  { word: "angkor", description: "Complexo de templos no Camboja, maior monumento religioso do mundo" },
-  { word: "maldivas", description: "Paraíso tropical no Oceano Índico com águas cristalinas" },
-  { word: "fiordes", description: "Enseadas marinhas alongadas entre montanhas, típicas da Noruega" },
-  { word: "capadocia", description: "Região da Turquia com formações rochosas únicas e cidades subterrâneas" },
-  { word: "santorini", description: "Ilha grega com arquitetura branca e azul sobre falésias" },
-  { word: "ilhapascoa", description: "Ilha chilena famosa por suas misteriosas estátuas moai" },
+      // Lugares famosos (30)
+      { word: "paris", description: "Cidade Luz, capital da França com Torre Eiffel e Louvre" },
+      { word: "roma", description: "Cidade Eterna, capital da Itália com Coliseu e Fontana di Trevi" },
+      { word: "novaiorque", description: "Maior cidade dos EUA com Estátua da Liberdade e Times Square" },
+      { word: "londres", description: "Capital do Reino Unido com Big Ben e Palácio de Buckingham" },
+      { word: "toquio", description: "Capital do Japão, metrópole futurista com tradições antigas" },
+      { word: "sidney", description: "Maior cidade da Austrália com icônico Opera House" },
+      { word: "machupicchu", description: "Cidade perdida dos Incas nos Andes peruanos" },
+      { word: "grandecanion", description: "Desfiladeiro imenso esculpido pelo Rio Colorado nos EUA" },
+      { word: "piramides", description: "Estruturas monumentais do Antigo Egito como tumbas faraônicas" },
+      { word: "petra", description: "Cidade rosa esculpida em rocha na Jordânia, patrimônio mundial" },
+      { word: "murdochina", description: "Grande muralha construída para proteger a China antiga" },
+      { word: "alpes", description: "Cadeia montanhosa europeia com picos cobertos de neve" },
+      { word: "amazonia", description: "Maior floresta tropical do mundo, pulmão do planeta" },
+      { word: "sahara", description: "Maior deserto quente do mundo cobrindo o norte da África" },
+      { word: "niagara", description: "Famosas cataratas entre EUA e Canadá" },
+      { word: "everest", description: "Pico mais alto do mundo na cordilheira do Himalaia" },
+      { word: "disney", description: "Parques temáticos famosos criados por Walt Disney" },
+      { word: "hollywood", description: "Distrito de Los Angeles sede da indústria cinematográfica americana" },
+      { word: "vegas", description: "Cidade do jogo e entretenimento no deserto de Nevada" },
+      { word: "dubai", description: "Cidade dos Emirados Árabes com arranha-céus futuristas" },
+      { word: "venezia", description: "Cidade italiana construída sobre canais, famosa pelos passeios de gôndola" },
+      { word: "barcelona", description: "Cidade espanhola com arquitetura modernista de Gaudí" },
+      { word: "kyoto", description: "Antiga capital do Japão com templos tradicionais e jardins zen" },
+      { word: "angkor", description: "Complexo de templos no Camboja, maior monumento religioso do mundo" },
+      { word: "maldivas", description: "Paraíso tropical no Oceano Índico com águas cristalinas" },
+      { word: "fiordes", description: "Enseadas marinhas alongadas entre montanhas, típicas da Noruega" },
+      { word: "capadocia", description: "Região da Turquia com formações rochosas únicas e cidades subterrâneas" },
+      { word: "santorini", description: "Ilha grega com arquitetura branca e azul sobre falésias" },
+      { word: "ilhapascoa", description: "Ilha chilena famosa por suas misteriosas estátuas moai" },
 
-  // Traços de personalidade (30)
-  { word: "carismático", description: "Que atrai e cativa as pessoas naturalmente" },
-  { word: "perspicaz", description: "Que percebe e compreende coisas rapidamente" },
-  { word: "resiliente", description: "Capaz de se recuperar de adversidades" },
-  { word: "empático", description: "Que se coloca no lugar do outro, compreendendo sentimentos alheios" },
-  { word: "altruísta", description: "Que pratica o altruísmo, colocando os outros antes de si" },
-  { word: "metódico", description: "Que age com método, de forma organizada e sistemática" },
-  { word: "criativo", description: "Que tem capacidade de criar, inventar, inovar" },
-  { word: "extrovertido", description: "Sociável, que se volta mais para o exterior que para si mesmo" },
-  { word: "magnânimo", description: "Generoso, que perdoa ofensas com nobreza de espírito" },
-  { word: "perseverante", description: "Que persiste em seus objetivos apesar das dificuldades" },
-  { word: "sincero", description: "Que fala e age com verdade, sem fingimento" },
-  { word: "ousado", description: "Que tem coragem para enfrentar riscos e desafios" },
-  { word: "prudente", description: "Cauteloso, que age com moderação e precaução" },
-  { word: "sábio", description: "Que tem sabedoria, conhecimento profundo e bom julgamento" },
-  { word: "humilde", description: "Que não tem orgulho excessivo, reconhece suas limitações" },
-  { word: "ambicioso", description: "Que tem forte desejo de alcançar objetivos elevados" },
-  { word: "idealista", description: "Que segue ideais, muitas vezes com certo desprezo pelo prático" },
-  { word: "cético", description: "Que duvida sistematicamente, exigindo provas para crer" },
-  { word: "otimista", description: "Que tende a ver o lado positivo das coisas" },
-  { word: "pessimista", description: "Que tende a ver o lado negativo das coisas" },
-  { word: "paciente", description: "Que sabe esperar e suportar adversidades sem irritação" },
-  { word: "impaciente", description: "Que não tolera demoras ou obstáculos" },
-  { word: "sensível", description: "Que sente com facilidade, emociona-se facilmente" },
-  { word: "racional", description: "Que age baseado na razão mais que nas emoções" },
-  { word: "espontâneo", description: "Que age naturalmente, sem planejamento ou artificialidade" },
-  { word: "calculista", description: "Que planeja cuidadosamente suas ações, muitas vezes de forma fria" },
-  { word: "temperamental", description: "De humor variável, que muda de atitude facilmente" },
-  { word: "sedutor", description: "Que atrai e encanta, especialmente no campo amoroso" },
-  { word: "disciplinado", description: "Que segue regras e métodos com rigor e ordem" },
+      // Traços de personalidade (30)
+      { word: "carismático", description: "Que atrai e cativa as pessoas naturalmente" },
+      { word: "perspicaz", description: "Que percebe e compreende coisas rapidamente" },
+      { word: "resiliente", description: "Capaz de se recuperar de adversidades" },
+      { word: "empático", description: "Que se coloca no lugar do outro, compreendendo sentimentos alheios" },
+      { word: "altruísta", description: "Que pratica o altruísmo, colocando os outros antes de si" },
+      { word: "metódico", description: "Que age com método, de forma organizada e sistemática" },
+      { word: "criativo", description: "Que tem capacidade de criar, inventar, inovar" },
+      { word: "extrovertido", description: "Sociável, que se volta mais para o exterior que para si mesmo" },
+      { word: "magnânimo", description: "Generoso, que perdoa ofensas com nobreza de espírito" },
+      { word: "perseverante", description: "Que persiste em seus objetivos apesar das dificuldades" },
+      { word: "sincero", description: "Que fala e age com verdade, sem fingimento" },
+      { word: "ousado", description: "Que tem coragem para enfrentar riscos e desafios" },
+      { word: "prudente", description: "Cauteloso, que age com moderação e precaução" },
+      { word: "sábio", description: "Que tem sabedoria, conhecimento profundo e bom julgamento" },
+      { word: "humilde", description: "Que não tem orgulho excessivo, reconhece suas limitações" },
+      { word: "ambicioso", description: "Que tem forte desejo de alcançar objetivos elevados" },
+      { word: "idealista", description: "Que segue ideais, muitas vezes com certo desprezo pelo prático" },
+      { word: "cético", description: "Que duvida sistematicamente, exigindo provas para crer" },
+      { word: "otimista", description: "Que tende a ver o lado positivo das coisas" },
+      { word: "pessimista", description: "Que tende a ver o lado negativo das coisas" },
+      { word: "paciente", description: "Que sabe esperar e suportar adversidades sem irritação" },
+      { word: "impaciente", description: "Que não tolera demoras ou obstáculos" },
+      { word: "sensível", description: "Que sente com facilidade, emociona-se facilmente" },
+      { word: "racional", description: "Que age baseado na razão mais que nas emoções" },
+      { word: "espontâneo", description: "Que age naturalmente, sem planejamento ou artificialidade" },
+      { word: "calculista", description: "Que planeja cuidadosamente suas ações, muitas vezes de forma fria" },
+      { word: "temperamental", description: "De humor variável, que muda de atitude facilmente" },
+      { word: "sedutor", description: "Que atrai e encanta, especialmente no campo amoroso" },
+      { word: "disciplinado", description: "Que segue regras e métodos com rigor e ordem" },
 
-  // Música (30)
-  { word: "partitura", description: "Representação gráfica da música com notas e símbolos" },
-  { word: "melodia", description: "Sucessão de sons musicais que formam uma linha musical reconhecível" },
-  { word: "harmonia", description: "Combinação simultânea de notas musicais que soam agradavelmente" },
-  { word: "ritmo", description: "Organização temporal dos sons musicais, padrão de batidas" },
-  { word: "acorde", description: "Conjunto de três ou mais notas tocadas simultaneamente" },
-  { word: "sopro", description: "Instrumentos musicais tocados com ar como flautas e trompetes" },
-  { word: "percussão", description: "Instrumentos tocados por batida, como tambores e pratos" },
-  { word: "sinfonia", description: "Composição musical extensa para orquestra, geralmente em quatro movimentos" },
-  { word: "sonata", description: "Composição para um ou poucos instrumentos, geralmente em três ou quatro movimentos" },
-  { word: "concerto", description: "Composição musical que destaca um solista acompanhado por orquestra" },
-  { word: "ópera", description: "Drama musical encenado com cantores e orquestra" },
-  { word: "coral", description: "Música composta para coro, muitas vezes com temas religiosos" },
-  { word: "jazz", description: "Gênero musical originário dos EUA com improvisação e ritmos complexos" },
-  { word: "blues", description: "Gênero musical de origem afro-americana com estrutura de doze compassos" },
-  { word: "rock", description: "Gênero musical popular surgido nos anos 50 com guitarra elétrica" },
-  { word: "samba", description: "Gênero musical brasileiro com raízes africanas, símbolo do Carnaval" },
-  { word: "bossa", description: "Estilo musical brasileiro que mistura samba e jazz, popularizado nos anos 60" },
-  { word: "funk", description: "Gênero musical com batida forte e ênfase no groove" },
-  { word: "reggae", description: "Gênero musical jamaicano com batida característica e mensagens sociais" },
-  { word: "hiphop", description: "Movimento cultural que inclui rap, DJing, breakdance e graffiti" },
-  { word: "sertanejo", description: "Gênero musical brasileiro com raízes caipiras, muito popular no interior" },
-  { word: "forró", description: "Gênero musical e dança típica do Nordeste brasileiro" },
-  { word: "pagode", description: "Estilo musical brasileiro derivado do samba, com instrumentos como tantã e banjo" },
-  { word: "mpb", description: "Música Popular Brasileira, movimento que mistura tradição e inovação" },
-  { word: "trovador", description: "Compositor e cantor medieval; modernamente, cantor de música regional" },
-  { word: "crooner", description: "Cantor que interpreta canções românticas com estilo suave" },
-  { word: "cover", description: "Versão de uma música originalmente gravada por outro artista" },
-  { word: "playlist", description: "Lista de músicas selecionadas para uma ocasião ou tema específico" },
-  { word: "estrofe", description: "Conjunto de versos que formam uma unidade na estrutura de uma canção" },
-  { word: "refrão", description: "Parte da música que se repete, geralmente a mais memorável" }
-];
+      // Música (30)
+      { word: "partitura", description: "Representação gráfica da música com notas e símbolos" },
+      { word: "melodia", description: "Sucessão de sons musicais que formam uma linha musical reconhecível" },
+      { word: "harmonia", description: "Combinação simultânea de notas musicais que soam agradavelmente" },
+      { word: "ritmo", description: "Organização temporal dos sons musicais, padrão de batidas" },
+      { word: "acorde", description: "Conjunto de três ou mais notas tocadas simultaneamente" },
+      { word: "sopro", description: "Instrumentos musicais tocados com ar como flautas e trompetes" },
+      { word: "percussão", description: "Instrumentos tocados por batida, como tambores e pratos" },
+      { word: "sinfonia", description: "Composição musical extensa para orquestra, geralmente em quatro movimentos" },
+      { word: "sonata", description: "Composição para um ou poucos instrumentos, geralmente em três ou quatro movimentos" },
+      { word: "concerto", description: "Composição musical que destaca um solista acompanhado por orquestra" },
+      { word: "ópera", description: "Drama musical encenado com cantores e orquestra" },
+      { word: "coral", description: "Música composta para coro, muitas vezes com temas religiosos" },
+      { word: "jazz", description: "Gênero musical originário dos EUA com improvisação e ritmos complexos" },
+      { word: "blues", description: "Gênero musical de origem afro-americana com estrutura de doze compassos" },
+      { word: "rock", description: "Gênero musical popular surgido nos anos 50 com guitarra elétrica" },
+      { word: "samba", description: "Gênero musical brasileiro com raízes africanas, símbolo do Carnaval" },
+      { word: "bossa", description: "Estilo musical brasileiro que mistura samba e jazz, popularizado nos anos 60" },
+      { word: "funk", description: "Gênero musical com batida forte e ênfase no groove" },
+      { word: "reggae", description: "Gênero musical jamaicano com batida característica e mensagens sociais" },
+      { word: "hiphop", description: "Movimento cultural que inclui rap, DJing, breakdance e graffiti" },
+      { word: "sertanejo", description: "Gênero musical brasileiro com raízes caipiras, muito popular no interior" },
+      { word: "forró", description: "Gênero musical e dança típica do Nordeste brasileiro" },
+      { word: "pagode", description: "Estilo musical brasileiro derivado do samba, com instrumentos como tantã e banjo" },
+      { word: "mpb", description: "Música Popular Brasileira, movimento que mistura tradição e inovação" },
+      { word: "trovador", description: "Compositor e cantor medieval; modernamente, cantor de música regional" },
+      { word: "crooner", description: "Cantor que interpreta canções românticas com estilo suave" },
+      { word: "cover", description: "Versão de uma música originalmente gravada por outro artista" },
+      { word: "playlist", description: "Lista de músicas selecionadas para uma ocasião ou tema específico" },
+      { word: "estrofe", description: "Conjunto de versos que formam uma unidade na estrutura de uma canção" },
+      { word: "refrão", description: "Parte da música que se repete, geralmente a mais memorável" }
+    ];
 
-  // Preload sounds
-  Object.values(sounds).forEach(sound => {
-    sound.load();
-    sound.volume = 0.3;
-  });
-  
-  // console.log(btoa(JSON.stringify(wordList)));
-
-  // Pixel fire effect
-  function initFireEffect() {
-    const canvas = fireCanvas;
-    const ctx = canvas.getContext('2d');
+    // Preload sounds
+    Object.values(sounds).forEach(sound => {
+      sound.load();
+      sound.volume = 0.3;
+    });
     
-    // Set canvas size
+    // Pixel fire effect
+    function initFireEffect() {
+    const canvas = fireCanvas;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    // Fire parameters
     const fireWidth = 100;
     const fireHeight = 100;
     const pixelSize = Math.max(5, Math.floor(canvas.width / fireWidth));
-    
-    // Create fire buffer
     const firePixels = new Array(fireWidth * fireHeight).fill(0);
-    
+
     function updateFire() {
-      // Move fire upwards
-      for (let x = 0; x < fireWidth; x++) {
-        for (let y = 1; y < fireHeight; y++) {
-          const index = y * fireWidth + x;
-          const newY = Math.max(0, y - Math.floor(Math.random() * 3));
-          const newIndex = newY * fireWidth + x;
-          firePixels[newIndex] = Math.max(0, firePixels[index] - Math.random() * 0.2);
-        }
-      }
-      
-      // Generate new fire at bottom
-      for (let x = 0; x < fireWidth; x++) {
-        const index = (fireHeight - 1) * fireWidth + x;
-        firePixels[index] = Math.random() > 0.3 ? 1 : 0;
-      }
-      
-      // Spread fire sideways
-      for (let x = 1; x < fireWidth - 1; x++) {
-        for (let y = 0; y < fireHeight; y++) {
-          const index = y * fireWidth + x;
-          if (firePixels[index] > 0.1) {
-            const spread = Math.random() * 0.2;
-            firePixels[index - 1] = Math.min(1, firePixels[index - 1] + spread);
-            firePixels[index + 1] = Math.min(1, firePixels[index + 1] + spread);
-          }
-        }
-      }
-    }
-
-    // Verifica se é iOS
-function isIOS() {
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-}
-
-// Aplica correções específicas para iOS
-function applyIOSFixes() {
-  if (isIOS()) {
-    const style = document.createElement('style');
-    style.textContent = `
-      .word-container {
-        -webkit-text-fill-color: white !important;
-        background-color: rgba(20, 10, 0, 0.9) !important;
-      }
-      .word-display {
-        -webkit-font-smoothing: antialiased !important;
-        text-rendering: optimizeLegibility !important;
-      }
-    `;
-    document.head.appendChild(style);
-    
-    // Força repaint periódico (solução extrema se necessário)
-    setInterval(() => {
-      wordDisplay.style.transform = 'translateZ(0)';
-    }, 1000);
-  }
-}
-
-    
-    function renderFire() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      for (let x = 0; x < fireWidth; x++) {
-        for (let y = 0; y < fireHeight; y++) {
-          const index = y * fireWidth + x;
-          const intensity = firePixels[index];
-          
-          if (intensity > 0) {
-            let r, g, b;
-            if (intensity > 0.8) {
-              r = 255;
-              g = 255;
-              b = 255 * (intensity - 0.8) * 5;
-            } else if (intensity > 0.6) {
-              r = 255;
-              g = 255 * (intensity - 0.6) * 5;
-              b = 0;
-            } else if (intensity > 0.3) {
-              r = 255;
-              g = 165 * (intensity - 0.3) * 3.33;
-              b = 0;
-            } else {
-              r = 255 * intensity * 3.33;
-              g = 0;
-              b = 0;
+        // Movimento do fogo para cima
+        for (let x = 0; x < fireWidth; x++) {
+            for (let y = 1; y < fireHeight; y++) {
+                const index = y * fireWidth + x;
+                const newY = Math.max(0, y - Math.floor(Math.random() * 3));
+                const newIndex = newY * fireWidth + x;
+                firePixels[newIndex] = Math.max(0, firePixels[index] - Math.random() * 0.2);
             }
-            
-            ctx.fillStyle = `rgba(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)}, ${intensity})`;
-            ctx.fillRect(
-              x * pixelSize, 
-              canvas.height - (y * pixelSize), 
-              pixelSize, 
-              pixelSize
-            );
-          }
         }
-      }
+        
+        // Gera novo fogo na base
+        for (let x = 0; x < fireWidth; x++) {
+            const index = (fireHeight - 1) * fireWidth + x;
+            firePixels[index] = Math.random() > 0.3 ? 1 : 0;
+        }
     }
-    
+
+    function renderFire() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let x = 0; x < fireWidth; x++) {
+            for (let y = 0; y < fireHeight; y++) {
+                const index = y * fireWidth + x;
+                const intensity = firePixels[index];
+                
+                if (intensity > 0) {
+                    const r = Math.floor(255 * Math.min(1, intensity * 1.5));
+                    const g = Math.floor(165 * intensity);
+                    ctx.fillStyle = `rgba(${r}, ${g}, 0, ${intensity})`;
+                    ctx.fillRect(
+                        x * pixelSize, 
+                        canvas.height - (y * pixelSize), 
+                        pixelSize, 
+                        pixelSize
+                    );
+                }
+            }
+        }
+    }
+
     function animate() {
-      updateFire();
-      renderFire();
-      animationFrameId = requestAnimationFrame(animate);
+        updateFire();
+        renderFire();
+        animationFrameId = requestAnimationFrame(animate);
     }
     
-    animate();
-  }
+    // Inicia apenas se for suportado
+    if (canvas.getContext) {
+        animate();
+    }
+}
 
-  // Create fire sparks
-  function createFireSparks() {
-    for (let i = 0; i < 10; i++) {
-      setTimeout(() => {
-        const spark = document.createElement("div");
-        spark.classList.add("spark");
-        
-        const left = Math.random() * 100;
-        spark.style.left = `${left}vw`;
-        spark.style.bottom = "0";
-        
-        const hue = Math.random() * 20 + 10;
-        spark.style.background = `linear-gradient(to top, hsl(${hue}, 100%, 50%), transparent`;
-        
-        const width = Math.random() * 4 + 2;
-        spark.style.width = `${width}px`;
-        spark.style.height = `${Math.random() * 30 + 15}px`;
-        
-        const duration = Math.random() * 5 + 3;
-        spark.style.animationDuration = `${duration}s`;
-        
-        fireBackground.appendChild(spark);
-        
+    // Create fire sparks
+    function createFireSparks() {
+      for (let i = 0; i < 10; i++) {
         setTimeout(() => {
-          spark.remove();
-        }, duration * 1000);
-      }, i * 100);
-    }
-  }
-
-  // Create fire animation loop
-  function startFireAnimation() {
-    createFireSparks();
-    setTimeout(startFireAnimation, 800);
-    
-    if (soundEnabled) {
-      sounds.fire.loop = true;
-      sounds.fire.play().catch(e => console.log("Fire sound error:", e));
-    } else {
-      sounds.fire.pause();
-    }
-  }
-
-  function getRandomWord() {
-    const randomIndex = Math.floor(Math.random() * wordList.length);
-    const selected = wordList[randomIndex];
-    return {
-      word: selected.word.toLowerCase(),
-      hint: `DEFINIÇÃO: ${selected.description}`
-    };
-  }
-
-  function initGame() {
-    
-    const { word, hint } = getRandomWord();
-    selectedWord = normalizeWord(word);
-    displayedWord = Array(selectedWord.length).fill("_");
-    wrongGuesses = 0;
-
-    console.log("Selected word:", selectedWord); // Adicione esta linha
-    console.log("Displayed word:", displayedWord); //
-
-    wordDisplay.textContent = displayedWord.join(" ");
-    wrongDisplay.textContent = wrongGuesses;
-    message.textContent = "";
-    message.className = "message";
-    restartBtn.style.display = "none";
-    
-    // Formata a dica para melhor visualização
-    const formattedHint = hint
-      .replace(/\n/g, '<br>')
-      .replace(/DEFINIÇÃO:/g, '<strong>DEFINIÇÃO:</strong>')
-    
-    hintText.innerHTML = formattedHint;
-    
-    // Reset hangman figure
-    hangmanFigure.className = "hangman-figure";
-    document.querySelector(".mouth").className = "mouth";
-    document.querySelector(".blood").className = "blood";
-    document.querySelector(".blood-stream").style.height = "0";
-    document.querySelector(".blood-pool").style.height = "0";
-    document.querySelectorAll(".blood-drip").forEach(drip => {
-      drip.classList.remove("visible");
-    });
-
-    // Reset hearts
-    hearts.forEach(heart => {
-      heart.style.opacity = "1";
-    });
-
-    // Reset keyboard
-    keyboard.innerHTML = "";
-    for (let i = 65; i <= 90; i++) {
-      const letter = String.fromCharCode(i).toLowerCase();
-      const btn = document.createElement("button");
-      btn.textContent = letter;
-      btn.addEventListener("click", () => handleGuess(letter, btn));
-      keyboard.appendChild(btn);
-    }
-
-    // Start fire animation
-    initFireEffect();
-    startFireAnimation();
-  }
-
-  function playSound(soundName) {
-    if (!soundEnabled) return;
-    
-    const sound = sounds[soundName];
-    sound.currentTime = 0;
-    sound.play().catch(e => console.log("Audio play failed:", e));
-  }
-
-  function handleGuess(letter, btn) {
-    playSound("click");
-    btn.disabled = true;
-
-    if (selectedWord.includes(letter)) {
-      playSound("correct");
-      btn.classList.add("correct");
-      
-      const rect = btn.getBoundingClientRect();
-      createParticles(
-        rect.left + rect.width / 2,
-        rect.top + rect.height / 2,
-        "#00ff7f",
-        20
-      );
-
-      for (let i = 0; i < selectedWord.length; i++) {
-        if (selectedWord[i] === letter) {
-          displayedWord[i] = letter;
-        }
-      }
-      wordDisplay.textContent = displayedWord.join(" ");
-    } else {
-      playSound("wrong");
-      wrongGuesses++;
-      wrongDisplay.textContent = wrongGuesses;
-      btn.classList.add("wrong");
-      
-      hangmanFigure.classList.add(`show-${wrongGuesses}`);
-      
-      if (wrongGuesses <= hearts.length) {
-        hearts[hearts.length - wrongGuesses].style.opacity = "0.3";
-        const heartRect = hearts[hearts.length - wrongGuesses].getBoundingClientRect();
-        createExplosion(
-          heartRect.left + heartRect.width / 2,
-          heartRect.top + heartRect.height / 2,
-          0.5
-        );
-      }
-      
-      hangmanFigure.style.animation = "shake 0.5s";
-      setTimeout(() => {
-        hangmanFigure.style.animation = "";
-      }, 500);
-      
-      const rect = btn.getBoundingClientRect();
-      createExplosion(
-        rect.left + rect.width / 2,
-        rect.top + rect.height / 2,
-        0.7
-      );
-      
-      if (wrongGuesses >= 3) {
-        const headRect = document.querySelector(".head").getBoundingClientRect();
-        createBloodSplatter(
-          headRect.left + headRect.width / 2,
-          headRect.top + headRect.height / 2,
-          8
-        );
+          const spark = document.createElement("div");
+          spark.classList.add("spark");
+          
+          const left = Math.random() * 100;
+          spark.style.left = `${left}vw`;
+          spark.style.bottom = "0";
+          
+          const hue = Math.random() * 20 + 10;
+          spark.style.background = `linear-gradient(to top, hsl(${hue}, 100%, 50%), transparent`;
+          
+          const width = Math.random() * 4 + 2;
+          spark.style.width = `${width}px`;
+          spark.style.height = `${Math.random() * 30 + 15}px`;
+          
+          const duration = Math.random() * 5 + 3;
+          spark.style.animationDuration = `${duration}s`;
+          
+          fireBackground.appendChild(spark);
+          
+          setTimeout(() => {
+            spark.remove();
+          }, duration * 1000);
+        }, i * 100);
       }
     }
 
-    checkGameStatus();
-  }
-
-  function checkGameStatus() {
-    if (!displayedWord.includes("_")) {
-      playSound("win");
-      sounds.fire.pause();
-      message.textContent = "🎉 PARABÉNS! VOCÊ VENCEU! 🎉";
-      message.classList.add("show", "success");
-
-      endGame();
+    // Create fire animation loop
+    function startFireAnimation() {
+      createFireSparks();
+      setTimeout(startFireAnimation, 800);
       
-      hangmanFigure.style.animation = "celebrate 2s";
-      setTimeout(() => {
-        hangmanFigure.style.animation = "";
-      }, 2000);
+      if (soundEnabled) {
+        sounds.fire.loop = true;
+        sounds.fire.play().catch(e => console.log("Fire sound error:", e));
+      } else {
+        sounds.fire.pause();
+      }
+    }
 
-      const winEffects = () => {
-        const fireworks = document.createElement('div');
-        fireworks.style.position = 'fixed';
-        fireworks.style.top = '0';
-        fireworks.style.left = '0';
-        fireworks.style.width = '100%';
-        fireworks.style.height = '100%';
-        fireworks.style.background = 'radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%)';
-        fireworks.style.zIndex = '100';
-        fireworks.style.animation = 'fadeOut 2s forwards';
-        document.body.appendChild(fireworks);
-        
-        const style = document.createElement('style');
-        style.textContent = `
-          @keyframes fadeOut {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.5); }
-          }
-        `;
-        document.head.appendChild(style);
-        
-        setTimeout(() => {
-          fireworks.remove();
-          style.remove();
-        }, 2000);
+    function getRandomWord() {
+      const randomIndex = Math.floor(Math.random() * wordList.length);
+      const selected = wordList[randomIndex];
+      return {
+        word: selected.word.toLowerCase(),
+        hint: `DEFINIÇÃO: ${selected.description}`
       };
-      
-      winEffects();
-      
-    } else if (wrongGuesses >= maxGuesses) {
-      playSound("lose");
-      sounds.fire.pause();
+    }
 
-      message.textContent = `☠️ VOCÊ PERDEU! A PALAVRA ERA "${selectedWord.toUpperCase()}". ☠️`;
-      message.classList.add("show", "error");
-      endGame();
+    function initGame() {
+  // Obter palavra aleatória
+  const { word, hint } = getRandomWord();
+  selectedWord = normalizeWord(word);
+  displayedWord = Array(selectedWord.length).fill("_");
+  wrongGuesses = 0;
+
+  // Atualizar exibição
+  wordDisplay.textContent = displayedWord.join(" ");
+  wrongDisplay.textContent = wrongGuesses;
+  message.textContent = "";
+  message.className = "message";
+  restartBtn.style.display = "none";
+  
+  // Formatar e exibir dica
+  const formattedHint = hint
+    .replace(/\n/g, '<br>')
+    .replace(/DEFINIÇÃO:/g, '<strong>DEFINIÇÃO:</strong>');
+  hintText.innerHTML = formattedHint;
+  
+  // Resetar figura do boneco
+  hangmanFigure.className = "hangman-figure";
+  document.querySelector(".mouth").className = "mouth";
+  document.querySelector(".blood").className = "blood";
+  document.querySelector(".blood-stream").style.height = "0";
+  document.querySelector(".blood-pool").style.height = "0";
+  document.querySelectorAll(".blood-drip").forEach(drip => {
+    drip.classList.remove("visible");
+  });
+
+  // Resetar corações
+  hearts.forEach(heart => {
+    heart.style.opacity = "1";
+  });
+
+  // Criar teclado - SOLUÇÃO PARA TECLADO NÃO APARECER
+  keyboard.innerHTML = ""; // Limpa teclado existente
+  for (let i = 65; i <= 90; i++) {
+    const letter = String.fromCharCode(i).toLowerCase();
+    const btn = document.createElement("button");
+    btn.textContent = letter;
+    btn.addEventListener("click", () => handleGuess(letter, btn));
+    
+    // Forçar exibição no iOS
+    btn.style.display = "inline-block";
+    btn.style.opacity = "1";
+    
+    keyboard.appendChild(btn);
+  }
+
+  // Iniciar efeitos de fogo - SOLUÇÃO PARA FOGO NÃO APARECER
+  initFireEffect();
+  startFireAnimation();
+  
+  // Forçar redesenho no iOS
+  setTimeout(() => {
+    wordDisplay.style.display = 'none';
+    wordDisplay.offsetHeight; // Trigger reflow
+    wordDisplay.style.display = 'flex';
+    
+    keyboard.style.display = 'none';
+    keyboard.offsetHeight;
+    keyboard.style.display = 'flex';
+  }, 100);
+  
+  // Debug
+  console.log("Jogo iniciado - Palavra:", selectedWord);
+  console.log("Teclado criado com", keyboard.children.length, "botões");
+}
+
+    function playSound(soundName) {
+      if (!soundEnabled) return;
       
-      hangmanFigure.classList.add("dead-eyes", "bleeding");
-      document.querySelector(".mouth").classList.add("dead");
-      document.querySelector(".blood").classList.add("visible");
-      document.querySelector(".blood-stream").style.height = "140px";
-      document.querySelector(".blood-pool").style.height = "30px";
-      document.querySelectorAll(".blood-drip").forEach(drip => {
-        drip.classList.add("visible");
-      });
-      
-      hangmanFigure.style.animation = "dead 1s";
-      setTimeout(() => {
-        hangmanFigure.style.animation = "";
-      }, 1000);
-      
-      const headRect = document.querySelector(".head").getBoundingClientRect();
-      for (let i = 0; i < 50; i++) {
+      const sound = sounds[soundName];
+      sound.currentTime = 0;
+      sound.play().catch(e => console.log("Audio play failed:", e));
+    }
+
+    function handleGuess(letter, btn) {
+      playSound("click");
+      btn.disabled = true;
+
+      if (selectedWord.includes(letter)) {
+        playSound("correct");
+        btn.classList.add("correct");
+        
+        const rect = btn.getBoundingClientRect();
+        createParticles(
+          rect.left + rect.width / 2,
+          rect.top + rect.height / 2,
+          "#00ff7f",
+          20
+        );
+
+        for (let i = 0; i < selectedWord.length; i++) {
+          if (selectedWord[i] === letter) {
+            displayedWord[i] = letter;
+          }
+        }
+        wordDisplay.textContent = displayedWord.join(" ");
+      } else {
+        playSound("wrong");
+        wrongGuesses++;
+        wrongDisplay.textContent = wrongGuesses;
+        btn.classList.add("wrong");
+        
+        hangmanFigure.classList.add(`show-${wrongGuesses}`);
+        
+        if (wrongGuesses <= hearts.length) {
+          hearts[hearts.length - wrongGuesses].style.opacity = "0.3";
+          const heartRect = hearts[hearts.length - wrongGuesses].getBoundingClientRect();
+          createExplosion(
+            heartRect.left + heartRect.width / 2,
+            heartRect.top + heartRect.height / 2,
+            0.5
+          );
+        }
+        
+        hangmanFigure.style.animation = "shake 0.5s";
         setTimeout(() => {
+          hangmanFigure.style.animation = "";
+        }, 500);
+        
+        const rect = btn.getBoundingClientRect();
+        createExplosion(
+          rect.left + rect.width / 2,
+          rect.top + rect.height / 2,
+          0.7
+        );
+        
+        if (wrongGuesses >= 3) {
+          const headRect = document.querySelector(".head").getBoundingClientRect();
           createBloodSplatter(
             headRect.left + headRect.width / 2,
             headRect.top + headRect.height / 2,
-            5
+            8
           );
-        }, i * 50);
+        }
       }
+
+      checkGameStatus();
+    }
+
+    function checkGameStatus() {
+      if (!displayedWord.includes("_")) {
+        playSound("win");
+        sounds.fire.pause();
+        message.textContent = "🎉 PARABÉNS! VOCÊ VENCEU! 🎉";
+        message.classList.add("show", "success");
+
+        endGame();
+        
+        hangmanFigure.style.animation = "celebrate 2s";
+        setTimeout(() => {
+          hangmanFigure.style.animation = "";
+        }, 2000);
+
+        const winEffects = () => {
+          const fireworks = document.createElement('div');
+          fireworks.style.position = 'fixed';
+          fireworks.style.top = '0';
+          fireworks.style.left = '0';
+          fireworks.style.width = '100%';
+          fireworks.style.height = '100%';
+          fireworks.style.background = 'radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%)';
+          fireworks.style.zIndex = '100';
+          fireworks.style.animation = 'fadeOut 2s forwards';
+          document.body.appendChild(fireworks);
+          
+          const style = document.createElement('style');
+          style.textContent = `
+            @keyframes fadeOut {
+              0% { opacity: 1; transform: scale(1); }
+              100% { opacity: 0; transform: scale(1.5); }
+            }
+          `;
+          document.head.appendChild(style);
+          
+          setTimeout(() => {
+            fireworks.remove();
+            style.remove();
+          }, 2000);
+        };
+        
+        winEffects();
+        
+      } else if (wrongGuesses >= maxGuesses) {
+        playSound("lose");
+        sounds.fire.pause();
+
+        message.textContent = `☠️ VOCÊ PERDEU! A PALAVRA ERA "${selectedWord.toUpperCase()}". ☠️`;
+        message.classList.add("show", "error");
+        endGame();
+        
+        hangmanFigure.classList.add("dead-eyes", "bleeding");
+        document.querySelector(".mouth").classList.add("dead");
+        document.querySelector(".blood").classList.add("visible");
+        document.querySelector(".blood-stream").style.height = "140px";
+        document.querySelector(".blood-pool").style.height = "20px";
+        document.querySelectorAll(".blood-drip").forEach(drip => {
+          drip.classList.add("visible");
+        });
+        
+        hangmanFigure.style.animation = "dead 1s";
+        setTimeout(() => {
+          hangmanFigure.style.animation = "";
+        }, 1000);
+        
+        const headRect = document.querySelector(".head").getBoundingClientRect();
+        for (let i = 0; i < 50; i++) {
+          setTimeout(() => {
+            createBloodSplatter(
+              headRect.left + headRect.width / 2,
+              headRect.top + headRect.height / 2,
+              5
+            );
+          }, i * 50);
+        }
+        
+        setTimeout(() => {
+          createExplosion(
+            headRect.left + headRect.width / 2,
+            headRect.top + headRect.height / 2,
+            1.5
+          );
+        }, 300);
+      }
+    }
+
+    function endGame() {
+      const buttons = keyboard.querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      restartBtn.style.display = "flex";
       
-      setTimeout(() => {
-        createExplosion(
-          headRect.left + headRect.width / 2,
-          headRect.top + headRect.height / 2,
-          1.5
+      // Para o som do fogo
+      sounds.fire.pause();
+    }
+
+    function normalizeWord(word) {
+      return word
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z]/g, "");
+    }
+
+    function createParticles(x, y, color, count = 30) {
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.style.backgroundColor = color;
+        particle.style.width = `${Math.random() * 10 + 5}px`;
+        particle.style.height = particle.style.width;
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 8 + 3;
+        const xVelocity = Math.cos(angle) * velocity;
+        const yVelocity = Math.sin(angle) * velocity;
+        
+        particlesContainer.appendChild(particle);
+        
+        let opacity = 1;
+        const fadeInterval = setInterval(() => {
+          opacity -= 0.05;
+          particle.style.opacity = opacity;
+          if (opacity <= 0) {
+            clearInterval(fadeInterval);
+            particle.remove();
+          }
+        }, 50);
+        
+        let posX = x;
+        let posY = y;
+        const moveInterval = setInterval(() => {
+          posX += xVelocity;
+          posY += yVelocity + 0.8;
+          particle.style.left = `${posX}px`;
+          particle.style.top = `${posY}px`;
+        }, 30);
+        
+        setTimeout(() => {
+          clearInterval(moveInterval);
+        }, 1000);
+      }
+    }
+
+    function createBloodSplatter(x, y, count = 20) {
+      for (let i = 0; i < count; i++) {
+        const bloodDrop = document.createElement("div");
+        bloodDrop.classList.add("particle");
+        bloodDrop.style.backgroundColor = `hsl(${Math.random() * 10 + 350}, 80%, 50%)`;
+        bloodDrop.style.width = `${Math.random() * 8 + 3}px`;
+        bloodDrop.style.height = `${Math.random() * 8 + 3}px`;
+        bloodDrop.style.borderRadius = "50%";
+        bloodDrop.style.left = `${x}px`;
+        bloodDrop.style.top = `${y}px`;
+        bloodDrop.style.boxShadow = `0 0 5px ${bloodDrop.style.backgroundColor}`;
+        
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 5 + 2;
+        const xVelocity = Math.cos(angle) * velocity;
+        const yVelocity = Math.sin(angle) * velocity;
+        
+        document.body.appendChild(bloodDrop);
+        
+        let opacity = 1;
+        const fadeInterval = setInterval(() => {
+          opacity -= 0.03;
+          bloodDrop.style.opacity = opacity;
+          if (opacity <= 0) {
+            clearInterval(fadeInterval);
+            bloodDrop.remove();
+          }
+        }, 50);
+        
+        let posX = x;
+        let posY = y;
+        const moveInterval = setInterval(() => {
+          posX += xVelocity;
+          posY += yVelocity + 0.5;
+          bloodDrop.style.left = `${posX}px`;
+          bloodDrop.style.top = `${posY}px`;
+        }, 30);
+        
+        setTimeout(() => {
+          clearInterval(moveInterval);
+        }, 2000);
+      }
+    }
+
+    function createExplosion(x, y, size = 1) {
+      const colors = ['#ff2a00', '#ff8c00', '#ffcc00', '#ffffff'];
+      const container = document.querySelector('.game-container');
+
+      for (let i = 0; i < 50 * size; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.width = `${Math.random() * 8 * size + 4}px`;
+        particle.style.height = particle.style.width;
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.borderRadius = "50%";
+        particle.style.boxShadow = `0 0 ${5 * size}px ${particle.style.backgroundColor}`;
+        
+        container.appendChild(particle);
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 10 * size + 5;
+        const xVelocity = Math.cos(angle) * velocity;
+        const yVelocity = Math.sin(angle) * velocity;
+        
+        document.body.appendChild(particle);
+        
+        let opacity = 1;
+        const fadeInterval = setInterval(() => {
+          opacity -= 0.02;
+          particle.style.opacity = opacity;
+          if (opacity <= 0) {
+            clearInterval(fadeInterval);
+            particle.remove();
+          }
+        }, 50);
+        
+        let posX = x;
+        let posY = y;
+        const moveInterval = setInterval(() => {
+          posX += xVelocity;
+          posY += yVelocity + 0.5;
+          particle.style.left = `${posX}px`;
+          particle.style.top = `${posY}px`;
+        }, 30);
+        
+        setTimeout(() => {
+          clearInterval(moveInterval);
+        }, 2000);
+      }
+    }
+
+    restartBtn.addEventListener("click", () => {
+      playSound("click");
+      initGame();
+      sounds.win.pause();
+      sounds.lose.pause();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.keyCode >= 65 && e.keyCode <= 90) {
+        const letter = e.key.toLowerCase();
+        const button = Array.from(keyboard.querySelectorAll("button")).find(
+          btn => btn.textContent === letter && !btn.disabled
         );
-      }, 300);
-    }
-  }
-
-  function endGame() {
-    const buttons = keyboard.querySelectorAll("button");
-    buttons.forEach(btn => btn.disabled = true);
-    restartBtn.style.display = "flex";
-    
-    // Para o som do fogo
-    sounds.fire.pause();
-  }
-
-  function normalizeWord(word) {
-    return word
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z]/g, "");
-  }
-
-  function generateSmartHint(word) {
-    const wordLength = word.length;
-    let hint = `PALAVRA COM ${wordLength} LETRAS: `;
-    
-    if (word.endsWith('ção') || word.endsWith('são')) {
-      hint += "Provavelmente um substantivo que indica ação ou processo. ";
-    } else if (word.endsWith('mente')) {
-      hint += "Provavelmente um advérbio de modo. ";
-    } else if (word.endsWith('ar') || word.endsWith('er') || word.endsWith('ir')) {
-      hint += "Provavelmente um verbo no infinitivo. ";
-    } else if (wordLength <= 4) {
-      hint += "Palavra curta, pode ser artigo, preposição ou substantivo comum. ";
-    } else if (wordLength <= 6) {
-      hint += "Palavra de tamanho médio, possivelmente um substantivo ou verbo. ";
-    } else {
-      hint += "Palavra longa, frequentemente um substantivo ou adjetivo. ";
-    }
-    
-    if (word.includes('rr')) hint += "Contém o dígrafo 'RR' (som forte). ";
-    if (word.includes('ss')) hint += "Contém o dígrafo 'SS' (som sibilante). ";
-    if (word.includes('nh')) hint += "Contém o dígrafo 'NH' (som nasal). ";
-    
-    if (word.startsWith('a')) hint += "Começa com a vogal 'A'. ";
-    if (word.startsWith('z')) hint += "Começa com a consoante 'Z' (som de 'zê'). ";
-    
-    return hint;
-  }
-
-  function createParticles(x, y, color, count = 30) {
-    for (let i = 0; i < count; i++) {
-      const particle = document.createElement("div");
-      particle.classList.add("particle");
-      particle.style.backgroundColor = color;
-      particle.style.width = `${Math.random() * 10 + 5}px`;
-      particle.style.height = particle.style.width;
-      particle.style.left = `${x}px`;
-      particle.style.top = `${y}px`;
-      
-      const angle = Math.random() * Math.PI * 2;
-      const velocity = Math.random() * 8 + 3;
-      const xVelocity = Math.cos(angle) * velocity;
-      const yVelocity = Math.sin(angle) * velocity;
-      
-      particlesContainer.appendChild(particle);
-      
-      let opacity = 1;
-      const fadeInterval = setInterval(() => {
-        opacity -= 0.05;
-        particle.style.opacity = opacity;
-        if (opacity <= 0) {
-          clearInterval(fadeInterval);
-          particle.remove();
-        }
-      }, 50);
-      
-      let posX = x;
-      let posY = y;
-      const moveInterval = setInterval(() => {
-        posX += xVelocity;
-        posY += yVelocity + 0.8;
-        particle.style.left = `${posX}px`;
-        particle.style.top = `${posY}px`;
-      }, 30);
-      
-      setTimeout(() => {
-        clearInterval(moveInterval);
-      }, 1000);
-    }
-  }
-
-  function createBloodSplatter(x, y, count = 20) {
-    for (let i = 0; i < count; i++) {
-      const bloodDrop = document.createElement("div");
-      bloodDrop.classList.add("particle");
-      bloodDrop.style.backgroundColor = `hsl(${Math.random() * 10 + 350}, 80%, 50%)`;
-      bloodDrop.style.width = `${Math.random() * 8 + 3}px`;
-      bloodDrop.style.height = `${Math.random() * 8 + 3}px`;
-      bloodDrop.style.borderRadius = "50%";
-      bloodDrop.style.left = `${x}px`;
-      bloodDrop.style.top = `${y}px`;
-      bloodDrop.style.boxShadow = `0 0 5px ${bloodDrop.style.backgroundColor}`;
-      
-      const angle = Math.random() * Math.PI * 2;
-      const velocity = Math.random() * 5 + 2;
-      const xVelocity = Math.cos(angle) * velocity;
-      const yVelocity = Math.sin(angle) * velocity;
-      
-      document.body.appendChild(bloodDrop);
-      
-      let opacity = 1;
-      const fadeInterval = setInterval(() => {
-        opacity -= 0.03;
-        bloodDrop.style.opacity = opacity;
-        if (opacity <= 0) {
-          clearInterval(fadeInterval);
-          bloodDrop.remove();
-        }
-      }, 50);
-      
-      let posX = x;
-      let posY = y;
-      const moveInterval = setInterval(() => {
-        posX += xVelocity;
-        posY += yVelocity + 0.5;
-        bloodDrop.style.left = `${posX}px`;
-        bloodDrop.style.top = `${posY}px`;
-      }, 30);
-      
-      setTimeout(() => {
-        clearInterval(moveInterval);
-      }, 2000);
-    }
-  }
-
-  function createExplosion(x, y, size = 1) {
-    const colors = ['#ff2a00', '#ff8c00', '#ffcc00', '#ffffff'];
-    const container = document.querySelector('.game-container');
-
-    for (let i = 0; i < 50 * size; i++) {
-      const particle = document.createElement("div");
-      particle.classList.add("particle");
-      particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      particle.style.width = `${Math.random() * 8 * size + 4}px`;
-      particle.style.height = particle.style.width;
-      particle.style.left = `${x}px`;
-      particle.style.top = `${y}px`;
-      particle.style.borderRadius = "50%";
-      particle.style.boxShadow = `0 0 ${5 * size}px ${particle.style.backgroundColor}`;
-      
-      container.appendChild(particle);
-      const angle = Math.random() * Math.PI * 2;
-      const velocity = Math.random() * 10 * size + 5;
-      const xVelocity = Math.cos(angle) * velocity;
-      const yVelocity = Math.sin(angle) * velocity;
-      
-      document.body.appendChild(particle);
-      
-      let opacity = 1;
-      const fadeInterval = setInterval(() => {
-        opacity -= 0.02;
-        particle.style.opacity = opacity;
-        if (opacity <= 0) {
-          clearInterval(fadeInterval);
-          particle.remove();
-        }
-      }, 50);
-      
-      let posX = x;
-      let posY = y;
-      const moveInterval = setInterval(() => {
-        posX += xVelocity;
-        posY += yVelocity + 0.5;
-        particle.style.left = `${posX}px`;
-        particle.style.top = `${posY}px`;
-      }, 30);
-      
-      setTimeout(() => {
-        clearInterval(moveInterval);
-      }, 2000);
-    }
-  }
-
-  restartBtn.addEventListener("click", () => {
-    playSound("click");
-    initGame();
-    sounds.win.pause();
-    sounds.lose.pause();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.keyCode >= 65 && e.keyCode <= 90) {
-      const letter = e.key.toLowerCase();
-      const button = Array.from(keyboard.querySelectorAll("button")).find(
-        btn => btn.textContent === letter && !btn.disabled
-      );
-      if (button) button.click();
-    }
-  });
-
-  // Adjust word display for small screens
-  function adjustWordDisplay() {
-    const wordLength = wordDisplay.textContent.replace(/\s/g, '').length;
-    const containerWidth = document.querySelector('.word-container').offsetWidth;
-    
-    if (window.innerWidth <= 480) {
-      if (wordLength > 10) {
-        wordDisplay.style.fontSize = '1.2rem';
-        wordDisplay.style.letterSpacing = '5px';
-      } else {
-        wordDisplay.style.fontSize = '1.5rem';
-        wordDisplay.style.letterSpacing = '8px';
+        if (button) button.click();
       }
-    } else if (window.innerWidth <= 768) {
-      if (wordLength > 15) {
-        wordDisplay.style.fontSize = '1.5rem';
-        wordDisplay.style.letterSpacing = '8px';
-      } else {
-        wordDisplay.style.fontSize = '2rem';
-        wordDisplay.style.letterSpacing = '10px';
-      }
-    } else {
-      wordDisplay.style.fontSize = '2.5rem';
-      wordDisplay.style.letterSpacing = '14px';
-    }
-  }
+    });
 
-  window.addEventListener('resize', () => {
-    const canvas = fireCanvas;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    adjustWordDisplay();
-  });
+    window.addEventListener('resize', () => {
+      const canvas = fireCanvas;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
 
-  window.onload = () => {
-    initGame();
-    adjustWordDisplay();
-  };
-function checkWordLength() {
-  const wordContainer = document.querySelector('.word-container');
-  const wordDisplay = document.querySelector('.word-display');
-  const isMobile = window.innerWidth <= 768;
-  
-  // Remove todas as classes de tamanho existentes
-  wordContainer.classList.remove('scrollable');
-  
-  // Verifica se a palavra é longa demais para o container
-  if (wordDisplay.scrollWidth > wordContainer.offsetWidth) {
-    if (isMobile && selectedWord.length > 6) {
-      wordContainer.classList.add('scrollable');
-    } else if (!isMobile && selectedWord.length > 8) {
-      wordContainer.classList.add('scrollable');
-    }
-  }
-}
-  window.addEventListener('resize', checkWordLength);
+    window.onload = () => {
+      initGame();
+    };
   </script>
 </body>
 </html>
