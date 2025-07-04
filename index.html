@@ -760,7 +760,7 @@ h1 {
 
   .word-container {
     position: relative;
-    padding: 20px;
+    padding: 15px;
   background-color: rgba(20, 10, 0, 0.8);
     border-radius: 15px;
   box-shadow: 
@@ -776,8 +776,6 @@ h1 {
 
 
 .word-display {
-  font-size: 1.5rem;
-  letter-spacing: 8px;
   color: white;
   min-height: 70px;
   display: inline-block;
@@ -2572,7 +2570,7 @@ function applyIOSFixes() {
     if (window.innerWidth <= 480) {
       if (wordLength > 10) {
         wordDisplay.style.fontSize = '1.2rem';
-        wordDisplay.style.letterSpacing = '5px';
+        wordDisplay.style.letterSpacing = '6px';
       } else {
         wordDisplay.style.fontSize = '1.4rem';
         wordDisplay.style.letterSpacing = '6px';
@@ -2580,14 +2578,14 @@ function applyIOSFixes() {
     } else if (window.innerWidth <= 768) {
       if (wordLength > 15) {
         wordDisplay.style.fontSize = '1.5rem';
-        wordDisplay.style.letterSpacing = '8px';
+        wordDisplay.style.letterSpacing = '6px';
       } else {
         wordDisplay.style.fontSize = '2rem';
-        wordDisplay.style.letterSpacing = '10px';
+        wordDisplay.style.letterSpacing = '6px';
       }
     } else {
-      wordDisplay.style.fontSize = '2.5rem';
-      wordDisplay.style.letterSpacing = '14px';
+      wordDisplay.style.fontSize = '2rem';
+      wordDisplay.style.letterSpacing = '6px';
     }
   }
 
