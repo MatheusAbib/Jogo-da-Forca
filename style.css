@@ -1262,7 +1262,6 @@ h1 {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0;
   }
   
   h1 {
@@ -1526,10 +1525,6 @@ h1 {
     height: 50px;
     font-size: 1rem;
     border-radius: 20px;
-  }
-  
-  .game-footer {
-    margin-top: 40px;
   }
   
   .eye {
