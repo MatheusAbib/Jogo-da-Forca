@@ -3,45 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>A FORCA</title>
+  <title>A FORCA - Jogo</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Press+Start+2P&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/GameScreen.css">
 </head>
 <body>
-
-<div class="modal-overlay" id="difficultyModal">
-  <div class="modal">
-    <h2>A FORCA</h2>
-    <p>Escolha a categoria e a dificuldade</p>
-
-    <div class="category-section">
-      <label>Categoria</label>
-      <div class="category-options" id="categoryOptions">
-        <button data-cat="random" class="active">Aleatório</button>
-        <button data-cat="animais">Animais</button>
-        <button data-cat="paises">Países</button>
-        <button data-cat="tecnologia">Tecnologia</button>
-        <button data-cat="cinema">Cinema</button>
-        <button data-cat="musica">Música</button>
-      </div>
-    </div>
-
-    <div class="diff-options">
-      <button data-diff="easy">
-        <span class="diff-label">Fácil</span>
-        <span class="diff-desc">4-6 letras · 3 dicas</span>
-      </button>
-      <button data-diff="medium">
-        <span class="diff-label">Médio</span>
-        <span class="diff-desc">6-9 letras · 2 dicas</span>
-      </button>
-      <button data-diff="hard">
-        <span class="diff-label">Difícil</span>
-        <span class="diff-desc">9-14 letras · 1 dica · 35s</span>
-      </button>
-    </div>
-  </div>
-</div>
 
 <div class="fire-background" id="fireBackground">
   <canvas class="fire-canvas" id="fireCanvas"></canvas>
@@ -51,26 +18,24 @@
 <div class="app" id="appContainer">
   <div class="header-top">
     <div class="header-left">
-      <h1>A FORCA</h1>
-      <button class="btn-icon btn-home" id="homeBtn" title="Voltar ao início">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      </button>
-      <button class="btn-icon btn-mute" id="muteBtn" title="Som">
-        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/><path d="M19.5 12c0-3.35-1.98-6.22-4.5-7.68v1.5c2.04 1.04 3.5 3.14 3.5 5.18s-1.46 4.14-3.5 5.18v1.5c2.52-1.46 4.5-4.33 4.5-7.68z"/></svg>
-      </button>
+      <div class="logo-group">
+        <h1 class="game-main-title">A<span class="title-accent">FORCA</span></h1>
+        <span class="game-subtitle">O JOGO DA MORTE</span>
+      </div>
     </div>
     <div class="header-stats">
-      <div class="stat-box">
-        <span class="label">Erros</span>
-        <span class="value" id="wrongGuesses">0</span>
-        <span style="font-size:0.6rem;color:rgba(255,255,255,0.3);">/6</span>
-      </div>
+      <div class="timer" id="timerDisplay">⏱ 30s</div>
+
       <div class="stat-box">
         <span class="label">Palavra</span>
         <span class="value" id="wordCounter">1</span>
         <span style="font-size:0.6rem;color:rgba(255,255,255,0.3);">/5</span>
       </div>
-      <div class="timer" id="timerDisplay">⏱ 35s</div>
+               <div class="stat-box">
+        <span class="label">Erros</span>
+        <span class="value" id="wrongGuesses">0</span>
+        <span style="font-size:0.6rem;color:rgba(255,255,255,0.3);">/6</span>
+      </div>
       <div class="lives" id="heartsContainer">
         <div class="heart"></div>
         <div class="heart"></div>
@@ -79,10 +44,25 @@
         <div class="heart"></div>
         <div class="heart"></div>
       </div>
+   
     </div>
   </div>
 
-  <div class="category-badge" id="categoryBadge">Categoria: Aleatório</div>
+  <div class="info-bar">
+    <div class="category-badge" id="categoryBadge">Categoria: Aleatório</div>
+    <div class="difficulty-badge" id="difficultyBadge">Dificuldade: Fácil</div>
+    <div class="info-actions">
+      <button class="btn-icon btn-home" id="homeBtn" title="Voltar ao início">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </button>
+      <button class="btn-icon btn-rules-header" id="rulesHeaderBtn" title="Como Jogar">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      </button>
+      <button class="btn-icon btn-mute" id="muteBtn" title="Som">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/><path d="M19.5 12c0-3.35-1.98-6.22-4.5-7.68v1.5c2.04 1.04 3.5 3.14 3.5 5.18s-1.46 4.14-3.5 5.18v1.5c2.52-1.46 4.5-4.33 4.5-7.68z"/></svg>
+      </button>
+    </div>
+  </div>
 
   <div class="main">
     <div class="hangman-container">
@@ -156,7 +136,23 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<div class="rules-modal-overlay" id="rulesModal" style="display:none;">
+  <div class="rules-modal-content">
+    <button class="rules-close" id="rulesCloseBtn">✕</button>
+    <h2>COMO JOGAR</h2>
+    <ul>
+      <li><strong>Objetivo:</strong> Descubra a palavra antes de ser enforcado!</li>
+      <li><strong>Como jogar:</strong> Clique nas letras para tentar adivinhar.</li>
+      <li><strong>Erros:</strong> A cada erro, uma parte do corpo é desenhada na forca.</li>
+      <li><strong>Dicas:</strong> Use as dicas para revelar letras aleatórias.</li>
+      <li><strong>Dificuldade:</strong> Escolha entre Fácil, Médio ou Difícil.</li>
+      <li><strong>Categorias:</strong> Selecione o tema das palavras.</li>
+      <li><strong>Boa sorte!</strong></li>
+    </ul>
+  </div>
+</div>
+
+<script src="./js/GameScreen.js"></script>
 
 </body>
 </html>

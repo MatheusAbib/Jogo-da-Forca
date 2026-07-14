@@ -1,0 +1,374 @@
+#homeScreen {
+  width: 100%;
+  max-width: 1135px;
+  margin: 0 auto;
+  padding: 15px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-container {
+  background: radial-gradient(ellipse at 30% 20%, #1a0a00, #0a0500);
+  border: 3px solid var(--primary);
+  border-radius: 24px;
+  padding: 30px 35px 25px;
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 80px rgba(255, 50, 0, 0.6), inset 0 0 60px rgba(255, 50, 0, 0.1);
+  position: relative;
+  height: 600px;
+}
+
+.home-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 50% 80%, rgba(255, 30, 0, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.home-header-deco {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.home-header-deco .deco-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--primary), transparent);
+  max-width: 80px;
+}
+
+.home-header-deco .deco-skull {
+  font-size: 1.8rem;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 10px var(--primary));
+  animation: pulse-skull 2s infinite;
+}
+
+.home-header-deco .deco-skull.small {
+  font-size: 1rem;
+}
+
+@keyframes pulse-skull {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+
+.home-title-group {
+  margin-bottom: 15px;
+}
+
+.home-main-title {
+  font-family: 'Rubik Mono One', sans-serif;
+  font-size: 2.8rem;
+  color: #fff;
+  text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary), 0 0 80px rgba(255, 50, 0, 0.3);
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.home-main-title .title-accent {
+  color: var(--primary);
+  text-shadow: 0 0 30px var(--primary), 0 0 60px var(--primary);
+}
+
+.home-subtitle {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 6px;
+  margin-top: 4px;
+}
+
+.title-underline {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--primary), transparent);
+  margin: 10px auto 0;
+  border-radius: 5px;
+}
+
+.home-hangman {
+  width: 100px;
+  height: 120px;
+  margin: 5px auto 10px;
+}
+
+.home-hangman svg {
+  width: 100%;
+  height: 100%;
+}
+
+.home-part {
+  transition: opacity 0.8s ease;
+  opacity: 0;
+}
+
+.home-part.visible {
+  opacity: 1;
+}
+
+.home-category-section {
+  margin-bottom: 18px;
+}
+
+.home-category-section label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.7);
+  display: block;
+  margin-bottom: 10px;
+  letter-spacing: 3px;
+}
+
+.home-category-options {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.home-category-options button {
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.home-category-options button:hover {
+  border-color: rgba(255, 140, 0, 0.3);
+  color: #fff;
+}
+
+.home-category-options button.active {
+  border-color: var(--primary);
+  background: rgba(255, 42, 0, 0.15);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255, 42, 0, 0.15);
+}
+
+.home-diff-section {
+  margin-bottom: 20px;
+}
+
+.home-diff-section label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.7);
+  display: block;
+  margin-bottom: 10px;
+  letter-spacing: 3px;
+}
+
+.home-diff-options {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-diff-options button {
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 100px;
+  text-align: center;
+}
+
+.home-diff-options button:hover {
+  border-color: rgba(255, 140, 0, 0.3);
+  background: rgba(255, 140, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.home-diff-options button .diff-label {
+  display: block;
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+}
+
+.home-diff-options button .diff-desc {
+  font-size: 0.42rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.home-diff-options button.active {
+  border-color: var(--primary);
+  background: rgba(255, 42, 0, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(255, 42, 0, 0.2);
+}
+
+.home-diff-options button.active .diff-label {
+  color: var(--primary);
+}
+
+.home-diff-options button.active .diff-desc {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.home-btn-play {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--primary), #cc2200);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 3px;
+  box-shadow: 0 4px 25px rgba(255, 42, 0, 0.4);
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.home-btn-play:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 40px rgba(255, 42, 0, 0.6);
+}
+
+.home-btn-play:active {
+  transform: scale(0.97);
+}
+
+.home-btn-rules {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.45rem;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 12px;
+}
+
+.home-btn-rules:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.home-footer-deco {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.home-footer-deco .deco-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.35rem;
+  color: rgba(255, 255, 255, 0.15);
+  letter-spacing: 4px;
+}
+
+@media (max-width: 600px) {
+  .home-container {
+    padding: 5px;
+  }
+  .home-main-title {
+    font-size: 2rem;
+  }
+  .home-diff-options button {
+    padding: 10px 14px;
+    font-size: 0.45rem;
+    min-width: 80px;
+    
+  }
+.home-diff-options {
+  flex-direction: column !important;
+}
+  .home-diff-options button .diff-label {
+    font-size: 0.55rem;
+  }
+
+  .home-btn-play {
+    font-size: 0.6rem;
+    padding: 12px;
+  }
+  .home-hangman {
+    width: 70px;
+    height: 90px;
+  }
+  .home-category-options{
+    margin-bottom: 30px;
+  }
+
+  .home-diff-section label, 
+  .home-category-section label{
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .home-main-title {
+    font-size: 1.5rem;
+  }
+
+
+  .home-hangman {
+    width: 60px;
+    height: 80px;
+  }
+  .home-diff-options button {
+    padding: 8px 10px;
+    font-size: 0.4rem;
+    min-width: 60px;
+  }
+  .home-diff-options button .diff-label {
+    font-size: 0.45rem;
+  }
+  .home-category-options button {
+    font-size: 0.45rem;
+    padding: 10px 15px;
+  }
+  .home-btn-play {
+    font-size: 0.5rem;
+    padding: 10px;
+  }
+  .home-btn-rules {
+    font-size: 0.35rem;
+    padding: 6px 14px;
+  }
+  .home-footer-deco .deco-text {
+    font-size: 0.3rem;
+  }
+}
