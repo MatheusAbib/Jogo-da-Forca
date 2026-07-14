@@ -109,5 +109,3 @@ O jogo se adapta a diferentes tamanhos de tela:
 - **Landscape**: Layout otimizado para telas horizontais
 
 ---
-
----
