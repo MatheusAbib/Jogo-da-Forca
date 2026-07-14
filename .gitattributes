@@ -1,0 +1,4 @@
+# .gitattributes
+*.js linguist-language=JavaScript
+*.js linguist-vendored=false
+*.js linguist-detectable=true
