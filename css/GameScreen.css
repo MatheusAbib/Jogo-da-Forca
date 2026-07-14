@@ -653,11 +653,24 @@ body {
   flex-wrap: wrap;
 }
 
+.word-display .letter.hyphen {
+  border-bottom: none !important;
+  color: #fff;
+  min-width: 10px;
+  display: inline-block;
+}
+
+.word-display .letter.space {
+  border-bottom: none !important;
+  min-width: 20px;
+  display: inline-block;
+}
+
 .word-display .letter {
   display: inline-block;
   border-bottom: 4px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 6px;
-  min-width: 32px;
+  padding-bottom: 4px;
+  min-width: 28px;
   text-align: center;
   transition: all 0.3s;
 }
@@ -665,8 +678,8 @@ body {
 .word-display .letter.revealed {
   border-bottom-color: var(--primary);
   color: #fff;
-  text-shadow: 0 0 20px var(--primary);
 }
+
 
 .progress-area {
   display: flex;
@@ -677,7 +690,7 @@ body {
 .progress-bar {
   flex: 1;
   height: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   overflow: hidden;
   position: relative;
@@ -694,7 +707,7 @@ body {
 
 .progress-text {
   font-size: 0.5rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.7);
   min-width: 50px;
   text-align: right;
 }

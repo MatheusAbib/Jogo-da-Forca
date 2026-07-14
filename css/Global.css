@@ -92,7 +92,7 @@ body::-webkit-scrollbar {
   background: radial-gradient(ellipse at 30% 20%, #1a0a00, #0a0500);
   border: 3px solid var(--secondary);
   border-radius: 20px;
-  padding: 35px 40px;
+  padding: 30px 20px;
   max-width: 500px;
   width: 90%;
   box-shadow: 0 0 60px rgba(255, 140, 0, 0.3);
