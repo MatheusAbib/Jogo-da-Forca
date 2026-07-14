@@ -14,8 +14,11 @@ const sounds = {
 Object.values(sounds).forEach(s => { if (s) { s.load(); s.volume = 0.3; } });
 
 let soundEnabled = true;
+
 let animationFrameId;
+
 let timerInterval;
+
 let timeLeft = 30;
 let selectedWord = "";
 let displayedWord = [];

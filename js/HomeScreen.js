@@ -29,12 +29,19 @@ sounds.ambient.volume = 0.15;
 sounds.ambient.loop = true;
 
 let soundEnabled = true;
+
 let animationFrameId;
+
 let currentCategory = "random";
+
 let ranking = [];
+
 let audioContext = null;
+
 let isUserInteracted = false;
+
 let ambientTimeout = null;
+
 let ambientStarted = false;
 
 function initAudio() {
