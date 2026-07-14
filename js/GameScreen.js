@@ -169,7 +169,7 @@ function goHome() {
   stopAllSounds();
   stopTimer();
   if (animationFrameId) cancelAnimationFrame(animationFrameId);
-  window.location.href = 'HomeScreen.html';
+  window.location.href = 'index.html';
 }
 
 function initFireEffect(forceActive) {
