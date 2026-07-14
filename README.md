@@ -1,7 +1,5 @@
 # 🎮 Jogo da Forca - A FORCA
 
-Um jogo da forca sofisticado com tema sombrio, efeitos visuais impressionantes, sistema de dicas e ranking integrado.
-
 ---
 
 ## ✨ Recursos
@@ -20,7 +18,6 @@ Um jogo da forca sofisticado com tema sombrio, efeitos visuais impressionantes, 
 - **Som ambiente** em loop na tela inicial
 - **Teclado virtual** interativo + suporte a teclado físico
 - **Design responsivo** que se adapta a diferentes telas
-- **Tema escuro** com estética retrowave e glow effects
 
 ---
 
@@ -112,10 +109,5 @@ O jogo se adapta a diferentes tamanhos de tela:
 - **Landscape**: Layout otimizado para telas horizontais
 
 ---
-
-## 🎮 Controles de Teclado
-
-- **Teclas A-Z**: Digite letras para adivinhar
-- Funciona apenas quando o jogo está ativo
 
 ---
