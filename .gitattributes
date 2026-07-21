@@ -6,3 +6,7 @@
 # Garantir que CSS e HTML também sejam detectados
 *.css linguist-language=CSS
 *.html linguist-language=HTML
+
+# Ignorar arquivos de configuração
+*.json linguist-vendored=true
+*.md linguist-vendored=true
