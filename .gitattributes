@@ -1,4 +1,8 @@
-# .gitattributes
+# Forçar GitHub a reconhecer JavaScript
 *.js linguist-language=JavaScript
 *.js linguist-vendored=false
 *.js linguist-detectable=true
+
+# Garantir que CSS e HTML também sejam detectados
+*.css linguist-language=CSS
+*.html linguist-language=HTML
