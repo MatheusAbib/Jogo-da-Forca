@@ -1,5 +1,7 @@
 # 🎮 Jogo da Forca - A FORCA
 
+> 🔗 **Acesse o projeto online:** [matheusabib.github.io/Jogo-da-Forca](https://matheusabib.github.io/Jogo-da-Forca/)
+
 ---
 
 ## ✨ Recursos

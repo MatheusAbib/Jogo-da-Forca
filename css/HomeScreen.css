@@ -1,3 +1,7 @@
+.fire-background {
+  display: block;
+}
+
 #homeScreen {
   width: 100%;
   max-width: 1135px;
@@ -14,12 +18,12 @@
   border: 3px solid var(--primary);
   border-radius: 24px;
   padding: 30px 35px 25px;
-  max-width: 680px;
+  max-width: 780px;
   width: 100%;
   text-align: center;
   box-shadow: 0 0 80px rgba(255, 50, 0, 0.6), inset 0 0 60px rgba(255, 50, 0, 0.1);
   position: relative;
-  height: 600px;
+  min-height: 690px;
 }
 
 .home-container::before {
@@ -53,10 +57,6 @@
   opacity: 0.6;
   filter: drop-shadow(0 0 10px var(--primary));
   animation: pulse-skull 2s infinite;
-}
-
-.home-header-deco .deco-skull.small {
-  font-size: 1rem;
 }
 
 @keyframes pulse-skull {
@@ -105,8 +105,8 @@
 
 .home-hangman {
   width: 100px;
-  height: 120px;
-  margin: 5px auto 10px;
+  height: 130px;
+  margin: 5% auto 5%;
 }
 
 .home-hangman svg {
@@ -115,12 +115,12 @@
 }
 
 .home-part {
-  transition: opacity 0.8s ease;
-  opacity: 0;
+  transition: opacity 0.6s ease;
+  opacity: 1;
 }
 
-.home-part.visible {
-  opacity: 1;
+.home-part.hidden {
+  opacity: 0;
 }
 
 .home-category-section {
@@ -132,7 +132,7 @@
   font-size: 0.65rem;
   color: rgba(255, 255, 255, 0.7);
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   letter-spacing: 3px;
 }
 
@@ -141,7 +141,7 @@
   gap: 6px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .home-category-options button {
@@ -169,7 +169,7 @@
 }
 
 .home-diff-section {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .home-diff-section label {
@@ -177,7 +177,7 @@
   font-size: 0.65rem;
   color: rgba(255, 255, 255, 0.7);
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   letter-spacing: 3px;
 }
 
@@ -236,7 +236,7 @@
 
 .home-btn-play {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   background: linear-gradient(135deg, var(--primary), #cc2200);
   border: none;
   border-radius: 14px;
@@ -247,7 +247,7 @@
   transition: all 0.3s;
   letter-spacing: 3px;
   box-shadow: 0 4px 25px rgba(255, 42, 0, 0.4);
-  margin-top: 5px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -255,7 +255,6 @@
 }
 
 .home-btn-play:hover {
-  transform: translateY(-3px) scale(1.02);
   box-shadow: 0 8px 40px rgba(255, 42, 0, 0.6);
 }
 
@@ -265,11 +264,11 @@
 
 .home-btn-rules {
   background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 30px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6);
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.45rem;
+  font-size: 0.55rem;
   padding: 8px 20px;
   cursor: pointer;
   transition: all 0.3s;
@@ -277,61 +276,61 @@
 }
 
 .home-btn-rules:hover {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
   color: #fff;
 }
 
-.home-footer-deco {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.home-footer-deco .deco-text {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.35rem;
-  color: rgba(255, 255, 255, 0.15);
-  letter-spacing: 4px;
+@media (max-width: 768px) {
+  #homeScreen {
+    padding: 0;
+    min-height: 100dvh;
+    width: 100%;
+  }
+  .home-container {
+    max-width: 100%;
+    width: 100%;
+    min-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 600px) {
   .home-container {
-    padding: 5px;
+    padding: 15px 10px;
   }
   .home-main-title {
     font-size: 2rem;
   }
+  .home-diff-options {
+    flex-direction: column;
+  }
   .home-diff-options button {
     padding: 10px 14px;
     font-size: 0.45rem;
-    min-width: 80px;
-    
+    min-width: 0;
+    width: 100%;
   }
-.home-diff-options {
-  flex-direction: column !important;
-}
   .home-diff-options button .diff-label {
     font-size: 0.55rem;
   }
-
   .home-btn-play {
     font-size: 0.6rem;
     padding: 12px;
   }
   .home-hangman {
-    width: 70px;
-    height: 90px;
+    width: 80px;
+    height: 100px;
   }
-  .home-category-options{
-    margin-bottom: 30px;
+  .home-category-options {
+    margin-bottom: 15px;
   }
-
-  .home-diff-section label, 
-  .home-category-section label{
+  .home-diff-section label,
+  .home-category-section label {
     font-size: 0.6rem;
   }
 }
@@ -340,8 +339,6 @@
   .home-main-title {
     font-size: 1.5rem;
   }
-
-
   .home-hangman {
     width: 60px;
     height: 80px;
@@ -349,24 +346,20 @@
   .home-diff-options button {
     padding: 8px 10px;
     font-size: 0.4rem;
-    min-width: 60px;
   }
   .home-diff-options button .diff-label {
     font-size: 0.45rem;
   }
   .home-category-options button {
     font-size: 0.45rem;
-    padding: 10px 15px;
+    padding: 8px 12px;
   }
   .home-btn-play {
     font-size: 0.5rem;
     padding: 10px;
   }
   .home-btn-rules {
-    font-size: 0.35rem;
-    padding: 6px 14px;
-  }
-  .home-footer-deco .deco-text {
-    font-size: 0.3rem;
+    font-size: 0.5rem;
+    padding: 8px 16px;
   }
 }

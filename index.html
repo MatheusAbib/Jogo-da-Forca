@@ -6,8 +6,8 @@
   <title>A FORCA</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="./carrasco.png">
-  <link rel="stylesheet" href="./css/HomeScreen.css">
   <link rel="stylesheet" href="./css/Global.css">
+  <link rel="stylesheet" href="./css/HomeScreen.css">
 </head>
 <body>
 
@@ -60,7 +60,7 @@
     <div class="home-diff-section">
       <label>ESCOLHA A DIFICULDADE</label>
       <div class="home-diff-options">
-        <button data-diff="easy">
+        <button data-diff="easy" class="active">
           <span class="diff-label">Fácil</span>
           <span class="diff-desc">4-6 letras · 3 dicas</span>
         </button>
@@ -70,7 +70,7 @@
         </button>
         <button data-diff="hard">
           <span class="diff-label">Difícil</span>
-          <span class="diff-desc">9-14 letras · 1 dica · 35s</span>
+          <span class="diff-desc">9-14 letras · 1 dica · 30s</span>
         </button>
       </div>
     </div>
@@ -79,119 +79,7 @@
       <span>▶</span> JOGAR AGORA
     </button>
 
-  </div>
-</div>
-
-<div id="gameScreen" style="display:none;">
-  <div class="app" id="appContainer">
-    <div class="header-top">
-      <div class="header-left">
-        <h1>A FORCA</h1>
-        <button class="btn-icon btn-home" id="homeBtn" title="Voltar ao início">
-          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        </button>
-        <button class="btn-icon btn-mute" id="muteBtn" title="Som">
-          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/><path d="M19.5 12c0-3.35-1.98-6.22-4.5-7.68v1.5c2.04 1.04 3.5 3.14 3.5 5.18s-1.46 4.14-3.5 5.18v1.5c2.52-1.46 4.5-4.33 4.5-7.68z"/></svg>
-        </button>
-        <button class="btn-icon btn-rules-header" id="rulesHeaderBtn" title="Como Jogar">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-        </button>
-      </div>
-      <div class="header-stats">
-        <div class="stat-box">
-          <span class="label">Erros</span>
-          <span class="value" id="wrongGuesses">0</span>
-          <span style="font-size:0.6rem;color:rgba(255,255,255,0.3);">/6</span>
-        </div>
-        <div class="stat-box">
-          <span class="label">Palavra</span>
-          <span class="value" id="wordCounter">1</span>
-          <span style="font-size:0.6rem;color:rgba(255,255,255,0.3);">/5</span>
-        </div>
-        <div class="timer" id="timerDisplay">⏱ 30s</div>
-        <div class="lives" id="heartsContainer">
-          <div class="heart"></div>
-          <div class="heart"></div>
-          <div class="heart"></div>
-          <div class="heart"></div>
-          <div class="heart"></div>
-          <div class="heart"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="category-badge" id="categoryBadge">Categoria: Aleatório</div>
-
-    <div class="main">
-      <div class="hangman-container">
-        <div class="gallows">
-          <div class="pole"></div>
-          <div class="top-beam"></div>
-          <div class="rope"></div>
-        </div>
-        <div class="hangman-figure" id="hangmanFigure">
-          <div class="head" id="headPart">
-            <div class="face">
-              <div class="eye left"></div>
-              <div class="eye right"></div>
-              <div class="mouth"></div>
-            </div>
-          </div>
-          <div class="body" id="bodyPart"></div>
-          <div class="arm left" id="armLeftPart"></div>
-          <div class="arm right" id="armRightPart"></div>
-          <div class="leg left" id="legLeftPart"></div>
-          <div class="leg right" id="legRightPart"></div>
-        </div>
-      </div>
-
-      <div class="game-panel">
-        <div class="word-container">
-          <div class="word-display" id="wordDisplay"></div>
-        </div>
-
-        <div class="progress-area">
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <span class="progress-text" id="progressText">0%</span>
-        </div>
-
-        <div id="message" class="message"></div>
-
-        <div class="keyboard" id="keyboard"></div>
-
-        <div class="bottom-actions">
-          <button class="btn-hint" id="hintBtn">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-            Dica (<span id="hintCount">3</span>)
-          </button>
-          <button class="btn-restart" id="restartBtn">
-            <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
-            Jogar Novamente
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="game-footer">
-      <div class="hint-container">
-        <div class="hint-label">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-          Dica Detalhada
-        </div>
-        <div class="hint"><span id="hintText">Carregando...</span></div>
-      </div>
-      <div class="ranking">
-        <div class="ranking-label">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          Ranking
-        </div>
-        <div class="ranking-list" id="rankingList">
-          <div class="rank-empty">Nenhuma partida ainda</div>
-        </div>
-      </div>
-    </div>
+    <button class="home-btn-rules" id="rulesHomeBtn">COMO JOGAR</button>
   </div>
 </div>
 
@@ -204,7 +92,7 @@
       <li><strong>Como jogar:</strong> Clique nas letras para tentar adivinhar.</li>
       <li><strong>Erros:</strong> A cada erro, uma parte do corpo é desenhada na forca.</li>
       <li><strong>Dicas:</strong> Use as dicas para revelar letras aleatórias.</li>
-      <li><strong>Dificuldade:</strong> Escolha entre Fácil, Médio ou Difícil.</li>
+      <li><strong>Dificuldade:</strong> Fácil (6 vidas), Médio (6 vidas), Difícil (3 vidas + 30s).</li>
       <li><strong>Categorias:</strong> Selecione o tema das palavras.</li>
       <li><strong>Boa sorte!</strong></li>
     </ul>
@@ -217,7 +105,7 @@
   <span id="toastMessage">Selecione uma dificuldade!</span>
 </div>
 
-<script src="script.js"></script>
+<script src="main.js"></script>
 
 </body>
 </html>
