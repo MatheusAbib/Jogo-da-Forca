@@ -17,7 +17,7 @@
   background: radial-gradient(ellipse at 30% 20%, #1a0a00, #0a0500);
   border: 3px solid var(--primary);
   border-radius: 24px;
-  padding: 30px 35px 25px;
+  padding: 35px;
   max-width: 780px;
   width: 100%;
   text-align: center;
@@ -53,6 +53,21 @@
   max-width: 80px;
 }
 
+.home-header-deco .deco-skull {
+  width: 2.5rem;
+  height: 1.7rem;
+  opacity: 0.7;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-header-deco .deco-skull svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--primary);
+}
+
 .home-title-group {
   margin-bottom: 15px;
 }
@@ -70,7 +85,6 @@
 }
 
 .home-subtitle {
-  font-family: 'Press Start 2P', cursive;
   font-size: 0.6rem;
   color: rgba(255, 255, 255, 0.7);
   letter-spacing: 6px;
@@ -78,9 +92,10 @@
 }
 
 .title-underline {
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(to right, transparent, var(--primary), transparent);
+  width: 85px;
+  height: 2px;
+  opacity: 0.65;
+  background: var(--primary);
   margin: 10px auto 0;
   border-radius: 5px;
 }
@@ -88,7 +103,7 @@
 .home-hangman {
   width: 100px;
   height: 130px;
-  margin: 5% auto 5%;
+  margin: 5% auto;
 }
 
 .home-hangman svg {
@@ -105,12 +120,13 @@
   opacity: 0;
 }
 
-.home-category-section {
-  margin-bottom: 18px;
+.home-category-section,
+.home-diff-section {
+  margin-bottom: 30px;
 }
 
-.home-category-section label {
-  font-family: 'Press Start 2P', cursive;
+.home-category-section label,
+.home-diff-section label {
   font-size: 0.65rem;
   color: rgba(255, 255, 255, 0.7);
   display: block;
@@ -123,44 +139,6 @@
   gap: 6px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 30px;
-}
-
-.home-category-options button {
-  padding: 10px 15px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  color: rgba(255, 255, 255, 0.7);
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.5rem;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.home-category-options button:hover {
-  border-color: rgba(255, 140, 0, 0.3);
-  color: #fff;
-}
-
-.home-category-options button.active {
-  border-color: var(--primary);
-  background: rgba(255, 42, 0, 0.15);
-  color: #fff;
-  box-shadow: 0 0 20px rgba(255, 42, 0, 0.15);
-}
-
-.home-diff-section {
-  margin-bottom: 30px;
-}
-
-.home-diff-section label {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.7);
-  display: block;
-  margin-bottom: 15px;
-  letter-spacing: 3px;
 }
 
 .home-diff-options {
@@ -170,24 +148,54 @@
   flex-wrap: wrap;
 }
 
+.home-category-options button,
 .home-diff-options button {
-  padding: 12px 20px;
   background: rgba(255, 255, 255, 0.04);
   border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 14px;
   color: rgba(255, 255, 255, 0.7);
-  font-family: 'Press Start 2P', cursive;
+  font-family: inherit;
   font-size: 0.5rem;
   cursor: pointer;
   transition: all 0.3s;
+}
+
+.home-category-options button {
+  padding: 10px 15px;
+  border-radius: 20px;
+}
+
+.home-diff-options button {
+  padding: 12px 20px;
+  border-radius: 14px;
   min-width: 100px;
   text-align: center;
 }
 
+.home-category-options button:hover,
 .home-diff-options button:hover {
   border-color: rgba(255, 140, 0, 0.3);
+  color: #fff;
+}
+
+.home-diff-options button:hover {
   background: rgba(255, 140, 0, 0.05);
   transform: translateY(-2px);
+}
+
+.home-category-options button.active,
+.home-diff-options button.active {
+  border-color: var(--primary);
+  background: rgba(255, 42, 0, 0.15);
+}
+
+.home-category-options button.active {
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255, 42, 0, 0.15);
+}
+
+.home-diff-options button.active {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(255, 42, 0, 0.2);
 }
 
 .home-diff-options button .diff-label {
@@ -199,13 +207,6 @@
 .home-diff-options button .diff-desc {
   font-size: 0.42rem;
   color: rgba(255, 255, 255, 0.7);
-}
-
-.home-diff-options button.active {
-  border-color: var(--primary);
-  background: rgba(255, 42, 0, 0.15);
-  transform: translateY(-3px);
-  box-shadow: 0 0 30px rgba(255, 42, 0, 0.2);
 }
 
 .home-diff-options button.active .diff-label {
@@ -223,7 +224,7 @@
   border: none;
   border-radius: 14px;
   color: #fff;
-  font-family: 'Press Start 2P', cursive;
+  font-family: inherit;
   font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.3s;
@@ -249,7 +250,7 @@
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 30px;
   color: rgba(255, 255, 255, 0.6);
-  font-family: 'Press Start 2P', cursive;
+  font-family: inherit;
   font-size: 0.55rem;
   padding: 8px 20px;
   cursor: pointer;
@@ -260,21 +261,6 @@
 .home-btn-rules:hover {
   border-color: rgba(255, 255, 255, 0.5);
   color: #fff;
-}
-
-.home-header-deco .deco-skull {
-  width: 2.5rem;
-  height: 1.7rem;
-  opacity: 0.7;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.home-header-deco .deco-skull svg {
-  width: 100%;
-  height: 100%;
-  fill: var(--primary);
 }
 
 @media (max-width: 768px) {
@@ -303,6 +289,14 @@
   .home-main-title {
     font-size: 2rem;
   }
+  .home-category-section,
+  .home-diff-section {
+    margin-bottom: 15px;
+  }
+  .home-category-section label,
+  .home-diff-section label {
+    font-size: 0.6rem;
+  }
   .home-diff-options {
     flex-direction: column;
   }
@@ -322,13 +316,6 @@
   .home-hangman {
     width: 80px;
     height: 100px;
-  }
-  .home-category-options {
-    margin-bottom: 15px;
-  }
-  .home-diff-section label,
-  .home-category-section label {
-    font-size: 0.6rem;
   }
 }
 

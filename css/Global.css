@@ -26,10 +26,6 @@ body {
   min-height: 100vh;
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}
-
 .fire-background {
   position: fixed;
   top: 0;
@@ -108,7 +104,7 @@ body::-webkit-scrollbar {
   font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.3s;
-  font-family: 'Press Start 2P', cursive;
+  font-family: inherit;
 }
 
 .rules-close:hover {
@@ -132,7 +128,6 @@ body::-webkit-scrollbar {
 }
 
 .rules-modal-content ul li {
-  font-family: 'Press Start 2P', cursive;
   font-size: 0.5rem;
   color: rgba(255, 255, 255, 0.7);
   padding: 8px 0;
@@ -154,7 +149,6 @@ body::-webkit-scrollbar {
   border-radius: 14px;
   padding: 14px 28px;
   color: #fff;
-  font-family: 'Press Start 2P', cursive;
   font-size: 0.55rem;
   text-align: center;
   box-shadow: 0 0 40px rgba(255, 200, 0, 0.3);
@@ -194,7 +188,6 @@ body::-webkit-scrollbar {
 @media (min-width: 769px) {
   body {
     overflow: hidden;
-    height: 100vh;
   }
 }
 

@@ -130,7 +130,6 @@
 }
 
 .game-subtitle {
-  font-family: 'Press Start 2P', cursive;
   font-size: 0.5rem;
   color: rgba(255, 255, 255, 0.7);
   letter-spacing: 4px;
@@ -200,9 +199,14 @@
   gap: 18px;
 }
 
-.heart {
+.heart,
+.heart::before,
+.heart::after {
   width: 14px;
   height: 14px;
+}
+
+.heart {
   background: var(--primary);
   transform: rotate(-45deg);
   box-shadow: 0 0 10px rgba(255, 71, 87, 0.7);
@@ -222,8 +226,6 @@
 .heart::after {
   content: "";
   position: absolute;
-  width: 14px;
-  height: 14px;
   background: inherit;
   border-radius: 50%;
   transition: all 0.3s;
@@ -259,7 +261,6 @@
 
 .lives-counter {
   display: none;
-  font-family: 'Press Start 2P', cursive;
   font-size: 0.7rem;
   color: var(--primary);
   padding: 5px 12px;
@@ -316,22 +317,22 @@
   margin-top: 10px;
 }
 
-.category-badge {
+.category-badge,
+.difficulty-badge {
   font-size: 0.5rem;
-  color: var(--secondary);
   padding: 4px 12px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 140, 0, 0.4);
   display: inline-block;
 }
 
+.category-badge {
+  color: var(--secondary);
+  border: 1px solid rgba(255, 140, 0, 0.4);
+}
+
 .difficulty-badge {
-  font-size: 0.5rem;
   color: var(--warning);
-  padding: 4px 12px;
-  border-radius: 20px;
   border: 1px solid rgba(255, 200, 0, 0.4);
-  display: inline-block;
 }
 
 .info-actions {
@@ -352,7 +353,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Press Start 2P', cursive;
+  font-family: inherit;
   font-size: 0.5rem;
   gap: 6px;
   min-width: 40px;
@@ -464,6 +465,20 @@
   z-index: 10;
 }
 
+.head,
+.body,
+.arm,
+.leg {
+  display: none;
+}
+
+.head.visible,
+.body.visible,
+.arm.visible,
+.leg.visible {
+  display: block;
+}
+
 .head {
   width: 55px;
   height: 55px;
@@ -474,11 +489,6 @@
   box-shadow: inset -15px -15px 30px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.7);
   background: radial-gradient(circle at 30% 30%, #ffdbac, #e8c9a7, #d9b89b);
   z-index: 5;
-  display: none;
-}
-
-.head.visible {
-  display: block;
 }
 
 .eye {
@@ -527,11 +537,6 @@
   box-shadow: inset -15px -15px 30px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.7);
   background: linear-gradient(to bottom, #4682b4, #5f9ea0, #4682b4);
   z-index: 4;
-  display: none;
-}
-
-.body.visible {
-  display: block;
 }
 
 .arm {
@@ -543,11 +548,6 @@
   box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.7);
   background: linear-gradient(to right, #ffdbac, #e8c9a7, #ffdbac);
   z-index: 3;
-  display: none;
-}
-
-.arm.visible {
-  display: block;
 }
 
 .arm.left {
@@ -594,11 +594,6 @@
   top: 155px;
   box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.7);
   z-index: 2;
-  display: none;
-}
-
-.leg.visible {
-  display: block;
 }
 
 .leg.left {
@@ -745,7 +740,7 @@
   color: #fff;
   border: none;
   border-radius: 10px;
-  font-family: 'Press Start 2P', cursive;
+  font-family: inherit;
   font-size: 0.7rem;
   cursor: pointer;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.1);
@@ -796,21 +791,25 @@
   flex-wrap: wrap;
 }
 
-.btn-hint {
+.btn-hint,
+.btn-restart {
   padding: 12px 20px;
-  background: transparent;
-  border: 2px solid var(--warning);
-  color: var(--warning);
   border-radius: 10px;
-  font-family: 'Press Start 2P', cursive;
+  font-family: inherit;
   font-size: 0.5rem;
   cursor: pointer;
   transition: all 0.3s;
   flex: 1;
-  display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.btn-hint {
+  background: transparent;
+  border: 2px solid var(--warning);
+  color: var(--warning);
+  display: flex;
 }
 
 .btn-hint:hover:not(:disabled) {
@@ -831,20 +830,10 @@
 }
 
 .btn-restart {
-  padding: 12px 20px;
   background: linear-gradient(to right, var(--accent), var(--primary));
   color: #fff;
   border: none;
-  border-radius: 10px;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.5rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  flex: 1;
   display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
 }
 
 .btn-restart.show {
@@ -881,16 +870,28 @@
   border-top: 2px solid rgba(255, 255, 255, 0.05);
 }
 
-.hint-container {
+.hint-container,
+.ranking {
   padding: 12px 16px;
   border-radius: 12px;
+}
+
+.hint-container {
   border: 2px solid var(--warning);
   background: rgba(255, 200, 0, 0.08);
 }
 
-.hint-label {
+.ranking {
+  border: 2px solid var(--secondary);
+  background: rgba(255, 140, 0, 0.08);
+  max-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hint-label,
+.ranking-label {
   font-size: 0.55rem;
-  color: var(--warning);
   text-transform: uppercase;
   margin-bottom: 4px;
   display: flex;
@@ -898,10 +899,27 @@
   gap: 6px;
 }
 
-.hint-label svg {
+.hint-label {
+  color: var(--warning);
+}
+
+.ranking-label {
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+
+.hint-label svg,
+.ranking-label svg {
   width: 14px;
   height: 14px;
+}
+
+.hint-label svg {
   fill: var(--warning);
+}
+
+.ranking-label svg {
+  fill: var(--secondary);
 }
 
 .hint {
@@ -912,33 +930,6 @@
 
 .hint span {
   color: var(--warning);
-}
-
-.ranking {
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 2px solid var(--secondary);
-  background: rgba(255, 140, 0, 0.08);
-  max-height: 200px;
-  display: flex;
-  flex-direction: column;
-}
-
-.ranking-label {
-  font-size: 0.55rem;
-  color: var(--secondary);
-  text-transform: uppercase;
-  margin-bottom: 4px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.ranking-label svg {
-  width: 14px;
-  height: 14px;
-  fill: var(--secondary);
 }
 
 .ranking-list {
@@ -1035,10 +1026,6 @@
 }
 
 @media (max-width: 768px) {
-  body {
-    overflow: hidden;
-    height: 100dvh;
-  }
   .app {
     max-width: 100%;
     width: 100%;
@@ -1168,9 +1155,6 @@
 }
 
 @media (max-width: 400px) {
-  .game-main-title {
-    font-size: 2rem;
-  }
   .hangman-figure {
     transform: scale(0.5);
     top: 65px;
@@ -1260,10 +1244,7 @@
   .lives {
     gap: 3px;
   }
-  .heart {
-    width: 8px;
-    height: 8px;
-  }
+  .heart,
   .heart::before,
   .heart::after {
     width: 8px;
