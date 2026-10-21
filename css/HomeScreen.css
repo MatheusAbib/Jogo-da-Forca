@@ -233,17 +233,8 @@
   margin-bottom: 4px;
 }
 
-.home-diff-options button .diff-desc {
-  font-size: 0.42rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .home-diff-options button.active .diff-label {
   color: var(--primary);
-}
-
-.home-diff-options button.active .diff-desc {
-  color: rgba(255, 255, 255, 0.6);
 }
 
 .home-btn-play {
