@@ -84,6 +84,8 @@
   color: var(--primary);
 }
 
+
+
 .home-subtitle {
   font-size: 0.6rem;
   color: rgba(255, 255, 255, 0.7);
@@ -143,7 +145,7 @@
 
 .home-diff-options {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -167,8 +169,35 @@
 .home-diff-options button {
   padding: 12px 20px;
   border-radius: 14px;
-  min-width: 100px;
+  width: 30%;
   text-align: center;
+}
+
+.diff-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.diff-stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.42rem;
+  line-height: 1.4;
+}
+
+.diff-stat .stat-key {
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.diff-stat .stat-val {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: bold;
 }
 
 .home-category-options button:hover,

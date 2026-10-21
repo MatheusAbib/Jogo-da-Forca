@@ -48,6 +48,8 @@ const hintText = document.getElementById("hintText");
 const progressFill = document.getElementById("progressFill");
 const progressText = document.getElementById("progressText");
 const wordCounter = document.getElementById("wordCounter");
+const maxRoundsDisplay = document.getElementById("maxRoundsDisplay");
+const maxGuessesDisplay = document.getElementById("maxGuessesDisplay");
 const hearts = document.querySelectorAll(".heart");
 const livesCounter = document.getElementById("livesCounter");
 const rankingList = document.getElementById("rankingList");
@@ -421,6 +423,8 @@ function initGame() {
   hintsRemaining = settings.maxHints;
   maxGuesses = settings.lives;
 
+  if (maxGuessesDisplay) maxGuessesDisplay.textContent = `/${maxGuesses}`;
+
   renderWord();
   updateProgress();
   if (wrongDisplay) wrongDisplay.textContent = wrongGuesses;
@@ -685,6 +689,8 @@ function startGame(difficulty, category) {
   totalCorrect = 0;
   totalWrong = 0;
   usedWords = [];
+  if (maxRoundsDisplay) maxRoundsDisplay.textContent = `/${maxRounds}`;
+  if (maxGuessesDisplay) maxGuessesDisplay.textContent = `/${maxGuesses}`;
   initGame();
 }
 
