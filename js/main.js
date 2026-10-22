@@ -235,6 +235,34 @@ function stopHangmanAnimation() {
   hangmanTimeoutId = null;
 }
 
+function savePreferences() {
+  try {
+    localStorage.setItem('forca_prefs', JSON.stringify({
+      category: currentCategory,
+      difficulty: document.querySelector('.home-diff-options button.active')?.dataset.diff || 'easy'
+    }));
+  } catch {}
+}
+
+function loadPreferences() {
+  try {
+    const data = localStorage.getItem('forca_prefs');
+    if (!data) return;
+    const prefs = JSON.parse(data);
+    const catBtn = document.querySelector(`.home-category-options button[data-cat="${prefs.category}"]`);
+    const diffBtn = document.querySelector(`.home-diff-options button[data-diff="${prefs.difficulty}"]`);
+    if (catBtn) {
+      document.querySelectorAll('.home-category-options button').forEach(b => b.classList.remove('active'));
+      catBtn.classList.add('active');
+      currentCategory = prefs.category;
+    }
+    if (diffBtn) {
+      document.querySelectorAll('.home-diff-options button').forEach(b => b.classList.remove('active'));
+      diffBtn.classList.add('active');
+    }
+  } catch {}
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', handleUserInteraction);
   document.addEventListener('keydown', handleUserInteraction);
@@ -249,6 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
       this.classList.add('active');
       currentCategory = this.dataset.cat;
       playSound("click");
+      savePreferences();
     });
   });
 
@@ -260,6 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.home-diff-options button').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       playSound("click");
+      savePreferences();
     });
   });
 
@@ -342,6 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  loadPreferences();
   initFireEffect();
   startHangmanAnimation();
 
