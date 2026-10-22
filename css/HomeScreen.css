@@ -45,11 +45,15 @@
   margin-bottom: 10px;
 }
 
-.home-header-deco .deco-line {
-  flex: 1;
+.home-header-deco .deco-line,
+.title-underline {
   height: 2px;
   opacity: 0.65;
   background: var(--primary);
+}
+
+.home-header-deco .deco-line {
+  flex: 1;
   max-width: 80px;
 }
 
@@ -84,8 +88,6 @@
   color: var(--primary);
 }
 
-
-
 .home-subtitle {
   font-size: 0.6rem;
   color: rgba(255, 255, 255, 0.7);
@@ -95,9 +97,6 @@
 
 .title-underline {
   width: 85px;
-  height: 2px;
-  opacity: 0.65;
-  background: var(--primary);
   margin: 10px auto 0;
   border-radius: 5px;
 }

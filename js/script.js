@@ -39,6 +39,7 @@ const wrongDisplay = document.getElementById("wrongGuesses");
 const message = document.getElementById("message");
 const restartBtn = document.getElementById("restartBtn");
 const hintBtn = document.getElementById("hintBtn");
+const giveUpBtn = document.getElementById("giveUpBtn");
 const hintCount = document.getElementById("hintCount");
 const hintText = document.getElementById("hintText");
 const progressFill = document.getElementById("progressFill");
@@ -117,8 +118,6 @@ function renderRanking() {
 function normalizeWord(word) {
   return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
-
-
 
 function getRandomWord() {
   const settings = difficultySettings[currentDifficulty];
@@ -437,6 +436,10 @@ function initGame() {
     message.className = "message";
   }
   if (restartBtn) restartBtn.classList.remove("show");
+  if (giveUpBtn) {
+    giveUpBtn.disabled = false;
+    giveUpBtn.style.opacity = "1";
+  }
   if (hintBtn) {
     hintBtn.disabled = false;
     hintBtn.style.opacity = "1";
@@ -617,6 +620,40 @@ function handleGuess(letter, btn) {
   checkGameStatus();
 }
 
+function giveUp() {
+  if (!isGameActive) return;
+  totalWrong++;
+  playSound("lose");
+  stopTimer();
+  message.innerHTML = `VOCÊ DESISTIU! A PALAVRA ERA "${selectedWord.toUpperCase()}"`;
+  message.className = "message show error";
+  isGameActive = false;
+  shakeScreen();
+
+  if (partIds.head) partIds.head.classList.add("dead");
+
+  const order = getActivePartOrder();
+  order.forEach(id => {
+    const p = partIds[id];
+    if (p) p.classList.add("dead");
+  });
+
+  hearts.forEach(h => h.classList.add("lost"));
+  updateLivesCounter();
+
+  document.querySelectorAll(".key-btn").forEach(b => b.disabled = true);
+  if (giveUpBtn) {
+    giveUpBtn.disabled = true;
+    giveUpBtn.style.opacity = "0.3";
+  }
+  if (hintBtn) {
+    hintBtn.disabled = true;
+    hintBtn.style.opacity = "0.3";
+  }
+
+  handleEndOfGame(2000);
+}
+
 function handleEndOfGame(delay) {
   if (currentRound >= maxRounds) {
     setTimeout(() => {
@@ -768,6 +805,13 @@ document.addEventListener('DOMContentLoaded', function() {
     hintBtn.addEventListener('click', function() {
       playSound("click");
       useHint();
+    });
+  }
+
+  if (giveUpBtn) {
+    giveUpBtn.addEventListener('click', function() {
+      playSound("click");
+      giveUp();
     });
   }
 

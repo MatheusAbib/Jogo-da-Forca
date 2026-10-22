@@ -229,11 +229,11 @@
   background: inherit;
   border-radius: 50%;
   transition: all 0.3s;
+  left: 0;
 }
 
 .heart::before {
   top: -8px;
-  left: 0;
 }
 
 .heart::after {
@@ -722,31 +722,37 @@
   opacity: 1;
 }
 
+.message.success,
+.message.error,
+.message.info,
+.message.timer {
+  border-width: 2px;
+  border-style: solid;
+  text-shadow: 0 0 10px currentColor;
+}
+
 .message.success {
   color: var(--success);
   background: rgba(0, 20, 0, 0.8);
-  border: 2px solid var(--success);
-  text-shadow: 0 0 10px var(--success);
+  border-color: var(--success);
 }
 
 .message.error {
   color: var(--error);
   background: rgba(20, 0, 0, 0.8);
-  border: 2px solid var(--error);
-  text-shadow: 0 0 10px var(--error);
+  border-color: var(--error);
 }
 
 .message.info {
   color: var(--warning);
   background: rgba(20, 20, 0, 0.8);
-  border: 2px solid var(--warning);
-  text-shadow: 0 0 10px var(--warning);
+  border-color: var(--warning);
 }
 
 .message.timer {
   color: var(--error);
   background: rgba(255, 0, 50, 0.15);
-  border: 2px solid var(--error);
+  border-color: var(--error);
   animation: timer-pulse 0.3s infinite alternate;
 }
 
@@ -1018,6 +1024,40 @@
   font-size: 0.4rem;
   text-align: center;
   padding: 20px 0;
+}
+
+.btn-give-up {
+  padding: 12px 20px;
+  background: transparent;
+  border: 2px solid var(--error);
+  color: var(--error);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-give-up:hover:not(:disabled) {
+  background: var(--error);
+  color: #000;
+  box-shadow: 0 0 20px var(--error);
+}
+
+.btn-give-up:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-give-up svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
 }
 
 @media (max-width: 900px) {
