@@ -118,32 +118,35 @@ function normalizeWord(word) {
   return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
-function getWordByCategory() {
-  let filtered = wordList;
-  if (currentCategory !== 'random') {
-    filtered = wordList.filter(w => w.category === currentCategory);
-  }
-  const settings = difficultySettings[currentDifficulty];
-  filtered = filtered.filter(w => {
-    const clean = normalizeWord(w.word);
-    return clean.length >= settings.minLen && clean.length <= settings.maxLen;
-  });
-  if (!filtered.length) return wordList[Math.floor(Math.random() * wordList.length)];
-  return filtered[Math.floor(Math.random() * filtered.length)];
-}
+
 
 function getRandomWord() {
-  const selected = getWordByCategory();
-  let word = selected.word.toLowerCase();
+  const settings = difficultySettings[currentDifficulty];
 
-  let attempts = 0;
-  while (usedWords.includes(word) && attempts < 10) {
-    const newSelected = getWordByCategory();
-    word = newSelected.word.toLowerCase();
-    attempts++;
+  function buildPool() {
+    return wordList.filter(w => {
+      if (currentCategory !== 'random' && w.category !== currentCategory) return false;
+      const clean = normalizeWord(w.word);
+      if (clean.length < settings.minLen || clean.length > settings.maxLen) return false;
+      return !usedWords.includes(w.word.toLowerCase());
+    });
   }
 
+  let pool = buildPool();
+
+  if (!pool.length) {
+    usedWords = [];
+    pool = buildPool();
+  }
+
+  if (!pool.length) {
+    pool = wordList;
+  }
+
+  const selected = pool[Math.floor(Math.random() * pool.length)];
+  const word = selected.word.toLowerCase();
   usedWords.push(word);
+
   return {
     word,
     hint: `DEFINIÇÃO: ${selected.description}`
