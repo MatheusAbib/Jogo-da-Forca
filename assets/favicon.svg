@@ -1,0 +1,45 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#542137"></stop>
+      <stop offset="1" stop-color="#211521"></stop>
+    </linearGradient>
+
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0d29a"></stop>
+      <stop offset="1" stop-color="#a97a45"></stop>
+    </linearGradient>
+
+    <linearGradient id="curtain" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a84b5b"></stop>
+      <stop offset="1" stop-color="#5a243c"></stop>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="url(#background)"></rect>
+
+  <rect x="5" y="5" width="54" height="54" rx="9" fill="none" stroke="url(#gold)" stroke-width="2.5"></rect>
+
+  <path d="M9 11Q18 17 25 11Q32 17 39 11Q46 17 55 11V19H9Z" fill="url(#curtain)" stroke="#d4aa70" stroke-width="1.5"></path>
+
+  <path d="M9 14Q17 22 13 39L9 49Z" fill="#963e52"></path>
+
+  <path d="M55 14Q47 22 51 39L55 49Z" fill="#963e52"></path>
+
+  <path d="M14 18L12 37M50 18L52 37" stroke="#c16a70" stroke-width="2" opacity=".7"></path>
+
+  <path d="M15 52H49" stroke="#c69b66" stroke-width="3" stroke-linecap="round"></path>
+
+  <path d="M23 49V24H43" fill="none" stroke="#e4bf82" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"></path>
+
+  <path d="M23 34L32 24" stroke="#a97a45" stroke-width="3" stroke-linecap="round"></path>
+
+  <path d="M40 26V34" stroke="#e4bf82" stroke-width="2.5" stroke-linecap="round"></path>
+
+  <ellipse cx="40" cy="39" rx="5" ry="6" fill="none" stroke="#e4bf82" stroke-width="2.5"></ellipse>
+
+  <circle cx="40" cy="39" r="1.5" fill="#f0d29a"></circle>
+
+  <path d="M20 55H44" stroke="#a97a45" stroke-width="1.5" stroke-linecap="round"></path>
+</svg>

@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17131c">
+  <meta name="description" content="A Forca — O Teatro dos Condenados. Descubra as palavras antes que o espetáculo termine.">
+  <title>A FORCA | Partida</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IM+Fell+English+SC&family=Pirata+One&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/Global.css">
+  <link rel="stylesheet" href="./css/Theater.css">
+  <link rel="stylesheet" href="./css/GameScreen.css">
+</head>
+
+<body class="game-page">
+  <div class="app theater-game" id="appContainer">
+    <div id="fireBackground" class="fire-background" aria-hidden="true">
+      <canvas id="fireCanvas"></canvas>
+    </div>
+    <div class="theater-backdrop" aria-hidden="true">
+      <div class="backdrop-wall"></div>
+
+      <div class="stage-box">
+        <div class="stage-box-ceiling"></div>
+
+        <div class="stage-box-back-wall">
+          <div class="back-wall-panel back-wall-panel-left"></div>
+          <div class="back-wall-panel back-wall-panel-right"></div>
+          <div class="back-wall-molding"></div>
+        </div>
+
+        <div class="stage-box-side stage-box-side-left">
+          <div class="side-wall-panel"></div>
+          <div class="side-wall-molding"></div>
+        </div>
+
+        <div class="stage-box-side stage-box-side-right">
+          <div class="side-wall-panel"></div>
+          <div class="side-wall-molding"></div>
+        </div>
+      </div>
+
+      <div class="backdrop-spotlight backdrop-spotlight-left"></div>
+      <div class="backdrop-spotlight backdrop-spotlight-right"></div>
+      <div class="backdrop-vignette"></div>
+    </div>
+
+    <div class="theater-proscenium" aria-hidden="true">
+      <div class="side-curtain side-curtain-left">
+        <div class="curtain-fabric"></div>
+        <div class="curtain-fold curtain-fold-one"></div>
+        <div class="curtain-fold curtain-fold-two"></div>
+        <div class="curtain-fold curtain-fold-three"></div>
+      </div>
+
+      <div class="side-curtain side-curtain-right">
+        <div class="curtain-fabric"></div>
+        <div class="curtain-fold curtain-fold-one"></div>
+        <div class="curtain-fold curtain-fold-two"></div>
+        <div class="curtain-fold curtain-fold-three"></div>
+      </div>
+
+      <div class="proscenium-top">
+        <div class="proscenium-fabric"></div>
+        <div class="proscenium-pleats"></div>
+
+        <div class="proscenium-swags">
+          <div class="proscenium-swag proscenium-swag-one"></div>
+          <div class="proscenium-swag proscenium-swag-two"></div>
+          <div class="proscenium-swag proscenium-swag-three"></div>
+          <div class="proscenium-swag proscenium-swag-four"></div>
+          <div class="proscenium-swag proscenium-swag-five"></div>
+        </div>
+
+        <div class="proscenium-scallops"></div>
+        <div class="proscenium-fringe"></div>
+        <div class="proscenium-gold-trim"></div>
+      </div>
+
+      <div class="proscenium-trim"></div>
+    </div>
+
+    <main class="game-stage">
+      <div class="game-status">
+        <div class="game-status-intro">
+          <span class="status-eyebrow"></span>
+          <strong>A FORCA</strong>
+        </div>
+
+        <div class="game-status-item game-status-round">
+          <span class="status-label">RODADA</span>
+
+          <div class="status-value">
+            <strong id="wordCounter">1</strong>
+            <span class="status-separator">/</span>
+            <span id="maxRoundsDisplay">10</span>
+          </div>
+        </div>
+
+        <span id="wrongGuesses" hidden>0</span>
+        <span id="maxGuessesDisplay" hidden>6</span>
+
+        <div class="game-status-item game-status-lives">
+          <span class="status-label">VIDAS</span>
+
+          <div class="status-lives-value">
+            <div class="lives" id="heartsContainer" aria-label="Vidas restantes">
+              <span class="heart"></span>
+              <span class="heart"></span>
+              <span class="heart"></span>
+              <span class="heart"></span>
+              <span class="heart"></span>
+              <span class="heart"></span>
+            </div>
+
+            <span class="lives-counter" id="livesCounter">6</span>
+          </div>
+        </div>
+
+        <div class="timer" id="timerDisplay" aria-live="polite"></div>
+
+        <div class="game-status-controls">
+          <button
+            class="btn-icon btn-home"
+            id="homeBtn"
+            type="button"
+            aria-label="Voltar ao início"
+            title="Voltar ao início"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M3 10.5L12 3L21 10.5V21H14.5V14.5H9.5V21H3V10.5Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <button
+            class="btn-icon btn-rules-header"
+            id="rulesHeaderBtn"
+            type="button"
+            aria-label="Como jogar"
+            title="Como jogar"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+              <path
+                d="M9.7 9A2.5 2.5 0 0 1 14.5 10C14.5 12 12 12 12 14"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+              <circle cx="12" cy="17.5" r="1" fill="currentColor"/>
+            </svg>
+          </button>
+
+          <button
+            class="btn-icon btn-mute"
+            id="muteBtn"
+            type="button"
+            aria-label="Alternar som"
+            title="Alternar som"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M4 9V15H8L13 19V5L8 9H4Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M16 9C17 9.8 17.5 10.8 17.5 12C17.5 13.2 17 14.2 16 15M18.5 6.5C20.2 7.9 21 9.7 21 12C21 14.3 20.2 16.1 18.5 17.5"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="game-stage-content">
+        <section class="execution-area" aria-label="Palco da forca">
+
+          <div class="execution-spotlight" aria-hidden="true"></div>
+
+          <div class="hangman-container">
+            <div class="gallows">
+              <div class="pole"></div>
+              <div class="top-beam"></div>
+              <div class="rope"></div>
+            </div>
+
+            <div class="hangman-figure" id="hangmanFigure">
+              <div class="head" id="headPart">
+                <div class="face">
+                  <span class="eye left"></span>
+                  <span class="eye right"></span>
+                  <span class="mouth"></span>
+                </div>
+              </div>
+
+              <div class="body" id="bodyPart"></div>
+              <div class="arm left" id="armLeftPart"></div>
+              <div class="arm right" id="armRightPart"></div>
+              <div class="leg left" id="legLeftPart"></div>
+              <div class="leg right" id="legRightPart"></div>
+            </div>
+          </div>
+
+          <section class="hint-container" aria-label="Dica da palavra">
+            <div class="footer-section-heading">
+              <span class="hint-label">DICA DO DIRETOR</span>
+            </div>
+
+            <div class="hint">
+              <span id="hintText">A dica aparecerá aqui.</span>
+            </div>
+          </section>
+
+          <div class="execution-caption">
+            <span>ATO EM ANDAMENTO</span>
+          </div>
+        </section>
+
+        <section class="game-panel" aria-label="Painel da partida">
+          <div class="game-panel-heading">
+            <div class="panel-heading-copy">
+              <span class="panel-eyebrow">O DESAFIO</span>
+              <h1>Descubra a palavra</h1>
+            </div>
+
+            <div class="panel-meta">
+              <span class="category-badge" id="categoryBadge">Surpresa</span>
+              <span class="difficulty-badge" id="difficultyBadge">Fácil</span>
+            </div>
+          </div>
+
+          <div class="word-container">
+            <span class="word-container-label">A PALAVRA SECRETA</span>
+            <div class="word-display" id="wordDisplay" aria-live="polite"></div>
+          </div>
+
+          <div class="progress-area">
+            <div class="progress-label">
+              <span>PROGRESSO</span>
+              <span class="progress-text" id="progressText">0%</span>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <div class="message" id="message" aria-live="polite"></div>
+
+          <div class="keyboard-section">
+            <div class="keyboard-heading">
+              <span>ESCOLHA UMA LETRA</span>
+            </div>
+
+            <div class="keyboard" id="keyboard"></div>
+          </div>
+
+          <div class="bottom-actions">
+            <button class="btn-give-up" id="giveUpBtn" type="button">
+              Desistir
+            </button>
+
+            <button class="btn-hint" id="hintBtn" type="button">
+              Pedir dica
+              <span id="hintCount">3</span>
+            </button>
+
+            <button class="btn-restart" id="restartBtn" type="button">
+              Recomeçar
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="stage-floor" aria-hidden="true">
+      <div class="stage-floor-back"></div>
+      <div class="stage-floor-planks"></div>
+      <div class="stage-floor-front"></div>
+
+      <div class="footlights">
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+      </div>
+    </div>
+  </div>
+
+<div class="rules-modal-overlay theater-modal-overlay" id="rulesModal" style="display: none;">
+  <div
+    class="rules-modal-content theater-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="rulesTitle"
+  >
+    <button
+      class="rules-close theater-modal-close"
+      id="rulesCloseBtn"
+      type="button"
+      aria-label="Fechar regras"
+    >
+      ×
+    </button>
+
+    <span class="rules-eyebrow theater-modal-eyebrow">
+      O PROGRAMA DA NOITE
+    </span>
+
+    <h2 class="theater-modal-title" id="rulesTitle">
+      As regras do espetáculo
+    </h2>
+
+    <ul class="theater-modal-list">
+      <li>
+        <strong>O objetivo:</strong>
+        descubra a palavra antes que suas chances acabem.
+      </li>
+
+      <li>
+        <strong>As letras:</strong>
+        escolha uma letra por vez para revelar a palavra.
+      </li>
+
+      <li>
+        <strong>Os erros:</strong>
+        cada erro aproxima o personagem de seu destino.
+      </li>
+
+      <li>
+        <strong>As dicas:</strong>
+        revele letras quando precisar de ajuda.
+      </li>
+
+      <li>
+        <strong>O Ensaio:</strong>
+        6 vidas, 3 dicas e 10 rodadas.
+      </li>
+
+      <li>
+        <strong>O Espetáculo:</strong>
+        6 vidas, 2 dicas e 8 rodadas.
+      </li>
+
+      <li>
+        <strong>O Último Ato:</strong>
+        3 vidas, 1 dica, 6 rodadas e 30 segundos por desafio.
+      </li>
+    </ul>
+
+    <p class="rules-ending theater-modal-ending">
+      Que comece o espetáculo.
+    </p>
+  </div>
+</div>
+
+  <div id="rankingList" hidden></div>
+
+  <script src="./js/base64.js"></script>
+  <script src="./js/word-engine.js"></script>
+  <script src="./js/script.js"></script>
+</body>
+</html>

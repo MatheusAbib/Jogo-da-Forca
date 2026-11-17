@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17131c">
+  <meta name="description" content="A Forca: entre no Teatro dos Condenados, escolha seu ato e descubra as palavras antes que o espetáculo termine.">
+  <title>A FORCA</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="./css/Global.css">
+<link rel="stylesheet" href="./css/Theater.css">
+<link rel="stylesheet" href="./css/HomeScreen.css">
+</head>
+<body class="home-page">
+  <div id="homeScreen" class="theater-home">
+    <div class="theater-backdrop" aria-hidden="true">
+      <div class="backdrop-wall"></div>
+
+      <div class="stage-box">
+        <div class="stage-box-ceiling"></div>
+
+        <div class="stage-box-back-wall">
+          <div class="back-wall-panel back-wall-panel-left"></div>
+          <div class="back-wall-panel back-wall-panel-right"></div>
+          <div class="back-wall-molding"></div>
+        </div>
+
+        <div class="stage-box-side stage-box-side-left">
+          <div class="side-wall-panel"></div>
+          <div class="side-wall-molding"></div>
+        </div>
+
+        <div class="stage-box-side stage-box-side-right">
+          <div class="side-wall-panel"></div>
+          <div class="side-wall-molding"></div>
+        </div>
+      </div>
+
+      <div class="backdrop-spotlight backdrop-spotlight-left"></div>
+      <div class="backdrop-spotlight backdrop-spotlight-right"></div>
+      <div class="backdrop-vignette"></div>
+    </div>
+
+    <div class="theater-proscenium" aria-hidden="true">
+      <div class="side-curtain side-curtain-left">
+        <div class="curtain-fabric"></div>
+        <div class="curtain-fold curtain-fold-one"></div>
+        <div class="curtain-fold curtain-fold-two"></div>
+        <div class="curtain-fold curtain-fold-three"></div>
+      </div>
+
+      <div class="side-curtain side-curtain-right">
+        <div class="curtain-fabric"></div>
+        <div class="curtain-fold curtain-fold-one"></div>
+        <div class="curtain-fold curtain-fold-two"></div>
+        <div class="curtain-fold curtain-fold-three"></div>
+      </div>
+
+      <div class="proscenium-top">
+        <div class="proscenium-fabric"></div>
+        <div class="proscenium-pleats"></div>
+
+        <div class="proscenium-swags">
+          <div class="proscenium-swag proscenium-swag-one"></div>
+          <div class="proscenium-swag proscenium-swag-two"></div>
+          <div class="proscenium-swag proscenium-swag-three"></div>
+          <div class="proscenium-swag proscenium-swag-four"></div>
+          <div class="proscenium-swag proscenium-swag-five"></div>
+        </div>
+
+        <div class="proscenium-scallops"></div>
+        <div class="proscenium-fringe"></div>
+        <div class="proscenium-gold-trim"></div>
+      </div>
+
+      <div class="proscenium-trim"></div>
+    </div>
+
+    <main class="stage-main">
+      <div class="stage-performance">
+        <section class="stage-character" aria-label="Personagem do Teatro dos Condenados">
+          <div class="character-spotlight" aria-hidden="true"></div>
+
+          <div class="character-speech" id="characterSpeech" aria-live="polite" aria-hidden="true">
+            <span class="character-speech-intro">SENHORAS E SENHORES, APRESENTAMOS</span>
+            <strong>A FORCA</strong>
+          </div>
+
+          <div class="character-introduction">
+            <span>O ANFITRIÃO DA NOITE</span>
+          </div>
+
+          <div class="character-illustration">
+            <div class="home-hangman">
+              <svg viewBox="0 0 390 450" role="img" aria-label="Personagem de desenho animado em uma forca de madeira, com um laço de corda ao redor do pescoço">
+                <defs>
+                  <linearGradient id="stageWood" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#a47b57"/>
+                    <stop offset="48%" stop-color="#68442f"/>
+                    <stop offset="100%" stop-color="#342324"/>
+                  </linearGradient>
+
+                  <linearGradient id="stageSuit" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#a24e63"/>
+                    <stop offset="100%" stop-color="#48283c"/>
+                  </linearGradient>
+                </defs>
+
+                <ellipse cx="180" cy="430" rx="158" ry="11" fill="#100d14" opacity=".35"/>
+
+                <g class="gallows-structure">
+                  <path d="M20 424H355" stroke="#241923" stroke-width="17" stroke-linecap="round"/>
+                  <path d="M51 420V30" stroke="#21171c" stroke-width="29" stroke-linecap="square"/>
+                  <path d="M51 420V30" stroke="url(#stageWood)" stroke-width="22" stroke-linecap="square"/>
+
+                  <path d="M42 30H268" stroke="#21171c" stroke-width="29" stroke-linecap="square"/>
+                  <path d="M42 30H268" stroke="url(#stageWood)" stroke-width="21" stroke-linecap="square"/>
+
+                  <path d="M61 99L127 33" stroke="#241923" stroke-width="20" stroke-linecap="round"/>
+                  <path d="M61 99L127 33" stroke="#7e543b" stroke-width="13" stroke-linecap="round"/>
+
+                  <path d="M39 50H64M39 397H64" stroke="#c79a64" stroke-width="3" opacity=".7"/>
+                  <circle cx="51" cy="54" r="3.5" fill="#261c20"/>
+                  <circle cx="51" cy="391" r="3.5" fill="#261c20"/>
+                  <circle cx="250" cy="30" r="4" fill="#261c20"/>
+                </g>
+
+                <g class="gallows-rope">
+                  <path d="M241 40V109" fill="none" stroke="#342826" stroke-width="11" stroke-linecap="round"/>
+                  <path d="M241 40V109" fill="none" stroke="#d6bc8b" stroke-width="7" stroke-linecap="round"/>
+
+                  <path d="M239 44L243 48M239 54L243 58M239 64L243 68M239 74L243 78M239 84L243 88M239 94L243 98" stroke="#8e734f" stroke-width="2.5" stroke-linecap="round"/>
+
+                  <path d="M241 109C221 109 210 124 210 145C210 165 219 187 224 198" fill="none" stroke="#342826" stroke-width="11" stroke-linecap="round"/>
+                  <path d="M241 109C221 109 210 124 210 145C210 165 219 187 224 198" fill="none" stroke="#d6bc8b" stroke-width="7" stroke-linecap="round"/>
+
+                  <path d="M241 109C261 109 273 124 273 145C273 164 268 182 263 196" fill="none" stroke="#342826" stroke-width="11" stroke-linecap="round"/>
+                  <path d="M241 109C261 109 273 124 273 145C273 164 268 182 263 196" fill="none" stroke="#d6bc8b" stroke-width="7" stroke-linecap="round"/>
+                </g>
+
+                <g class="home-part" id="homeHead">
+                  <path d="M208 129C197 109 206 96 230 93C256 90 274 107 273 130" fill="#17131c" stroke="#17131c" stroke-width="4"/>
+
+                  <path d="M208 127C194 136 194 157 201 181C207 200 223 214 242 214C263 214 279 197 283 175C288 150 275 129 251 125C234 122 220 123 208 127Z" fill="#e9dcc1" stroke="#241b26" stroke-width="5"/>
+
+                  <path d="M215 155C221 148 228 149 232 156M251 156C257 149 265 150 270 158" stroke="#241b26" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <path d="M235 184Q245 193 255 184" stroke="#792f45" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+                  <ellipse cx="211" cy="177" rx="8" ry="6" fill="#b96c69" opacity=".65"/>
+                  <ellipse cx="272" cy="177" rx="8" ry="6" fill="#b96c69" opacity=".65"/>
+
+                  <path d="M208 130C211 111 225 104 240 104C254 104 266 113 272 128" stroke="#17131c" stroke-width="13" stroke-linecap="round"/>
+                  <path d="M209 131C199 125 193 130 192 139" stroke="#17131c" stroke-width="9" stroke-linecap="round"/>
+                </g>
+
+                <g class="home-part" id="homeBody">
+                  <path d="M222 215C204 223 201 239 203 263L211 341C229 350 257 350 277 341L283 264C286 240 274 224 257 215Z" fill="url(#stageSuit)" stroke="#241b26" stroke-width="6" stroke-linejoin="round"/>
+
+                  <path d="M225 218L244 245L259 218" fill="#e9dcc1" stroke="#241b26" stroke-width="3"/>
+                  <path d="M240 240L244 251L248 240" fill="#d6b37a"/>
+
+                  <circle cx="245" cy="272" r="4" fill="#d6b37a"/>
+                  <circle cx="245" cy="297" r="4" fill="#d6b37a"/>
+                  <circle cx="245" cy="321" r="4" fill="#d6b37a"/>
+
+                  <path d="M211 332Q245 346 277 332" stroke="#d6b37a" stroke-width="3" fill="none"/>
+                </g>
+
+                <g class="home-part" id="homeArmL">
+                  <path d="M210 241C185 247 169 268 149 286" fill="none" stroke="#241b26" stroke-width="20" stroke-linecap="round"/>
+                  <path d="M210 241C185 247 169 268 149 286" fill="none" stroke="#792f45" stroke-width="13" stroke-linecap="round"/>
+                  <ellipse cx="144" cy="290" rx="14" ry="16" fill="#e9dcc1" stroke="#241b26" stroke-width="4" transform="rotate(25 144 290)"/>
+                </g>
+
+                <g class="home-part character-pointing-arm" id="homeArmR">
+                  <path d="M277 240C301 245 316 257 337 248" fill="none" stroke="#241b26" stroke-width="21" stroke-linecap="round"/>
+                  <path d="M277 240C301 245 316 257 337 248" fill="none" stroke="#792f45" stroke-width="14" stroke-linecap="round"/>
+
+                  <path d="M327 242L359 229Q367 227 369 234Q371 240 362 244L347 251L359 257Q365 263 359 269Q354 273 346 268L324 258Z" fill="#e9dcc1" stroke="#241b26" stroke-width="4" stroke-linejoin="round"/>
+                </g>
+
+                <g class="home-part" id="homeLegL">
+                  <path d="M227 342L220 397" stroke="#241b26" stroke-width="20" stroke-linecap="round"/>
+                  <path d="M227 342L220 397" stroke="#38283f" stroke-width="13" stroke-linecap="round"/>
+                  <path d="M220 391Q197 392 192 407Q194 417 230 413L234 400Z" fill="#17131c" stroke="#241b26" stroke-width="4"/>
+                </g>
+
+                <g class="home-part" id="homeLegR">
+                  <path d="M261 342L270 397" stroke="#241b26" stroke-width="20" stroke-linecap="round"/>
+                  <path d="M261 342L270 397" stroke="#38283f" stroke-width="13" stroke-linecap="round"/>
+                  <path d="M270 391Q293 392 298 407Q296 417 260 413L256 400Z" fill="#17131c" stroke="#241b26" stroke-width="4"/>
+                </g>
+
+                <g class="gallows-rope-front">
+                  <path d="M224 198C226 207 233 211 244 211C254 211 260 207 263 196" fill="none" stroke="#342826" stroke-width="12" stroke-linecap="round"/>
+                  <path d="M224 198C226 207 233 211 244 211C254 211 260 207 263 196" fill="none" stroke="#d6bc8b" stroke-width="8" stroke-linecap="round"/>
+
+                  <path d="M227 203L231 207M237 208L241 211M248 209L252 207M258 204L261 200" stroke="#8e734f" stroke-width="2.5" stroke-linecap="round"/>
+
+                  <path d="M220 195C217 199 216 204 220 208C224 212 231 211 233 205C234 201 230 197 226 196" fill="#c9a977" stroke="#342826" stroke-width="3.5" stroke-linejoin="round"/>
+
+                  <path d="M220 208C215 214 212 221 209 230" fill="none" stroke="#342826" stroke-width="9" stroke-linecap="round"/>
+                  <path d="M220 208C215 214 212 221 209 230" fill="none" stroke="#d6bc8b" stroke-width="5.5" stroke-linecap="round"/>
+
+                  <path d="M215 217L219 220M211 225L215 228" stroke="#8e734f" stroke-width="2" stroke-linecap="round"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage-sign" aria-labelledby="signTitle">
+          <div class="sign-board">
+            <div class="sign-board-inner">
+              <div class="sign-heading">
+                <span class="sign-eyebrow">PROGRAMA DA NOITE</span>
+                <h2 id="signTitle">Escolha seu destino</h2>
+                <p>Prepare seu espetáculo antes de entrar em cena.</p>
+              </div>
+
+              <div class="sign-divider" aria-hidden="true">
+                <span></span>
+                <span class="sign-divider-symbol">✦</span>
+                <span></span>
+              </div>
+
+              <div class="home-category-section">
+                <div class="sign-section-heading">
+                  <span class="sign-section-number">I</span>
+                  <h3 id="categoryHeading">O tema da noite</h3>
+                </div>
+
+                <div class="home-category-options" id="categoryOptions" role="group" aria-labelledby="categoryHeading">
+                  <button type="button" data-cat="random" class="active" aria-pressed="true">Surpresa</button>
+                  <button type="button" data-cat="animais" aria-pressed="false">Animais</button>
+                  <button type="button" data-cat="paises" aria-pressed="false">Países</button>
+                  <button type="button" data-cat="tecnologia" aria-pressed="false">Tecnologia</button>
+                  <button type="button" data-cat="cinema" aria-pressed="false">Cinema</button>
+                  <button type="button" data-cat="musica" aria-pressed="false">Música</button>
+                </div>
+              </div>
+
+              <div class="home-diff-section">
+                <div class="sign-section-heading">
+                  <span class="sign-section-number">II</span>
+                  <h3 id="difficultyHeading">Escolha seu ato</h3>
+                </div>
+
+                <div class="home-diff-options" role="group" aria-labelledby="difficultyHeading">
+                  <button type="button" data-diff="easy" class="active" aria-pressed="true">
+                    <span class="diff-act-number">ATO I</span>
+                    <span class="diff-label">O Ensaio</span>
+                    <span class="diff-description">Fácil</span>
+                    <span class="diff-detail">6 vidas · 3 dicas</span>
+                  </button>
+
+                  <button type="button" data-diff="medium" aria-pressed="false">
+                    <span class="diff-act-number">ATO II</span>
+                    <span class="diff-label">O Espetáculo</span>
+                    <span class="diff-description">Médio</span>
+                    <span class="diff-detail">6 vidas · 2 dicas</span>
+                  </button>
+
+                  <button type="button" data-diff="hard" aria-pressed="false">
+                    <span class="diff-act-number">ATO III</span>
+                    <span class="diff-label">O Último Ato</span>
+                    <span class="diff-description">Difícil</span>
+                    <span class="diff-detail">3 vidas · 1 dica</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="sign-actions">
+                <button class="home-btn-play" id="playBtn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M8 5L19 12L8 19V5Z" fill="currentColor"/>
+                  </svg>
+                  <span>COMEÇAR O ESPETÁCULO</span>
+                </button>
+                  <button class="home-btn-history" id="historyHomeBtn" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M8 9H16M8 13H16M8 17H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      <path d="M8 4V2M16 4V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span>QUADRO DE HONRA</span>
+                  </button>
+                <button class="home-btn-rules" id="rulesHomeBtn" type="button">
+                  Consultar as regras
+                </button>
+              </div>
+            </div>
+
+            <span class="sign-nail sign-nail-top-left" aria-hidden="true"></span>
+            <span class="sign-nail sign-nail-top-right" aria-hidden="true"></span>
+            <span class="sign-nail sign-nail-bottom-left" aria-hidden="true"></span>
+            <span class="sign-nail sign-nail-bottom-right" aria-hidden="true"></span>
+          </div>
+
+          <div class="sign-supports" aria-hidden="true">
+            <div class="sign-support sign-support-left"></div>
+            <div class="sign-support sign-support-right"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="stage-floor" aria-hidden="true">
+      <div class="stage-floor-back"></div>
+      <div class="stage-floor-planks"></div>
+      <div class="stage-floor-front"></div>
+
+      <div class="footlights">
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+        <div class="footlight"><span></span></div>
+      </div>
+    </div>
+
+    <div class="curtain-transition" id="curtainTransition" aria-hidden="true">
+      <div class="transition-curtain transition-curtain-left">
+        <div class="transition-curtain-folds"></div>
+        <div class="transition-curtain-trim"></div>
+      </div>
+
+      <div class="transition-curtain transition-curtain-right">
+        <div class="transition-curtain-folds"></div>
+        <div class="transition-curtain-trim"></div>
+      </div>
+
+      <div class="transition-curtain-valance"></div>
+    </div>
+  </div>
+
+<div class="history-modal-overlay theater-modal-overlay" id="historyModal" hidden>
+  <div class="history-modal theater-modal" role="dialog" aria-modal="true" aria-labelledby="historyModalTitle" tabindex="-1">
+    <button class="history-modal-close theater-modal-close" id="historyCloseBtn" type="button" aria-label="Fechar histórico">
+      &times;
+    </button>
+
+    <div class="history-modal-heading">
+      <span class="history-modal-eyebrow theater-modal-eyebrow">OS REGISTROS DO TEATRO</span>
+      <h2 class="theater-modal-title" id="historyModalTitle">Quadro de Honra</h2>
+      <p class="theater-modal-description">Os melhores desempenhos registrados neste navegador.</p>
+    </div>
+
+    <div class="history-table-heading">
+      <span>POSIÇÃO</span>
+      <span>ACERTOS</span>
+      <span>ERROS</span>
+      <span>DATA</span>
+    </div>
+
+    <div class="history-list" id="historyList"></div>
+
+    <div class="history-modal-footer">
+      <span>OS DEZ MELHORES ESPETÁCULOS</span>
+    </div>
+  </div>
+</div>
+
+<div class="rules-modal-overlay theater-modal-overlay" id="rulesModal" style="display:none;">
+  <div class="rules-modal-content theater-modal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+    <button class="rules-close theater-modal-close" id="rulesCloseBtn" type="button" aria-label="Fechar regras">×</button>
+
+    <h2 class="theater-modal-title" id="rulesTitle">As regras do espetáculo</h2>
+
+    <ul class="theater-modal-list">
+      <li><strong>O objetivo:</strong> descubra a palavra antes que suas chances acabem.</li>
+      <li><strong>As letras:</strong> escolha uma letra por vez para tentar revelar a palavra.</li>
+      <li><strong>Os erros:</strong> cada erro aproxima o personagem de seu destino.</li>
+      <li><strong>As dicas:</strong> revele letras quando precisar de ajuda.</li>
+      <li><strong>O Ensaio:</strong> 6 vidas, 3 dicas e 10 rodadas.</li>
+      <li><strong>O Espetáculo:</strong> 6 vidas, 2 dicas e 8 rodadas.</li>
+      <li><strong>O Último Ato:</strong> 3 vidas, 1 dica, 6 rodadas e 30 segundos por desafio.</li>
+    </ul>
+  </div>
+</div>
+
+  <div class="toast-notification" id="toastNotification" role="status" aria-live="polite">
+    <button class="toast-close" id="toastClose" type="button" aria-label="Fechar notificação">×</button>
+    <span class="toast-icon" id="toastIcon" aria-hidden="true">!</span>
+    <span id="toastMessage">Escolha um ato!</span>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
