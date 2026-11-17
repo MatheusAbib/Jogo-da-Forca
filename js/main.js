@@ -203,9 +203,15 @@ function closeHomeHistory() {
   historyModal.hidden = true;
   historyPreviousFocus?.focus();
 }
+historyHomeBtn.addEventListener("click", () => {
+  playSound("click");
+  openHomeHistory();
+});
 
-historyHomeBtn.addEventListener("click", openHomeHistory);
-historyCloseBtn.addEventListener("click", closeHomeHistory);
+historyCloseBtn.addEventListener("click", () => {
+  playSound("click");
+  closeHomeHistory();
+});
 
 historyModal.addEventListener("click", event => {
   if (event.target === historyModal) {
@@ -542,6 +548,7 @@ function completeCurtainOpening() {
   curtainTransition?.setAttribute("aria-hidden", "true");
 
   showCharacterSpeech();
+  startAmbientSound();
 }
 
 function openTheaterImmediately() {
@@ -571,6 +578,7 @@ function openTheaterImmediately() {
   curtainTransition?.setAttribute("aria-hidden", "true");
 
   showCharacterSpeech();
+  startAmbientSound();
 }
 
 function beginTheaterOpening() {
@@ -691,6 +699,8 @@ function startGame() {
 }
 
 function handleFirstInteraction() {
+  if (!theaterOpened || isNavigating || theaterClosing) return;
+
   document.removeEventListener("pointerdown", handleFirstInteraction);
   document.removeEventListener("keydown", handleFirstInteraction);
 
